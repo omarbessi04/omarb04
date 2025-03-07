@@ -72,7 +72,7 @@ class playlist_scraper():
 
         return ("%d:%d:%d" % (hours, minutes, seconds))
     
-    def get_song_by_id(self, id: int):
+    def get_song_by_id(self, id: int, only_link=False):
         try:
             id = int(id) - 1
         except ValueError:
@@ -81,4 +81,9 @@ class playlist_scraper():
         with open('ajikan_scraper/songs.csv', 'r', newline='', encoding='utf-8') as songs:
             track_writer = csv.reader(songs)
 
-            return [point for point in track_writer][id]
+            if not only_link:
+                # Make it into a list, then index into it
+                return [point for point in track_writer][id]
+            else:
+                # 4 is the link of the song, we're getting the id of the song, which is the last item in the link
+                return [point for point in track_writer][id][4].split('/')[-1]
