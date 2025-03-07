@@ -18,12 +18,21 @@ class playlist_scraper():
         self.make_csv(self.tracknames)
 
     def get_token(self):
+
+        try:
+            my_client_id = os.environ.get('spotify_base_client')
+            my_client_secret = os.environ.get('spotify_client_secret')
+        except:
+            configure()
+            my_client_id = os.getenv('spotify_base_client')
+            my_client_secret = os.getenv('spotify_client_secret')
+
         access_token_request = requests.post("https://accounts.spotify.com/api/token", 
                     headers={'Content-Type': 'application/x-www-form-urlencoded'}, 
                     data={
                             'grant_type':'client_credentials',
-                            'client_id':os.getenv('spotify_base_client'),
-                            'client_secret':os.getenv('spotify_client_secret')
+                            'client_id':my_client_id,
+                            'client_secret':my_client_secret
                     })
 
         token = access_token_request.json()

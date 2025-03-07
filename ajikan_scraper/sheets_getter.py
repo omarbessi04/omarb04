@@ -7,8 +7,12 @@ import os
 # TODO total hours studies
 # TODO description
 
-load_dotenv()
-API_KEY = os.getenv('sheets_api_key')
+try:
+    API_KEY = os.environ.get('sheets_api_key')
+except:
+    load_dotenv()
+    API_KEY = os.getenv('sheets_api_key')
+
 SPREADSHEET_ID = "1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo"
 SONGS_RANGE = "songs!A1:H31"
 TIMEWRITEUP_RANGE = "TimeWriteup!A1:E100"
