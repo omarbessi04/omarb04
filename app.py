@@ -27,6 +27,18 @@ def wrap_up(item):
 def home():
     return render_template('index.html')
 
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
+@app.route('/translations')
+def translations():
+    return render_template('translations.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 ###### Data returns ######
 @app.route('/songs', methods=['GET'])
 def get_songs():

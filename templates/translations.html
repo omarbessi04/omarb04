@@ -47,7 +47,7 @@
   
   <body>
     <!--Navigation Bar-->
-    <script id="replace_with_navbar" src="{{url_for('static', filename='javascript/navbar.js')}}"></script>
+    {% include 'navbar.html' %}
     
     <!--Total study time-->
     <div id="study-time" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 10px;"></div>
