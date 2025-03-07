@@ -23,7 +23,7 @@ def wrap_up(item):
 
 @app.route('/', methods=['GET'])
 def home():
-    render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/songs', methods=['GET'])
 def get_songs():
