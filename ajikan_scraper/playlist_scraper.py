@@ -41,7 +41,7 @@ class playlist_scraper():
     def get_playlist(self, auth):
         playlist_id = "1rEDywcuxEpa5GZRaYIJJg"
         playlist = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}",
-                    headers={'Authorization': f'{auth['token_type']} {auth["access_token"]}'})
+                    headers={'Authorization': f'{auth["token_type"]} {auth["access_token"]}'})
         
         return playlist.json()
 
