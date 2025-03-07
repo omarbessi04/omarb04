@@ -15,16 +15,19 @@ app = Flask(__name__)
 sheets = Sheets_Getter()
 ps = playlist_scraper()
 
+###### Helper functions ######
 def wrap_up(item):
     response = jsonify(item)
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
+###### Templates ######
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
 
+###### Data returns ######
 @app.route('/songs', methods=['GET'])
 def get_songs():
     parameter = request.args.get('parameter')
