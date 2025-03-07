@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from ajikan_scraper.playlist_scraper import playlist_scraper
 from ajikan_scraper.sheets_getter import Sheets_Getter
 from dotenv import load_dotenv
@@ -20,6 +20,10 @@ def wrap_up(item):
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
+
+@app.route('/', methods=['GET'])
+def home():
+    render_template('index.html')
 
 @app.route('/songs', methods=['GET'])
 def get_songs():
