@@ -18,14 +18,22 @@
           const inProgressPercentage = (data.inProgress / total) * 100;
           const remainingPercentage = (data.remaining / total) * 100;
           
+          // Update progress bar widths
           document.getElementById("progress-completed").style.width = completedPercentage + "%";
           document.getElementById("progress-inprogress").style.width = inProgressPercentage + "%";
           document.getElementById("progress-remaining").style.width = remainingPercentage + "%";
+
+          // Update progress bar text content
+          document.getElementById("progress-completed").innerText = Math.round(completedPercentage) + "%";
+          document.getElementById("progress-inprogress").innerText = Math.round(inProgressPercentage) + "%";
+          document.getElementById("progress-remaining").innerText = Math.round(remainingPercentage) + "%";
 
         } catch (error) {
           console.error("Error fetching progress:", error);
         }
       }
+      
+      fetchProgress();
       
       async function updateSpotifyEmbed() {
         try {
@@ -66,7 +74,7 @@
         updateStudyTime();
     </script>
 
-    <!--Progress bar-->
+    <!--Progress bar HERE-->
     <div class="container mt-4" style="margin-bottom: 20px;">
       <div class="progress" style="height: 50px;">
         <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
@@ -85,11 +93,8 @@
           <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
             <div class="card-body">
               <h5 class="card-title">Project Preamble</h5>
-              <p class="card-text"><br>2 things are important to note for this project<br>
-                - I've been studying Japanese since September 2023<br>
-                - I've been a fan of <em>Asian Kung-Fu Generation</em> for <strong>way</strong> longer than that<br>
-                <br>
-                So I thought to myself, "why don't I just translate all of my favorite AKFG songs?"
+              <p class="card-text">'The <em>Asian Kung-Fu Generation</em> (AKFG) translation project' is a personal data-visualisation project that also helps me study japanese!
+                <br><br>I'm working through translating my favorite songs (30 of them), writing down data about it, and visualising it here!
               </p>
             </div>
           </div>
