@@ -36,7 +36,7 @@
             We used C# to code everything, and used the Unity engine, check it out <a href="https://tryggvi04.itch.io/shadow-lightning">here on itch.io!</a> 
           </p>
         <video width="720" height="420" autoplay muted>
-          <source src="{{url_for('static', filename='assets/SL_gameplay.mp4')}}" type="video/mp4">
+          <source id="center_this" src="{{url_for('static', filename='assets/SL_gameplay.mp4')}}" type="video/mp4">
         </video>
         </div>
 
@@ -68,9 +68,15 @@
           </div>
     </div>
     
+    {% include 'footer.html' %}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
 
 </body>
 </html>

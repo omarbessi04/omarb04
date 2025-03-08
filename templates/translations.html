@@ -122,28 +122,38 @@
     <h1 style="margin-bottom: 20px;" id="center_this">The <em>Asian Kung-Fu Generation</em> translation project</h1>
 
     <!--Description and current song-->
-    <div class="container">
-      <div class="row">
-        <div class="col-sm" id=study-time>
-          <div class="card text-white bg-dark mb-3" id="translation-card" style="max-width: 40rem;">
+    <div class="container" style="margin-bottom: 1em;">
+      <div class="row d-flex align-items-stretch">
+        <div class="col-sm">
+          <div class="card text-white bg-dark mb-3 h-100" id="translation-card">
             <div class="card-body">
               <h5 class="card-title">Project Preamble</h5>
-              <p class="card-text">'The <em>Asian Kung-Fu Generation</em> (AKFG) translation project' is a personal data-visualisation project that also helps me study japanese!
-                <br><br>I'm working through translating my favorite songs (30 of them), writing down data about it, and visualising it here!
+              <p class="card-text">
+                'The <em>Asian Kung-Fu Generation</em> (AKFG) translation project' is a personal data-visualisation project that also helps me study Japanese!
+                <br><br>I'm working through translating my favorite songs (30 of them), writing down data about it, and visualizing it here!
+                <br><br>This site is still coming together as I'm trying to balance the actual translating work and putting interesting data here
               </p>
             </div>
           </div>
         </div>
         <div class="col-sm">
-          <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
+          <div class="card text-white bg-dark mb-3 h-100">
             <div class="card-body">
-              <h5 class="card-title">Currently translating:</h5>
-              <p class="card-text"><iframe id="spotify-embed" style="border-radius:12px" src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></p>
+              <p class="card-text">
+                <iframe id="spotify-embed" style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0" 
+                width="100%" height="152" frameBorder="0" 
+                allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+              </iframe>
+              <h5 class="card-title text-center">Currently translating:</h5>
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div> 
+
 
     <!-- Chart Container -->
     <div class="card text-white bg-dark mb-3" id="center_this">
@@ -157,7 +167,7 @@
     <!--API's, Languages, & other stuff used-->
     <div class="container" style="margin-left: auto; margin-right: auto;">
       <div class="card text-white bg-dark mb-3">
-        <div class="card-body">
+        <div class="card-body text-center">
           <h5 class="card-title">API's, Languages, & other stuff used</h5>
           <p class="card-text">- My main data source is my <a href="https://docs.google.com/spreadsheets/d/1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo/edit?usp=sharing" target="_blank">Google Sheet</a>! This is where I write down study times, and have other data about the songs.
           <br>- To set up the sheet, I needed to use the Spotify API to get the names of the songs and how long they where.
@@ -167,6 +177,8 @@
         </div>
       </div>
     </div>
+
+    {% include 'footer.html' %}
     
   </body>
 </html>
