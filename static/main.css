@@ -6,7 +6,7 @@ body{
     background-color: #7B6D8D;
 }
 
-h1, h2, h3, p, #study-time{
+h1, h2, h3, h4, p, #study-time{
     color: white
 }
 
@@ -20,6 +20,20 @@ hr{
     margin: auto;
 }
 
+.nav-link{
+    font-size: 22px;
+    margin-right: 0.5%;
+}
+
+.navbar-brand{
+    font-size: 23px;
+    margin-left: 2%;
+}
+
+#last-nav-bar-item{
+    margin-right: 2%;
+}
+
 #project_title{
     color: #7B6D8D;
 }
@@ -29,3 +43,4 @@ hr{
     margin-left: auto;
     margin-right: auto;
   }
+
