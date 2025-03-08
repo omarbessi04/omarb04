@@ -5,6 +5,7 @@
     <title>Ómar B - Translations</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <script type="text/javascript">
 
@@ -32,9 +33,43 @@
           console.error("Error fetching progress:", error);
         }
       }
-      
       fetchProgress();
-      
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(fetchDataAndDrawChart);
+
+      async function fetchDataAndDrawChart() {
+        try {
+          const response = await fetch('/songs_and_times');
+          const data = await response.json();
+
+          // Prepare the data for Google Charts
+          const chartData = [['Song Name', 'Time in minutes', { role: 'style' }]];
+          data.forEach(song => {
+            const timeParts = song[1].split(':');
+            const timeInMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
+            chartData.push([song[0], timeInMinutes, '#7B6D8D']);
+          });
+
+          // Create the data table
+          const dataTable = google.visualization.arrayToDataTable(chartData);
+
+          // Set chart options
+          const options = {
+            title: 'Time spent translating each song in minutes',
+            hAxis: {title: 'Song Name', titleTextStyle: {color: '#333'}},
+            vAxis: {title: 'Time Taken (minutes)', minValue: 0},
+            legend: {position: 'none'}
+          };
+
+          // Instantiate and draw the chart
+          const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(dataTable, options);
+        } catch (error) {
+          console.error('Error fetching data or drawing chart:', error);
+        }
+      }
+
       async function updateSpotifyEmbed() {
         try {
           const response = await fetch("/get_current_song_id");
@@ -90,7 +125,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm" id=study-time>
-          <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
+          <div class="card text-white bg-dark mb-3" id="translation-card" style="max-width: 40rem;">
             <div class="card-body">
               <h5 class="card-title">Project Preamble</h5>
               <p class="card-text">'The <em>Asian Kung-Fu Generation</em> (AKFG) translation project' is a personal data-visualisation project that also helps me study japanese!
@@ -110,18 +145,28 @@
       </div>
     </div> 
 
+    <!-- Chart Container -->
+    <div class="card text-white bg-dark mb-3" id="center_this">
+      <div class="card-body">
+        <h5 class="card-title">Translations over time</h5>
+        <div id="chart_div" style="width: 60em; height: 30em;"></div>
+        <p><small>Figure 1.1, bar chart showing translations over time.</small></p>
+      </div>
+    </div>
+
+    <!--API's, Languages, & other stuff used-->
     <div class="container" style="margin-left: auto; margin-right: auto;">
-      <div class="col-sm-6">
-        <div class="card text-white bg-dark mb-3">
-          <div class="card-body">
-            <h5 class="card-title">API's, Languages, & other stuff used</h5>
-            <p class="card-text">- My main data source is my <a href="https://docs.google.com/spreadsheets/d/1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo/edit?usp=sharing" target="_blank">Google Sheet</a>! This is where I write down study times, and have other data about the songs.
-            <br>- To set up the sheet, I needed to use the Spotify API to get the names of the songs and how long they where.
-            <br>- To get data from this sheet, I'm using the Google Cloud Sheets API.
-            <br>- This website is built using the Flask framework (and therefore; Python, HTML/CSS, and some Javascript)</p>
-          </div>
+      <div class="card text-white bg-dark mb-3">
+        <div class="card-body">
+          <h5 class="card-title">API's, Languages, & other stuff used</h5>
+          <p class="card-text">- My main data source is my <a href="https://docs.google.com/spreadsheets/d/1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo/edit?usp=sharing" target="_blank">Google Sheet</a>! This is where I write down study times, and have other data about the songs.
+          <br>- To set up the sheet, I needed to use the Spotify API to get the names of the songs and how long they where.
+          <br>- To get data from this sheet, I'm using the Google Cloud Sheets API.
+          <br>- This website is built using the Flask framework (and therefore; Python, HTML/CSS, and some Javascript)
+          <br>- Due to the fact that I'm terrible at Javascript, I used Deepseek AI here and there to help out</p>
         </div>
       </div>
     </div>
+    
   </body>
 </html>

@@ -78,5 +78,10 @@ def get_completion_count():
     data = sheets.get_completion_count()
     return wrap_up(data)
 
+@app.route('/songs_and_times', methods=['GET'])
+def get_songs_and_times():
+    data = sheets.get_songs_and_times()
+    return wrap_up(data)
+
 if __name__ == '__main__':
     app.run()

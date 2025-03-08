@@ -38,6 +38,10 @@ hr{
     color: #7B6D8D;
 }
 
+#translation-card{
+    background-color: #7B6D8D
+}
+
 #center_this {
     max-width: fit-content;
     margin-left: auto;
