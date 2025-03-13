@@ -3,8 +3,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ómar B - Translations</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <script type="text/javascript">
@@ -28,6 +26,13 @@
           document.getElementById("progress-completed").innerText = Math.round(completedPercentage) + "%";
           document.getElementById("progress-inprogress").innerText = Math.round(inProgressPercentage) + "%";
           document.getElementById("progress-remaining").innerText = Math.round(remainingPercentage) + "%";
+
+          let progress_bar_height = "3em";
+          document.getElementById("progress-completed").style.height = progress_bar_height;
+          document.getElementById("progress-inprogress").style.height = progress_bar_height;
+          document.getElementById("progress-remaining").style.height = progress_bar_height;
+
+          document.getElementById("container-of-progress-bar").style.height = progress_bar_height;
 
         } catch (error) {
           console.error("Error fetching progress:", error);
@@ -111,7 +116,7 @@
 
     <!--Progress bar HERE-->
     <div class="container mt-4" style="margin-bottom: 20px;">
-      <div class="progress" style="height: 50px;">
+      <div class="progress" id="container-of-progress-bar">
         <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
         <div id="progress-inprogress" class="progress-bar bg-warning" style="width: 0%"></div>
         <div id="progress-remaining" class="progress-bar bg-danger" style="width: 0%"></div>
@@ -177,6 +182,14 @@
     </div>
 
     {% include 'footer.html' %}
-    
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
   </body>
 </html>
