@@ -1,76 +1,81 @@
-body{
-    background-color: #272727
+body {
+    background-color: #272727;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+    padding-bottom: 0; /* Remove the padding-bottom */
 }
 
-.custom-navbar-color{
+.custom-navbar-color {
     background-color: #7B6D8D;
 }
 
-h1, h2, h3, h4, p, #study-time{
-    color: white
+h1, h2, h3, h4, p, #study-time {
+    color: white;
 }
 
-.nav-link, .navbar-brand{
-    color: white
+.nav-link, .navbar-brand {
+    color: white;
 }
 
-hr{
-    width: 90%; 
+hr {
+    width: 90%;
     color: #7B6D8D;
     margin: auto;
 }
 
-.nav-link{
+.nav-link {
     font-size: 22px;
     margin-right: 0.5%;
 }
 
-.navbar-brand{
+.navbar-brand {
     font-size: 23px;
     margin-left: 2%;
 }
 
-#last-nav-bar-item{
+#last-nav-bar-item {
     margin-right: 2%;
 }
 
-#project_title{
+#project_title {
     color: #7B6D8D;
 }
 
-#translation-card{
-    background-color: #7B6D8D
+#translation-card {
+    background-color: #7B6D8D;
 }
 
 #center_this {
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
-  }
+    text-align: center;
+}
 
+/* Remove the fixed positioning from the navbar */
+.navbar {
+    position: static; /* Change from fixed to static */
+    width: 100%;
+    background-color: #7B6D8D;
+}
 
-/* main.css */
+/* Ensure the footer is at the bottom of the page */
 .footer {
-    display: flex;
-    flex-direction: column;
-    min-height: 10em;
+    margin-top: auto; /* Push the footer to the bottom */
+    background-color: #343a40; /* Ensure the footer has a background color */
+    color: white; /* Ensure the text color is white */
+    padding: 1em 0; /* Add some padding */
 }
 
-#index-footer{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-  
-main {
-    flex: 1;
-}
-
-.footer h4 {
-    margin-bottom: 15px;
-}
-
-.footer p {
-    margin: 5px 0;
+@media (max-width: 768px) {
+    #study-time {
+        font-size: 1.2rem;
+    }
+    .card {
+        margin-bottom: 10px;
+    }
+    #chart_div {
+        height: 200px;
+    }
 }
