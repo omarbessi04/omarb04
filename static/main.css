@@ -63,7 +63,7 @@ hr {
 /* Ensure the footer is at the bottom of the page */
 .footer {
     margin-top: auto; /* Push the footer to the bottom */
-    background-color: #343a40; /* Ensure the footer has a background color */
+    background-color: #272727; /* Ensure the footer has a background color */
     color: white; /* Ensure the text color is white */
     padding: 1em 0; /* Add some padding */
 }

@@ -3,6 +3,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ómar B - Translations</title>
+
+    <!--Load google charts api-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <!--Base Bootstrap-->
@@ -51,35 +53,74 @@
       fetchProgress();
 
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(fetchDataAndDrawChart);
 
-      async function fetchDataAndDrawChart() {
+      google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
+        endpoint: '/songs_and_times',
+        chartTitle: 'Time Spent on Songs',
+        xAxisTitle: 'Song',
+        yAxisTitle: 'Minutes Translating',
+        color: '#36827F',
+        chart_name: 'figure_1.1'
+      }));
+
+      google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
+        endpoint: '/get_tttl',
+        chartTitle: 'Time spent divided by track length',
+        xAxisTitle: 'Song',
+        yAxisTitle: 'Time Spent / Track Length',
+        color: '#F93943',
+        chart_name: 'figure_1.2'
+      }));
+
+      async function fetchDataAndDrawChart({endpoint, chartTitle, xAxisTitle, yAxisTitle, color, chart_name}) {
         try {
-          const response = await fetch('/songs_and_times');
+          const response = await fetch(endpoint);
           const data = await response.json();
 
           // Prepare the data for Google Charts
-          const chartData = [['Song Name', 'Time in minutes', { role: 'style' }]];
-          data.forEach(song => {
-            const timeParts = song[1].split(':');
-            const timeInMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
-            chartData.push([song[0], timeInMinutes, '#7B6D8D']);
-          });
+          const chartData = [[xAxisTitle, yAxisTitle, { role: 'style' }]];
+
+          if (endpoint == '/songs_and_times'){
+            // console.log('songs and times')
+            data.forEach(item => {
+              const timeParts = item[1].split(':');
+              const timeInMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
+
+              // console.log(item[0])
+              // console.log(timeInMinutes)
+              // console.log()
+
+              chartData.push([item[0], timeInMinutes, color]);
+            });
+          }
+
+          if (endpoint == '/get_tttl'){
+            // console.log('tttl')
+            data.forEach(item => {
+              //console.log(item[0])
+              //console.log(item[1])
+              //console.log()
+
+              //Song name and tt/tl
+              chartData.push([item[0], parseFloat(item[1]), color]);
+            });
+          }
 
           // Create the data table
           const dataTable = google.visualization.arrayToDataTable(chartData);
 
           // Set chart options
           const options = {
-            title: 'Time spent translating each song in minutes',
-            hAxis: {title: 'Song Name', titleTextStyle: {color: '#333'}},
-            vAxis: {title: 'Time Taken (minutes)', minValue: 0},
-            legend: {position: 'none'}
+            title: chartTitle,
+            hAxis: { title: xAxisTitle, titleTextStyle: { color: '#333' } },
+            vAxis: { title: yAxisTitle, minValue: 0 },
+            legend: { position: 'none' }
           };
 
           // Instantiate and draw the chart
-          const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          const chart = new google.visualization.ColumnChart(document.getElementById(chart_name));
           chart.draw(dataTable, options);
+
         } catch (error) {
           console.error('Error fetching data or drawing chart:', error);
         }
@@ -134,7 +175,7 @@
     </div>
 
     <!--Title-->
-    <h1 style="margin-bottom: 1.25rem;" id="center_this">The <em>Asian Kung-Fu Generation</em> translation project</h1>
+    <h1 style="margin-bottom: 1.25rem;" id="center_this"><strong>The <em>Asian Kung-Fu Generation</em> translation project</strong></h1>
 
     <!--Description and current song-->
     <div class="container" style="margin-bottom: 1em;">
@@ -168,15 +209,65 @@
       </div>
     </div> 
 
-
-    <!-- Chart Container -->
-    <div class="card text-white bg-dark mb-3" id="center_this">
-      <div class="card-body">
-        <h5 class="card-title">Translations over time</h5>
-        <div id="chart_div" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-        <p><small>Figure 1.1, bar chart showing translations over time.</small></p>
+    <!--Data Title-->
+    <h2 style="margin-top: 1.25rem; margin-bottom: 1.25rem;" id="center_this"><strong>The Data</strong></h2>
+        
+    <!-- Figure 1.1 -->
+    <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+      <div class="row align-items-stretch">
+          <div class="col-md-7">
+              <div class="card text-white bg-dark mb-3 h-100">
+                  <div class="card-body">
+                      <h5 class="card-title">Translations over time</h5>
+                      <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+                      <p><small>Figure 1.1: Bar chart showing translations over time.</small></p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-5">
+              <div class="card text-white bg-dark mb-3 h-100">
+                  <div class="card-body">
+                      <h5 class="card-title">Description</h5>
+                      <p class="card-text">
+                        <br>This chart shows the amount of minutes it took for me to translate each song on its own.
+                        <br><br>If we're trying to see how much I'm improving over time, this chart doesn't actually show much, due to the fact that this data is so affected by track length.
+                        <br><br>It's logical to assume that the longer a song is, the longer it would take for me to translate that song, so my actual improvement could be hidden.
+                        <br><br>You can see what happens if we "normalize" by track length in figure 1.2.
+                      </p>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
+
+    <!-- Figure 1.2 -->
+    <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+      <div class="row align-items-stretch">
+          <div class="col-md-5">
+              <div class="card text-white bg-dark mb-3 h-100">
+                  <div class="card-body">
+                      <h5 class="card-title">Description</h5>
+                      <p class="card-text">
+                        <br>What this chart shows it that for each second of a song, it took me X seconds to translate that song
+                        <br><br>However, another issue arises here!
+                        <br><br>It's the fact that track length isn't directly correlated with "amount of lyrics". A 5-minute song with a long guitar solo could have fewer lyrics than a 2-minute song with no guitar solos.
+                        <br><br>Let's then go in the opposite direction. We'll completely ignore track length, and only focus on number of lyrics / time spent translating said lyrics.
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-7">
+              <div class="card text-white bg-dark mb-3 h-100">
+                  <div class="card-body">
+                      <h5 class="card-title">Dividing time spent by track length.</h5>
+                      <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+                      <p><small>Figure 1.2: Bar chart showing TT/TL.</small></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
 
     <!--API's, Languages, & other stuff used-->
     <div class="container" style="margin-left: auto; margin-right: auto;">

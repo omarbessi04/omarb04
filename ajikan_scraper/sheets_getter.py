@@ -117,14 +117,13 @@ class Sheets_Getter():
             if song[3] == "Working On It":
                 return song
 
-    def get_songs_and_times(self):
+    def get_songs_and_attribute(self, attribute):
         data = []
 
         for song in self.songs_data[1:]:
 
             if song[SONG_OBJECT_TRANSLATOR['Time taken']] != "00:00:00":
-                mytpl = (song[SONG_OBJECT_TRANSLATOR['Song Name']], song[SONG_OBJECT_TRANSLATOR['Time taken']])
+                mytpl = (song[SONG_OBJECT_TRANSLATOR['Song Name']], song[SONG_OBJECT_TRANSLATOR[attribute]])
                 data.append(mytpl)
 
         return data
-

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from ajikan_scraper.playlist_scraper import playlist_scraper
 from ajikan_scraper.sheets_getter import Sheets_Getter
 from dotenv import load_dotenv
@@ -38,6 +38,10 @@ def translations():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 ###### Data returns ######
 @app.route('/songs', methods=['GET'])
@@ -80,7 +84,12 @@ def get_completion_count():
 
 @app.route('/songs_and_times', methods=['GET'])
 def get_songs_and_times():
-    data = sheets.get_songs_and_times()
+    data = sheets.get_songs_and_attribute('Time taken')
+    return wrap_up(data)
+
+@app.route('/get_tttl', methods=['GET'])
+def get_tttl():
+    data = sheets.get_songs_and_attribute('Translation Total / Track length')
     return wrap_up(data)
 
 if __name__ == '__main__':
