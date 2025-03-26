@@ -9,7 +9,7 @@ except:
     API_KEY = os.getenv('sheets_api_key')
 
 SPREADSHEET_ID = "1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo"
-SONGS_RANGE = "songs!A1:H31"
+SONGS_RANGE = "songs!A1:I31"
 TIMEWRITEUP_RANGE = "TimeWriteup!A1:E100"
 
 SONG_OBJECT_TRANSLATOR = {

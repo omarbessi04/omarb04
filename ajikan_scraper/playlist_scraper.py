@@ -9,6 +9,8 @@ ALBUM_COVER_SIZE = 1
 def configure():
     load_dotenv()
 
+
+
 class playlist_scraper():
     def __init__(self):
         configure()
