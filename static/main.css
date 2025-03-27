@@ -68,6 +68,12 @@ hr {
     padding: 1em 0; /* Add some padding */
 }
 
+hr {
+    width: 90%;
+    color: #7B6D8D;
+    margin: auto;
+}
+
 @media (max-width: 768px) {
     #study-time {
         font-size: 1.2rem;

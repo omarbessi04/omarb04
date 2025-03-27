@@ -23,32 +23,42 @@
 
     <!-- Projects Section -->
     <div class="container mt-5">
+      <div class="text-center">
         <h1>Current Projects</h1>
         <h2 id="project_title">Translation project</h2>
-       <p>I'm currently working on my big translation project, check it out in the navigation bar above!
-
-       </p>
+       <p>I'm currently working on my big translation project, check it out in the navigation bar above!</p>
+      </div>
     </div>
 
     <hr size="6">
 
-    <!-- Projects Section -->
+    <!-- Older Projects -->
     <div class="container mt-5">
-        <h1>Older Projects</h1>
-
-        <div class="container">
+      <div class="text-center">
+          <h1>Older Projects</h1>
+      </div>
+      <div class="text-center">
           <h2 id="project_title">Shadow Lightning</h2>
-          <p>A video game my friends and I made during the 3-week video game course we took in RU.
-            It's a metroidvania where the player can posses enemies and then fight as them!
-            It was a really great experience doing a big project like this in only ~2 weeks.
-            We used C# to code everything, and used the Unity engine, check it out <a href="https://tryggvi04.itch.io/shadow-lightning">here on itch.io!</a> 
-          </p>
-        <video width="720" height="420" autoplay muted>
-          <source id="center_this" src="{{url_for('static', filename='assets/SL_gameplay.mp4')}}" type="video/mp4">
-        </video>
-        </div>
+      </div>
+      <p>A video game my friends and I made during the 3-week game design course we took in RU.
+          It's a metroidvania where the player can possess enemies and then fight as them!
+          It was a really great experience doing a big project like this in only ~2 weeks.
+          I did most of the programming and engine stuff.
+          We used C# to code everything, and used the Unity engine.
+      </p>
+      <div class="text-center">
+          <video width="720" height="420" autoplay muted loop>
+            <source src="{{url_for('static', filename='assets/SL_gameplay.mp4')}}" type="video/mp4">
+          </video>
+          <p>Check it out <a href="https://tryggvi04.itch.io/shadow-lightning">here on itch.io!</a></p>
+      </div>
+  </div>
+
+      <hr class="rounded">
+
 
         <div class="container">
+          <div class="text-center">
           <h2 id="project_title">Grimoire</h2>
           <p>A video game me and my friends starting making in our freshman year! 
             It was a rougelike deckbuilder. The player would move around, fighting rooms of enemies, and then get new spells to put in their deck.
@@ -58,22 +68,26 @@
         </video>
         </div>
 
-        <h2 id="project_title">Monkey Business</h2>
-        <p>Monkey Business was an old final project of a semester in college. It was a job application page that we made with Django.
-          We used Python, SQL, HTMl, CSS, & Javascript.</p>
-        <div class="container">
-            <div class="row">
-              <div class="col-sm">
-                    <img src="{{url_for('static', filename='assets/monkey-business/monkeymain.png')}}" class="img-fluid float-left" alt="Monkey Business main page">
-              </div>
-              <div class="col-sm">
-                    <img src="{{url_for('static', filename='assets/monkey-business/monkeyaccount.png')}}" class="img-fluid" alt="Monkey Business account page">
-              </div>
-              <div class="col-sm">
-                    <img src="{{url_for('static', filename='assets/monkey-business/monkeyapplications.png')}}" class="img-fluid float-right" alt="Monkey Business application page">
+        <hr class="rounded">
+
+        <div class="text-center">
+          <h2 id="project_title">Monkey Business</h2>
+          <p>Monkey Business was an old final project of a semester in college. It was a job application page that we made with Django.
+            We used Python, SQL, HTMl, CSS, & Javascript.</p>
+          <div class="container">
+              <div class="row">
+                <div class="col-sm">
+                      <img src="{{url_for('static', filename='assets/monkey-business/monkeymain.png')}}" class="img-fluid float-left" alt="Monkey Business main page">
+                </div>
+                <div class="col-sm">
+                      <img src="{{url_for('static', filename='assets/monkey-business/monkeyaccount.png')}}" class="img-fluid" alt="Monkey Business account page">
+                </div>
+                <div class="col-sm">
+                      <img src="{{url_for('static', filename='assets/monkey-business/monkeyapplications.png')}}" class="img-fluid float-right" alt="Monkey Business application page">
+                </div>
               </div>
             </div>
-          </div>
+        </div>
     </div>
 
     <br><br><br>
