@@ -46,10 +46,13 @@ hr {
     background-color: #624CAB;
 }
 
-.custom-card {
-    background-color: #231F20 !important; /* Ensure it overrides Bootstrap */
-    color: white !important;
-}
+.chart-card {
+    background-color: #231F20 !important; /* Custom background */
+    color: white !important; /* Ensures text color stays white */
+    border: none !important; /* Removes the border */
+    box-shadow: none !important; /* Removes any shadow if present */
+  }
+  
   
 
 #center_this {
