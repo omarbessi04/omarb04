@@ -46,6 +46,12 @@ hr {
     background-color: #624CAB;
 }
 
+.custom-card {
+    background-color: #231F20 !important; /* Ensure it overrides Bootstrap */
+    color: white !important;
+}
+  
+
 #center_this {
     max-width: fit-content;
     margin-left: auto;

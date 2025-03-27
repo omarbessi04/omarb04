@@ -18,10 +18,9 @@ SONG_OBJECT_TRANSLATOR = {
     'Track length': 2, 
     'Translated': 3, 
     'Time taken': 4, 
-    'Pages': 5, 
+    'Unique Character Count': 5, 
     'Translation Total / Track length': 6, 
-    'Translation Total / Page Count': 7,
-    'Notes': 8
+    'Translation Total / UCC': 7
 }
 
 TIME_WRITEUP_TRANSLATOR = {

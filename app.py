@@ -92,9 +92,9 @@ def get_tttl():
     data = sheets.get_songs_and_attribute('Translation Total / Track length')
     return wrap_up(data)
 
-@app.route('/get_pagecount_times', methods=['GET'])
+@app.route('/get_UCCPC', methods=['GET'])
 def get_pagecount_times():
-    data = sheets.get_songs_and_attribute('Translation Total / Page Count')
+    data = sheets.get_songs_and_attribute('Translation Total / UCC')
     return wrap_up(data)
 
 if __name__ == '__main__':

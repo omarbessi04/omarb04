@@ -73,10 +73,10 @@
       }));
 
       google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
-        endpoint: '/get_pagecount_times',
-        chartTitle: 'Time spent divided by page count',
+        endpoint: '/get_UCCPC',
+        chartTitle: 'Time spent divided by Unique Character Count',
         xAxisTitle: 'Song',
-        yAxisTitle: 'Time Spent / Page Count',
+        yAxisTitle: 'Time Spent / UCC',
         color: '#C5D5EA',
         chart_name: 'figure_1.3'
       }));
@@ -98,6 +98,7 @@
           // Prepare the data for Google Charts
           const chartData = [[xAxisTitle, yAxisTitle, { role: 'style' }]];
 
+          var smallestDataPoint = 0;
           var biggestDataPoint = 0;
 
           if (endpoint == '/songs_and_times'){
@@ -109,16 +110,28 @@
             });
           }
 
-          else if (endpoint == '/get_tttl' || endpoint == '/get_pagecount_times'){
-            biggestDataPoint = 0;
-
+          else if (endpoint == '/get_tttl'){
             data.forEach(item => {
               chartData.push([item[0], parseInt(item[1]), color]);
-
               if (parseInt(item[1]) > biggestDataPoint) biggestDataPoint = parseInt(item[1]);
             });
 
             biggestDataPoint = larger_multiple_of_ten(biggestDataPoint)
+          }
+
+          else if (endpoint == '/get_UCCPC'){
+
+            smallestDataPoint = 100;
+
+            data.forEach(item => {
+              chartData.push([item[0], parseFloat(item[1]), color]);
+
+              if (parseFloat(item[1]) > biggestDataPoint) biggestDataPoint = parseInt(item[1]);
+              if (parseFloat(item[1]) < smallestDataPoint) smallestDataPoint = parseInt(item[1]);
+            });
+            
+
+            
           }
 
           // Create the data table
@@ -128,11 +141,11 @@
           const options = {
               title: chartTitle,
               titleTextStyle: { color: '#ffffff' },
-              backgroundColor: '#191716',
+              backgroundColor: '#231F20',
               hAxis: { title: xAxisTitle, textStyle: { color: '#ffffff' } },
               vAxis: { 
                   title: yAxisTitle, 
-                  minValue: 0, 
+                  minValue: smallestDataPoint, 
                   viewWindow: { max: biggestDataPoint },
                   textStyle: { color: '#ffffff' }
               },
@@ -247,14 +260,15 @@
     <!-- Figure 1.1 -->
     <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
       <div class="row">
-          <div class="col-12">
-              <div class="card text-white bg-dark mb-3">
-                  <div class="card-body text-center">
+        <div class="col-12">
+          <div class="card custom-card text-white mb-3">
+            <div class="card-body text-center">
               <h5 class="card-title">Translations over time</h5>
-                <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-                <p><small>Figure 1.1: Bar chart showing translations over time.</small></p>
+              <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+              <p><small>Figure 1.1: Bar chart showing translations over time.</small></p>
             </div>
           </div>
+          
         </div>
       </div>
   
