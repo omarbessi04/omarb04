@@ -53,7 +53,7 @@ def find_lyrics(song_name, filename):
     
     return song_lyrics
 
-songs = ['新世紀のラブソング', 'E', '24時', '真夜中と真昼の夢', 'タイトロープ', 'ネオテニー']
+songs = ['新世紀のラブソング', 'E', '24時', '真夜中と真昼の夢', 'タイトロープ', 'ネオテニー', '或る街の群青']
 
 for song in songs:
     count_unique_characters(song)

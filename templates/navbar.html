@@ -6,19 +6,19 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto ml-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Credentials
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" target="_blank" href="{{ url_for('static', filename='assets/ferilskra.pdf') }}">Resume</a>
-          <a class="dropdown-item" target="_blank" href="{{ url_for('static', filename='assets/einkunnir.pdf') }}">Grades</a>
+          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('static', filename='assets/ferilskra.pdf') }}">Resume</a>
+          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('static', filename='assets/einkunnir.pdf') }}">Grades</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
+        <a class="nav-link text-center" href="{{ url_for('projects') }}">Projects</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('translations') }}">Translations</a>
+        <a class="nav-link text-center" style="margin-right:0.5ref" href="{{ url_for('translations') }}">Translations</a>
       </li>
     </ul>
   </div>

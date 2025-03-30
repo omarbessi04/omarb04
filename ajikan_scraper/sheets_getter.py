@@ -123,7 +123,7 @@ class Sheets_Getter():
 
         for song in self.songs_data[1:]:
 
-            if song[SONG_OBJECT_TRANSLATOR['Time taken']] != "00:00:00":
+            if song[SONG_OBJECT_TRANSLATOR['Translated']] == 'Fully Translated':
                 mytpl = (song[SONG_OBJECT_TRANSLATOR['Song Name']], song[SONG_OBJECT_TRANSLATOR[attribute]])
                 data.append(mytpl)
 
