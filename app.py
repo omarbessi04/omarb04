@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template, send_from_directory
 from ajikan_scraper.playlist_scraper import playlist_scraper
-from ajikan_scraper.sheets_getter import Sheets_Getter
+from ajikan_scraper.gatherers.sheets_getter import Sheets_Getter
 from dotenv import load_dotenv
 import os
 
