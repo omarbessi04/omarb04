@@ -8,7 +8,6 @@ count = 0
 BASE_KANJI_FILEPATH = "ajikan_scraper/data/kanji.json"
 JISHO_KANJI_FILEPATH = "ajikan_scraper/data/jisho_kanji.json"
 
-# List of Hiragana and Katakana characters (including some unwanted symbols)
 hiragana_and_katakana = [
     # Hiragana
     'あ', 'い', 'う', 'え', 'お',
@@ -61,7 +60,16 @@ class Lyric_Controller:
     """
     
     def __init__(self):
-        self.songs = ['新世紀のラブソング', 'E', '24時', '真夜中と真昼の夢', 'タイトロープ', 'ネオテニー', '或る街の群青']
+        self.songs = [
+            '新世紀のラブソング', 
+            'E', 
+            '24時', 
+            '真夜中と真昼の夢', 
+            'タイトロープ', 
+            'ネオテニー', 
+            '或る街の群青',
+            'さよならロストジェネレイション'
+            ]
         self.kanji_dict, self.jisho_kanji_dict = self.get_kanji_files()
 
     def get_kanji_files(self, filename = BASE_KANJI_FILEPATH, betterfilename = JISHO_KANJI_FILEPATH):
@@ -83,7 +91,7 @@ class Lyric_Controller:
         for song_name in self.songs:
 
             song_lyrics = self.find_lyrics(song_name, filename)
-            lyrics_text = " ".join(song_lyrics)  # Join lyrics into a single string
+            lyrics_text = " ".join(song_lyrics)
 
             ############################################## JISHO KANJI ###############################################
             jisho_kanji_in_song = [self.jisho_kanji_dict[item] for item in self.jisho_kanji_dict if item in lyrics_text]
@@ -93,7 +101,7 @@ class Lyric_Controller:
             kanji_in_song = set()
             
             for char in lyrics_text:
-                if not char.isascii():  # Ignore ASCII characters (only process Japanese characters)
+                if not char.isascii():  # Only japanese chars
                     if verbose:
                         print('--New Unique Character:', char)
                     unique_characters.add(char)
@@ -112,16 +120,7 @@ class Lyric_Controller:
             #print(jisho_kanji_in_song)
 
     def find_lyrics(self, song_name, filename):
-        """
-        Retrieve the lyrics of a specified song from a file.
-        
-        Args:
-            song_name (str): Name of the song to search for.
-            filename (str): Path to the lyrics file.
-        
-        Returns:
-            list: A list of lyric lines for the song.
-        """
+        """Retrieve the lyrics of a song from the lyric file."""
         with open(filename, "r", encoding="utf-8") as file:
             lines = file.readlines()
         
@@ -148,12 +147,7 @@ class Lyric_Controller:
         return song_lyrics
 
     def get_difficulty_of_song(self, kanji_in_song):
-        """
-        Calculate and print the average kanji frequency and learning level of a song.
-        
-        Args:
-            kanji_in_song (set): A set of kanji characters appearing in the song.
-        """
+        """Calculate kanji frequency and difficulty of a song."""
         freqs = []
         wk_levels = []
         jlpts = []
