@@ -1,5 +1,8 @@
 import statistics
 import json
+import csv
+from collections import Counter
+from math import log2
 
 # Global variables
 count = 0
@@ -50,7 +53,7 @@ hiragana_and_katakana = [
     'ッ', 'ャ', 'ュ', 'ョ', 'ェ', 'ィ',
 
     # Other stuff I don't want to count
-    '々', 'ー', '」', '「', '、'
+    '々', 'ー', '」', '「', '、', '？'
 ]
 
 class Lyric_Controller:
@@ -68,7 +71,8 @@ class Lyric_Controller:
             'タイトロープ', 
             'ネオテニー', 
             '或る街の群青',
-            'さよならロストジェネレイション'
+            '転がる岩、君に朝が降る',
+            'さよならロストジェネレイション',
             ]
         self.kanji_dict, self.jisho_kanji_dict = self.get_kanji_files()
 
@@ -115,7 +119,21 @@ class Lyric_Controller:
 
             print(f"\n\n\n-------------------------------- '{song_name}' --------------------------------")
             print(len(unique_characters), "unique characters")
-            self.get_difficulty_of_song(kanji_in_song)
+            
+            print("---------- JLPT difficulties ----------")
+            curve, unknowns = self.get_difficulty_curve_of_song(kanji_in_song, 'jlpt_new')
+            print('?: ', "="*unknowns, unknowns)
+            for kkey in sorted(curve.keys()):
+                print(f"{kkey}: ", "="*curve[kkey], curve[kkey])
+
+            print("---------- Strokes ----------")
+            curve, unknowns = self.get_difficulty_curve_of_song(kanji_in_song, 'strokes')
+            print('?: ', "="*unknowns, unknowns)
+            for kkey in sorted(curve.keys()):
+                print(f"{kkey}: ", "="*curve[kkey], curve[kkey])
+
+            
+
             print(len(jisho_kanji_in_song), "jisho kanji found\n")
             #print(jisho_kanji_in_song)
 
@@ -146,8 +164,151 @@ class Lyric_Controller:
         
         return song_lyrics
 
-    def get_difficulty_of_song(self, kanji_in_song):
+    def get_difficulty_curve_of_song(self, kanji_in_song, category):
         """Calculate kanji frequency and difficulty of a song."""
+        jlpts = {}
+        unknowns = 0
+        
+        for kanji in kanji_in_song:
+            if (kanji in self.kanji_dict) and (self.kanji_dict[kanji][category] != None):
+                Kjlpt = self.kanji_dict[kanji][category]
+                
+                if Kjlpt not in jlpts:
+                    jlpts[Kjlpt] = 0
+                
+                jlpts[Kjlpt] += 1
+
+            else:
+                unknowns += 1
+
+        return jlpts, unknowns
+
+    def calculate_entropy(self, counter):
+        """Calculate entropy from a Counter of character frequencies."""
+        total = sum(counter.values())
+        return -sum((count/total) * log2(count/total) for count in counter.values())
+
+    def generate_feature_csv(self, lyrics_filename, output_csv='ajikan_scraper/data/song_features.csv'):
+        rows = []
+
+        for song_name in self.songs:
+
+            song_lyrics = self.find_lyrics(song_name, lyrics_filename)
+            song_time_in_minutes = self.get_song_time(song_name)
+            if not song_time_in_minutes:
+                print("Missing song in song_time_dict", song_name)
+                continue
+
+            if not song_lyrics:
+                print("Missing song lyrics:", song_name)
+                continue
+
+            lyrics_text = " ".join(song_lyrics)
+            lines = [line.strip() for line in song_lyrics if line.strip()]
+            line_counter = Counter(lines)
+            repeated_lines = sum(count for line, count in line_counter.items() if count > 1)
+            repetition_ratio = repeated_lines / len(lines) if lines else 0
+
+            unique_chars = set()
+            kanji_in_song = []
+            char_counter = Counter()
+
+            for char in lyrics_text:
+                if not char.isascii():
+                    unique_chars.add(char)
+                    char_counter[char] += 1
+                    if char not in hiragana_and_katakana:
+                        kanji_in_song.append(char)
+
+            unique_char_count = len(unique_chars)
+            total_kanji = len(kanji_in_song)
+
+            jlpt_counts = {'N5': 0, 'N4': 0, 'N3': 0, 'N2': 0, 'N1': 0}
+            unknown_kanji = 0
+            freq_list = []
+            wk_list = []
+            stroke_list = []
+
+            for kanji in kanji_in_song:
+                if kanji in self.kanji_dict:
+                    info = self.kanji_dict[kanji]
+                    jlpt = info.get('jlpt_new')
+                    freq = info.get('freq')
+                    wk_level = info.get('wk_level')
+                    strokes = info.get('strokes')
+
+                    if f"N{jlpt}" in jlpt_counts:
+                        jlpt_counts[f"N{jlpt}"] += 1
+                    else:
+                        unknown_kanji += 1
+
+                    if freq: freq_list.append(freq)
+                    if wk_level: wk_list.append(wk_level)
+                    if strokes: stroke_list.append(strokes)
+                else:
+                    unknown_kanji += 1
+
+            entropy = self.calculate_entropy(char_counter)
+
+
+
+            row = {
+                'song_name': song_name,
+                'unique_char_count': unique_char_count,
+                'jlpt_n5': jlpt_counts['N5'],
+                'jlpt_n4': jlpt_counts['N4'],
+                'jlpt_n3': jlpt_counts['N3'],
+                'jlpt_n2': jlpt_counts['N2'],
+                'jlpt_n1': jlpt_counts['N1'],
+                'unknowns': unknown_kanji,
+                'avg_freq': round(sum(freq_list) / len(freq_list), 2) if freq_list else 0,
+                'sum_freq': sum(freq_list) if freq_list else 0,
+                'avg_strokes': round(sum(stroke_list) / len(stroke_list), 2) if stroke_list else 0,
+                'sum_strokes': sum(stroke_list) if stroke_list else 0,
+                'avg_wk_level': round(sum(wk_list) / len(wk_list), 2) if wk_list else 0,
+                'total_kanji': total_kanji,
+                'kanji_entropy': round(entropy, 4),
+                'line_repetition_ratio': round(repetition_ratio, 4),
+                'translation_time_in_minutes': song_time_in_minutes
+            }
+
+            rows.append(row)
+
+        # Save to CSV
+        with open(output_csv, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+            writer.writeheader()
+            writer.writerows(rows)
+
+        print(f"Feature CSV written to: {output_csv}")
+
+    def get_song_time(self, song_name):
+        song_time_dict = {
+            '新世紀のラブソング': '04:45:00', 
+            'E': '01:41:00', 
+            '24時': '02:51:00', 
+            '真夜中と真昼の夢': '01:46:00', 
+            'タイトロープ': '01:34:00', 
+            'ネオテニー': '03:15:00', 
+            '或る街の群青': '02:53:00',
+            '転がる岩、君に朝が降る': '02:30:00',
+        }
+
+        if song_name in song_time_dict:
+            hours, minutes, _ = song_time_dict[song_name].split(':')
+            minute_sum = (60 * int(hours)) + int(minutes)
+            return minute_sum
+        else:
+            return None
+
+a = Lyric_Controller()
+a.generate_feature_csv("ajikan_scraper/data/lyrics.txt")
+
+
+
+"""
+    def get_difficulty_of_song(self, kanji_in_song):
+        ""Calculate kanji frequency and difficulty of a song.""
         freqs = []
         wk_levels = []
         jlpts = []
@@ -175,6 +336,4 @@ class Lyric_Controller:
             print(f"    {thing}")
 
         print(f'\n| Average Frequency: {round(statistics.mean(freqs), 2)} | Average WK Level: {round(statistics.mean(wk_levels), 2)} | Most common JLPT level: {statistics.mode(jlpts)} |')
-
-a = Lyric_Controller()
-a.main()
+"""

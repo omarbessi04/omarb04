@@ -57,7 +57,7 @@ class playlist_scraper():
         return tracklist
 
     def make_csv(self, tracknames):
-        with open('ajikan_scraper/songs.csv', 'w', newline='', encoding='utf-8') as songs:
+        with open('ajikan_scraper/data/songs.csv', 'w', newline='', encoding='utf-8') as songs:
             track_writer = csv.writer(songs, quoting=csv.QUOTE_MINIMAL)
 
             for i, track in enumerate(tracknames):
