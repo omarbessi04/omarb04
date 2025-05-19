@@ -79,7 +79,7 @@ class playlist_scraper():
         except ValueError:
             return f"Id {id} is not a number"
         
-        with open('ajikan_scraper/songs.csv', 'r', newline='', encoding='utf-8') as songs:
+        with open('ajikan_scraper/data/songs.csv', 'r', newline='', encoding='utf-8') as songs:
             track_writer = csv.reader(songs)
 
             if not only_link:
