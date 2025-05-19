@@ -88,7 +88,3 @@ class playlist_scraper():
             else:
                 # 4 is the link of the song, we're getting the id of the song, which is the last item in the link
                 return [point for point in track_writer][id][4].split('/')[-1]
-            
-
-a = playlist_scraper()
-print(a.tracknames)
