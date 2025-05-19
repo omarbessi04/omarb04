@@ -77,9 +77,6 @@ def get_current_song():
 
     return wrap_up(spotify_song_id)
 
-a = get_current_song()
-print(a)
-
 @app.route('/translation_progress', methods=['GET'])
 def get_completion_count():
     data = sheets.get_completion_count()
