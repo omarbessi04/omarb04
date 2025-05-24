@@ -73,6 +73,7 @@ class Lyric_Controller:
             '或る街の群青',
             '転がる岩、君に朝が降る',
             'さよならロストジェネレイション',
+            '架空生物のブルース',
             ]
         self.kanji_dict, self.jisho_kanji_dict = self.get_kanji_files()
 
@@ -272,6 +273,16 @@ class Lyric_Controller:
                 'translation_time_in_minutes': song_time_in_minutes
             }
 
+            for item in row:
+                if item == 'song_name':
+                    print(row[item])
+                    print("--"*len(row[item]))
+                else:
+                    print(f"   - {item}: {row[item]}")
+
+            print()
+                
+
             rows.append(row)
 
         # Save to CSV
@@ -292,6 +303,8 @@ class Lyric_Controller:
             'ネオテニー': '03:15:00', 
             '或る街の群青': '02:53:00',
             '転がる岩、君に朝が降る': '02:30:00',
+            'さよならロストジェネレイション': '02:09:00',
+            '架空生物のブルース': '02:00:00'
         }
 
         if song_name in song_time_dict:
