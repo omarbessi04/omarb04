@@ -112,22 +112,24 @@
       
             biggestDataPoint = larger_multiple_of_ten(biggestDataPoint)
           }
-      
-          else if (endpoint == '/get_UCCPC'){
-      
-            smallestDataPoint = 100;
-      
+                
+          else if (endpoint == '/get_UCCPC') {
+
+            smallestDataPoint = Infinity;
+            biggestDataPoint = -Infinity;
+
             data.forEach(item => {
-              chartData.push([item[0], parseFloat(item[1]), color]);
-      
-              if (parseFloat(item[1]) > biggestDataPoint) biggestDataPoint = parseInt(item[1]);
-              if (parseFloat(item[1]) < smallestDataPoint) smallestDataPoint = parseInt(item[1]);
+              const value = parseFloat(item[1]);
+              chartData.push([item[0], value, color]);
+
+              if (value > biggestDataPoint) biggestDataPoint = value;
+              if (value < smallestDataPoint) smallestDataPoint = value;
             });
-            
-      
-            
+
+            // Round up to the nearest 0.1
+            biggestDataPoint = Math.ceil(biggestDataPoint * 10) / 10;
           }
-      
+
           // Create the data table
           const dataTable = google.visualization.arrayToDataTable(chartData);
       
