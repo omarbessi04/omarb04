@@ -211,10 +211,15 @@
           <div class="card text-white bg-dark mb-3 h-100" id="translation-card">
             <div class="card-body">
               <h5 class="card-title">Project Preamble</h5>
-              <p class="card-text">
-                'The <em>Asian Kung-Fu Generation</em> (AKFG) translation project' is a personal data-visualisation project that also helps me study Japanese!
-                <br><br>The project consists of me going through my favorite songs by the band <em>Asian Kung-Fu Generation</em> and studying their vocabulary. I'm trying to get the most interesting datapoints from that studying and visualising them here.
-              </p>
+                <p class="card-text">
+                  The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal data-visualization experiment. It is part language learning, part machine learning, and part excuse as to why I haven't cleaned my shelf.
+                  <br><br>There are three main aspects to the project:
+                  <ol>
+                    <li>Start with the lyrics: I write them down, highlight words I don't know, and break them apart. <a href="{{ url_for('static', filename='assets/translation-onenote-example.png') }}">Here's an example.</a></li>
+                    <li>Then I run a script to pull out various features from the song; length, unique character count, etc.</li>
+                    <li>Finally, I'm training a machine learning model to predict how long it'll take me to translate a new song based on that data.</li>
+                  </ol>
+                </p>
             </div>
           </div>
         </div>
