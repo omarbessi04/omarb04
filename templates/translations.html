@@ -58,21 +58,12 @@
       }));
       
       google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
-        endpoint: '/get_tttl',
-        chartTitle: 'Time spent divided by track length',
-        xAxisTitle: 'Song',
-        yAxisTitle: 'Time Spent / Track Length',
-        color: '#BB4430',
-        chart_name: 'figure_1.2'
-      }));
-      
-      google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
         endpoint: '/get_UCCPC',
         chartTitle: 'Time spent divided by Unique Character Count',
         xAxisTitle: 'Song',
         yAxisTitle: 'Time Spent / UCC',
         color: '#C5D5EA',
-        chart_name: 'figure_1.3'
+        chart_name: 'figure_1.2'
       }));
       
       function larger_multiple_of_ten(n){
@@ -245,7 +236,7 @@
     <div class="card text-white bg-dark mb-3 h-100" id="center_this">
       <div class="card-body">
         <p class="card-text">
-          We're going to use data to try to figure out if I'm actually getting better / faster at translating.
+          First, let's figure out if I'm getting better / faster over time at translating the songs.
           <br> First, let's just look at how long it has taken me (in minutes) to translate each song so far.
         </p>
       </div>
@@ -263,60 +254,33 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+
+    <div class="row">
         <div class="col-12">
           <div class="card text-white bg-dark mb-3">
             <div class="card-body">
               <p class="card-text text-center">
-                This chart shows the amount of minutes it took for me to translate each song on its own.
-                <br><br>If we're trying to see how much I'm improving over time, this chart doesn't actually show much, due to the fact that this data is so affected by track length.
-                <br><br>It's logical to assume that the longer a song is, the longer it would take for me to translate that song, so my actual improvement could be hidden.
-                <br><br>Let's try to fix that by divinding the time it took me to translate each song by the track length.
+                This chart shows how many minutes it took for me to translate each song.
+              <br><br>It's interesting on its own, but not super useful if we're trying to figure out whether I'm actually getting better at translating over time. Some songs are just longer than others, and naturally take more time.
+              <br><br>But rather than trying to adjust for track length, which doesn't always reflect how many lyrics are actually in a song, we can just focus on the number of unique characters in the lyrics.
+              <br><br>If a song has more unique characters, it's probably denser or more difficult to translate. So by dividing time spent by unique character count, we might get a better sense of how efficient I'm becoming.
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <!--Figure 1.2-->
     <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
       <div class="row">
         <div class="col-12">
           <div class="card chart-card text-white mb-3">
             <div class="card-body text-center">
-              <h5 class="card-title">Dividing translation time by track length</h5>
-              <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-              <p><small>Figure 1.2: Bar chart showing translation time / song length.</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card text-white bg-dark mb-3">
-            <div class="card-body">
-              <p class="card-text text-center">
-                What this chart shows it that for each minute of a song, it took me X minutes to translate that song
-                <br><br>However, another issue arises here!
-                <br><br>It's the fact that track length isn't directly correlated with "amount of lyrics". 
-                <br>A 5-minute song with a long guitar solo could have fewer lyrics than a 2-minute song with no guitar solos.
-                <br>This point is shown pretty well with the song タイトロープ, an almost 6 minute song with only around a page's worth of lyrics.
-                <br><br>Let's see what we find in the opposite direction. We'll completely ignore track length, and only focus on number of lyrics / time spent translating said lyrics.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--Figure 1.3-->
-    <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-      <div class="row">
-        <div class="col-12">
-          <div class="card chart-card text-white mb-3">
-            <div class="card-body text-center">
               <h5 class="card-title">Dividing translation time by Unique Character Count (UCC)</h5>
-              <div id="figure_1.3" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-              <p><small>Figure 1.3: Bar chart showing time translation time / UCC.</small></p>
+              <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+              <p><small>Figure 1.2: Bar chart showing time translation time / UCC.</small></p>
             </div>
           </div>
         </div>
@@ -326,15 +290,17 @@
           <div class="card text-white bg-dark mb-3">
             <div class="card-body">
               <p class="card-text text-center">
-                'Number of lyrics' is being quantified here as the number of unique characters.
-                <br>Due to many reasons, there's not really a easy "word count" to measure. So we're just dividing each time by the number of unique characters within the lyrics
-                <br>For now, I can't say much about this data except for the fact that I hope it trends down later.
+                For many linguistical reasons, it's hard to have an easy "word count" when it comes to Japanese, so we'll use unique character count (UCC)
+                <br>Here we divide each length of time by the number of unique characters within the lyrics. So this shows how many seconds I'm spending on each character.
+                <br>I (human) can't read much from this data, but can a machine learning model?
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+
     <!--API's, Languages, & other stuff used-->
     <div class="container" style="margin-left: auto; margin-right: auto;">
       <div class="card text-white bg-dark mb-3">
