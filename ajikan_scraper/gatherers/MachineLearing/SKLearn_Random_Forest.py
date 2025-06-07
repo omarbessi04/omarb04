@@ -4,14 +4,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error
 import matplotlib.pyplot as plt
 
-
-
 def main(verbose = False):
-    # Load your CSV
-    
+    # load data
+    data = data_loader(verbose)
+    output = define_and_train(data, verbose)
+    return output
+
+def data_loader(verbose = False):
     if verbose: print("... Reading CSV")
     df = pd.read_csv("ajikan_scraper/data/song_features.csv")
+    return df
 
+def define_and_train(df, verbose = False):
     # Define features (X) and target (y)
     if verbose: print("Creating Columns")
     X = df.drop(columns=["song_name", "translation_time_in_minutes"])
@@ -36,10 +40,9 @@ def main(verbose = False):
         "Mean Absolute Error (minutes)": mean_absolute_error(y_test, y_pred)}
 
     # Feature importance visualization
-    importances = model.feature_importances_
-    feature_names = X.columns
-
     if verbose:
+        importances = model.feature_importances_
+        feature_names = X.columns
         plt.figure(figsize=(10, 6))
         plt.barh(feature_names, importances, color="#36827F")
         plt.xlabel("Feature Importance")
@@ -51,5 +54,5 @@ def main(verbose = False):
 
     return output
 
-a = main()
+a = main(True)
 [print(f"{b}: {a[b]}") for b in a.keys()]
