@@ -203,12 +203,12 @@
             <div class="card-body">
               <h5 class="card-title">Project Preamble</h5>
                 <p class="card-text">
-                  The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal data-visualization experiment. It is part language learning, part machine learning, and part excuse as to why I haven't cleaned my shelf.
+                  The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal data-visualization experiment. It is part language learning and part data analysis.
                   <br><br>There are three main aspects to the project:
                   <ol>
                     <li>Start with the lyrics: I write them down, highlight words I don't know, and break them apart. <a href="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Here's an example.</a></li>
                     <li>Then I run a script to pull out various features from the song; length, unique character count, etc.</li>
-                    <li>Finally, I'm training a machine learning model to predict how long it'll take me to translate a new song based on that data.</li>
+                    <li>Finally, try to figure out interesting data from there.</li>
                   </ol>
                 </p>
             </div>
@@ -232,11 +232,10 @@
       </div>
     </div>
     <!--Data Title-->
-    <h2 style="margin-top: 1.25rem; margin-bottom: 1.25rem;" id="center_this"><strong>The Data</strong></h2>
+    <h2 style="margin-top: 1.25rem; margin-bottom: 1.25rem;" id="center_this"><strong>Basic Data</strong></h2>
     <div class="card text-white bg-dark mb-3 h-100" id="center_this">
       <div class="card-body">
         <p class="card-text">
-          First, let's figure out if I'm getting better / faster over time at translating the songs.
           <br> First, let's just look at how long it has taken me (in minutes) to translate each song so far.
         </p>
       </div>
@@ -263,8 +262,7 @@
               <p class="card-text text-center">
                 This chart shows how many minutes it took for me to translate each song.
               <br><br>It's interesting on its own, but not super useful if we're trying to figure out whether I'm actually getting better at translating over time. Some songs are just longer than others, and naturally take more time.
-              <br><br>But rather than trying to adjust for track length, which doesn't always reflect how many lyrics are actually in a song, we can just focus on the number of unique characters in the lyrics.
-              <br><br>If a song has more unique characters, it's probably denser or more difficult to translate. So by dividing time spent by unique character count, we might get a better sense of how efficient I'm becoming.
+              <br><br>Notably, if a song has more unique characters, it's probably denser or more difficult to translate. So normalizing time, by dividing 'time spent' with 'unique character count', we might get a better sense of how efficient I'm becoming.
               </p>
             </div>
           </div>
@@ -278,7 +276,7 @@
         <div class="col-12">
           <div class="card chart-card text-white mb-3">
             <div class="card-body text-center">
-              <h5 class="card-title">Dividing translation time by Unique Character Count (UCC)</h5>
+              <h5 class="card-title">Normalizing translation time with Unique Character Count (UCC)</h5>
               <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
               <p><small>Figure 1.2: Bar chart showing time translation time / UCC.</small></p>
             </div>
@@ -292,7 +290,7 @@
               <p class="card-text text-center">
                 For many linguistical reasons, it's hard to have an easy "word count" when it comes to Japanese, so we'll use unique character count (UCC)
                 <br>Here we divide each length of time by the number of unique characters within the lyrics. So this shows how many seconds I'm spending on each character.
-                <br>I (human) can't read much from this data, but can a machine learning model?
+                <br>It seems like there is a very slight downward trend, but not much.
               </p>
             </div>
           </div>
@@ -306,9 +304,8 @@
       <div class="card text-white bg-dark mb-3">
         <div class="card-body text-center">
           <h5 class="card-title">API's, Languages, & other stuff used</h5>
-          <p class="card-text">- My main data source is my <a href="https://docs.google.com/spreadsheets/d/1d-EzIikQ1kvo58Gj6pHKr22lmSphXLe-siMwmwtruyo/edit?usp=sharing" target="_blank">Google Sheet</a>! This is where I write down study times, and have other data about the songs.
-            <br>- To set up the sheet, I needed to use the Spotify API to get the names of the songs and how long they where.
-            <br>- To get data from this sheet, I'm using the Google Cloud Sheets API.
+          <p class="card-text">- My main data source is a simple CSV file. I track study times, and have other data about the songs.
+            <br>- To help with data collecting, I use the Spotify API to get names of songs and their length.
             <br>- This website is built using the Flask framework (and therefore; Python, HTML/CSS, and some Javascript)
           </p>
         </div>
