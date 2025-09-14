@@ -291,8 +291,6 @@ class Lyric_Controller:
             writer.writeheader()
             writer.writerows(rows)
 
-        print(f"Feature CSV written to: {output_csv}")
-
     def get_song_time(self, song_name):
         song_time_dict = {
             '新世紀のラブソング': '04:45:00', 

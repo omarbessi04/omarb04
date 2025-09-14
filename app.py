@@ -1,19 +1,13 @@
 from flask import Flask, jsonify, request, render_template, send_from_directory
-from ajikan_scraper.gatherers.playlist_scraper import playlist_scraper
-from ajikan_scraper.gatherers.sheets_getter import Sheets_Getter
+from ajikan_scraper.gatherers.playlist_scraper import Playlist_Scraper
+from ajikan_scraper.gatherers.translation_data_getter import TranslationDataGetter
 from dotenv import load_dotenv
 import os
 
-try:
-    API_KEY = os.environ.get('sheets_api_key')
-except:
-    load_dotenv()
-    API_KEY = os.getenv('sheets_api_key')
-
 app = Flask(__name__)
 
-sheets = Sheets_Getter()
-ps = playlist_scraper()
+sheets = TranslationDataGetter()
+ps = Playlist_Scraper()
 
 ###### Helper functions ######
 def wrap_up(item):
@@ -65,8 +59,6 @@ def get_hours_studied():
 
 @app.route('/get_current_song_id', methods=['GET'])
 def get_current_song():
-
-    sheets.reload()
     sheet_song = sheets.find_current_song()
 
     # 0 is the ID column in the google sheet

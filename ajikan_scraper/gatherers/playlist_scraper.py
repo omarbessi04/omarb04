@@ -10,7 +10,7 @@ def configure():
     load_dotenv()
 
 
-class playlist_scraper():
+class Playlist_Scraper():
     def __init__(self):
         configure()
         token = self.get_token()
