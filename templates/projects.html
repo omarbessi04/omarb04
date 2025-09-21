@@ -15,20 +15,39 @@
   <body base-page>
     <!-- Navigation Bar -->
     {% include 'navbar.html' %}
-    <!-- Projects Section -->
+
+
+<!-- Projects Section -->
     <div class="container mt-5">
       <div class="text-center">
         <h1>Current Projects</h1>
         <h2 id="project_title">Translation project</h2>
-        <p>I'm currently working on my big translation project, check it out in the navigation bar above!</p>
+        <p>I'm currently working on my translation project, check it out in the navigation bar above!</p>
+      </div>
+
+      <div class="text-center mt-4">
+        <h2 id="project_title">Neural Architecture Search Research</h2>
+        <p>
+          Worked over the summer of 2025 in Reykjavík University researching how to optimize CNN models for sleepstage classification. 
+          <br>We called it SLEAP (Sleep Labeling using Evolutionary Algorithms and Pytorch).
+          <br>I worked on designing and implementing a genetic algorithm that would identify good kernel sizes for the models. 
+          <br>Turns out only tuning kernel sizes didn't do much, but that's a story for a different time.
+        </p>
+        <p>
+          The final paper is still being worked on, but when it's ready I'll add it here.
+        </p>
       </div>
     </div>
+
     <hr size="6">
+
     <!-- Older Projects -->
     <div class="container mt-5">
       <div class="text-center">
         <h1>Older Projects</h1>
       </div>
+
+
       <div class="text-center">
         <h2 id="project_title">Shadow Lightning</h2>
       </div>
@@ -45,6 +64,7 @@
         <p>Check it out <a href="https://tryggvi04.itch.io/shadow-lightning">here on itch.io!</a></p>
       </div>
     </div>
+
     <hr class="rounded">
     <div class="container">
       <div class="text-center">
@@ -57,6 +77,7 @@
           <source src="{{url_for('static', filename='assets/projects/grimoire_gameplay.mp4')}}" type="video/mp4">
         </video>
       </div>
+
       <hr class="rounded">
       <div class="text-center">
         <h2 id="project_title">Monkey Business</h2>
