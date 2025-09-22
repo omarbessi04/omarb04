@@ -34,6 +34,8 @@ class TranslationDataGetter():
         hours = minutes = seconds = 0
         for song in self.songs_data[1:]:
             time_string = song[SONG_OBJECT_TRANSLATOR['Time taken']]
+            if time_string == '':
+                continue
             h, m, s = map(int, time_string.split(":"))
             hours += h
             minutes += m
