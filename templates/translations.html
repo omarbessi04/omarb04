@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,37 +18,34 @@
         try {
           const response = await fetch("/translation_progress");
           const data = await response.json();
-          
+
           const total = data.completed + data.inProgress + data.remaining;
           const completedPercentage = (data.completed / total) * 100;
           const inProgressPercentage = (data.inProgress / total) * 100;
           const remainingPercentage = (data.remaining / total) * 100;
-          
-          // Update progress bar widths
+
           document.getElementById("progress-completed").style.width = completedPercentage + "%";
           document.getElementById("progress-inprogress").style.width = inProgressPercentage + "%";
           document.getElementById("progress-remaining").style.width = remainingPercentage + "%";
-      
-          // Update progress bar text content
+
           document.getElementById("progress-completed").innerText = Math.round(completedPercentage) + "%";
           document.getElementById("progress-inprogress").innerText = Math.round(inProgressPercentage) + "%";
           document.getElementById("progress-remaining").innerText = Math.round(remainingPercentage) + "%";
-      
+
           let progress_bar_height = "4em";
           document.getElementById("progress-completed").style.height = progress_bar_height;
           document.getElementById("progress-inprogress").style.height = progress_bar_height;
           document.getElementById("progress-remaining").style.height = progress_bar_height;
-      
           document.getElementById("container-of-progress-bar").style.height = progress_bar_height;
-      
+
         } catch (error) {
           console.error("Error fetching progress:", error);
         }
       }
       fetchProgress();
-      
+
       google.charts.load('current', {'packages':['corechart']});
-      
+
       google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
         endpoint: '/songs_and_times',
         chartTitle: 'Time Spent on Songs',
@@ -65,66 +63,50 @@
         color: '#C47B00',
         chart_name: 'figure_1.2'
       }));
-      
-      function larger_multiple_of_ten(n){
-        // Smaller multiple
+
+      function larger_multiple_of_ten(n) {
         let a = parseInt(n / 10, 10) * 10;
-        // Larger multiple
         let b = a + 10;
-        
-        return b
+        return b;
       }
-      
+
       async function fetchDataAndDrawChart({endpoint, chartTitle, xAxisTitle, yAxisTitle, color, chart_name}) {
         try {
           const response = await fetch(endpoint);
           const data = await response.json();
-      
-          // Prepare the data for Google Charts
+
           const chartData = [[xAxisTitle, yAxisTitle, { role: 'style' }]];
-      
+
           var smallestDataPoint = 0;
           var biggestDataPoint = 0;
-      
-          if (endpoint == '/songs_and_times'){
-            biggestDataPoint = null
+
+          if (endpoint == '/songs_and_times') {
+            biggestDataPoint = null;
             data.forEach(item => {
               const timeParts = item[1].split(':');
               const timeInMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
               chartData.push([item[0], timeInMinutes, color]);
             });
-          }
-      
-          else if (endpoint == '/get_tttl'){
+          } else if (endpoint == '/get_tttl') {
             data.forEach(item => {
               chartData.push([item[0], parseInt(item[1]), color]);
               if (parseInt(item[1]) > biggestDataPoint) biggestDataPoint = parseInt(item[1]);
             });
-      
-            biggestDataPoint = larger_multiple_of_ten(biggestDataPoint)
-          }
-                
-          else if (endpoint == '/get_UCCPC') {
-
+            biggestDataPoint = larger_multiple_of_ten(biggestDataPoint);
+          } else if (endpoint == '/get_UCCPC') {
             smallestDataPoint = Infinity;
             biggestDataPoint = -Infinity;
-
             data.forEach(item => {
               const value = parseFloat(item[1]);
               chartData.push([item[0], value, color]);
-
               if (value > biggestDataPoint) biggestDataPoint = value;
               if (value < smallestDataPoint) smallestDataPoint = value;
             });
-
-            // Round up to the nearest 0.1
             biggestDataPoint = Math.ceil(biggestDataPoint * 10) / 10;
           }
 
-          // Create the data table
           const dataTable = google.visualization.arrayToDataTable(chartData);
-      
-          // Set chart options
+
           const options = {
               title: chartTitle,
               titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
@@ -143,22 +125,19 @@
               },
               legend: { position: 'none' }
           };
-      
-          // Instantiate and draw the chart
+
           const chart = new google.visualization.ColumnChart(document.getElementById(chart_name));
           chart.draw(dataTable, options);
-      
-      
+
         } catch (error) {
           console.error('Error fetching data or drawing chart:', error);
         }
       }
-      
+
       async function updateSpotifyEmbed() {
         try {
           const response = await fetch("/get_current_song_id");
           const data = await response.json();
-          
           const songId = data.song_id;
           if (songId) {
             document.getElementById("spotify-embed").src = `https://open.spotify.com/embed/track/${songId}?utm_source=generator&theme=0`;
@@ -167,7 +146,7 @@
           console.error("Error fetching current song:", error);
         }
       }
-      
+
       fetchProgress();
       updateSpotifyEmbed();
     </script>
@@ -175,147 +154,153 @@
   <body>
     <!--Navigation Bar-->
     {% include 'navbar.html' %}
-    <!--Total study time-->
-    <div id="study-time" style="text-align: center; font-size: 1.5rem; font-weight: bold; margin-top: 0.625rem;"></div>
-    <script>
-      async function updateStudyTime() {
+
+    <div class="container mt-4 mb-5">
+
+      <!-- ── PAGE HEADER ── -->
+      <div class="retro-section-header mb-3">AKFG TRANSLATION PROJECT</div>
+
+      <!-- Study time + progress bar -->
+      <div class="retro-card mb-4">
+        <div class="retro-card-header">Status</div>
+        <div class="retro-card-body">
+          <div id="study-time" style="margin-bottom: 0.75rem;"></div>
+          <div class="progress" id="container-of-progress-bar">
+            <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
+            <div id="progress-inprogress" class="progress-bar bg-warning" style="width: 0%"></div>
+            <div id="progress-remaining" class="progress-bar bg-danger" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        async function updateStudyTime() {
           try {
-              let response = await fetch('/get_total_study');
-              let data = await response.json();
-              document.getElementById('study-time').innerText = `Total time spent translating: ${data.hours}h ${data.minutes}m`;
+            let response = await fetch('/get_total_study');
+            let data = await response.json();
+            document.getElementById('study-time').innerText = `Total time spent translating: ${data.hours}h ${data.minutes}m`;
           } catch (error) {
-              console.error('Error fetching study time:', error);
+            console.error('Error fetching study time:', error);
           }
-      }
-      
-      updateStudyTime();
-    </script>
-    <!--Progress bar -->
-    <div class="container mt-4" style="margin-bottom: 1.25rem;">
-      <div class="progress" id="container-of-progress-bar">
-        <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
-        <div id="progress-inprogress" class="progress-bar bg-warning" style="width: 0%"></div>
-        <div id="progress-remaining" class="progress-bar bg-danger" style="width: 0%"></div>
-      </div>
-    </div>
-    <!--Title-->
-    <h1 style="margin-bottom: 1.25rem;" id="center_this"><strong>The <em>Asian Kung-Fu Generation</em> translation project</strong></h1>
-    <!--Description and current song-->
-    <div class="container" style="margin-bottom: 1em;">
-      <div class="row d-flex align-items-stretch">
-        <div class="col-12 col-sm-6">
-          <div class="card text-white bg-dark mb-3 h-100" id="translation-card">
-            <div class="card-body">
-              <h5 class="card-title">Project Preamble</h5>
-                <p class="card-text">
-                  The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal data-visualization experiment. It is part language learning and part data analysis.
-                  <br><br>There are three main aspects to the project:
-                  <ol>
-                    <li>Start with the lyrics: I write them down, highlight words I don't know, and break them apart. <a href="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Here's an example.</a></li>
-                    <li>Then I run a script to pull out various features from the song; length, unique character count, etc.</li>
-                    <li>Finally, try to find interesting data points from there.</li>
-                  </ol>
-                </p>
+        }
+        updateStudyTime();
+      </script>
+
+      <!-- Preamble + current song -->
+      <h1 class="text-center mb-4">The <em>Asian Kung-Fu Generation</em> translation project</h1>
+
+      <div class="row d-flex align-items-stretch mb-4">
+        <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+          <div class="retro-card h-100" style="margin-bottom: 0;">
+            <div class="retro-card-header">Project Preamble</div>
+            <div class="retro-card-body">
+              <p>
+                The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal
+                data-visualization experiment — part language learning, part data analysis.
+              </p>
+              <p>There are three main aspects to the project:</p>
+              <ol>
+                <li>
+                  Start with the lyrics: I write them down, highlight words I don't know, and break
+                  them apart.
+                  <a href="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Here's an example.</a>
+                </li>
+                <li>Then I run a script to pull out various features from the song; length, unique character count, etc.</li>
+                <li>Finally, try to find interesting data points from there.</li>
+              </ol>
             </div>
           </div>
         </div>
         <div class="col-12 col-sm-6">
-          <div class="card text-white bg-dark mb-3 h-100 d-flex">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-              <p class="card-text text-center w-100">
-                <iframe id="spotify-embed" style="border-radius:0"
-                  src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0" 
-                  width="100%" height="152" frameBorder="0" 
-                  allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                  loading="lazy">
-                </iframe>
-              </p>
-              <h5 class="card-title text-center mt-3">Currently translating:</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--Data Title-->
-    <h2 style="margin-top: 1.25rem; margin-bottom: 1.25rem;" id="center_this"><strong>Basic Data</strong></h2>
-    <div class="card text-white bg-dark mb-3 h-100" id="center_this">
-      <div class="card-body">
-        <p class="card-text">
-          <br> First, let's just look at how long it has taken me (in minutes) to translate each song so far.
-        </p>
-      </div>
-    </div>
-    <!-- Figure 1.1 -->
-    <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-      <div class="row">
-        <div class="col-12">
-          <div class="card chart-card text-white mb-3">
-            <div class="card-body text-center">
-              <h5 class="card-title">Translations over time</h5>
-              <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-              <p><small>Figure 1.1: Bar chart showing translations over time.</small></p>
+          <div class="retro-card h-100" style="margin-bottom: 0;">
+            <div class="retro-card-header">Currently Translating</div>
+            <div class="retro-card-body d-flex flex-column justify-content-center align-items-center">
+              <iframe id="spotify-embed" style="border-radius:0; border: none;"
+                src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0"
+                width="100%" height="152" frameBorder="0"
+                allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+              </iframe>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- ── DATA SECTION ── -->
+      <div class="retro-section-header mb-3">BASIC DATA</div>
 
-    <div class="row">
-        <div class="col-12">
-          <div class="card text-white bg-dark mb-3">
-            <div class="card-body">
-              <p class="card-text text-center">
-                This chart shows how many minutes it took for me to translate each song.
-              <br><br>It's interesting on its own, but not super useful if we're trying to figure out whether I'm actually getting better at translating over time. Some songs are just longer than others, and naturally take more time.
-              <br><br>Notably, if a song has more unique characters, it's probably denser or more difficult to translate. So normalizing time, by dividing 'time spent' with 'unique character count', we might get a better sense of how efficient I'm becoming.
-              </p>
-            </div>
-          </div>
+      <!-- Intro text -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">Overview</div>
+        <div class="retro-card-body">
+          <p>First, let's just look at how long it has taken me (in minutes) to translate each song so far.</p>
         </div>
       </div>
-    </div>
 
-    <!--Figure 1.2-->
-    <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-      <div class="row">
-        <div class="col-12">
-          <div class="card chart-card text-white mb-3">
-            <div class="card-body text-center">
-              <h5 class="card-title">Normalizing translation time with Unique Character Count (UCC)</h5>
-              <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-              <p><small>Figure 1.2: Bar chart showing time translation time / UCC.</small></p>
-            </div>
-          </div>
+      <!-- Figure 1.1 -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">Figure 1.1 — Time Spent per Song</div>
+        <div class="retro-card-body">
+          <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+          <p class="mt-2"><small>Bar chart showing minutes spent translating each song.</small></p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card text-white bg-dark mb-3">
-            <div class="card-body">
-              <p class="card-text text-center">
-                For many linguistical reasons, it's hard to have an easy "word count" when it comes to Japanese, so we'll use unique character count (UCC)
-                <br>Here we divide each length of time by the number of unique characters within the lyrics. So this shows how many seconds I'm spending on each character.
-                <br>For now, there's not much interesting stuff to look at, but more is coming soon!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-
-    <!--API's, Languages, & other stuff used-->
-    <div class="container" style="margin-left: auto; margin-right: auto;">
-      <div class="card text-white bg-dark mb-3">
-        <div class="card-body text-center">
-          <h5 class="card-title">API's, Languages, & other stuff used</h5>
-          <p class="card-text">- My main data source is a Google Sheet. I track study times, and have other data about the songs.
-            <br>- To help with data collecting, I use the Spotify API to get names of songs and their length.
-            <br>- This website is built using the Flask framework (and therefore; Python, HTML/CSS, and some Javascript)
+      <!-- Explanation 1 -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">Analysis</div>
+        <div class="retro-card-body">
+          <p>
+            This chart shows how many minutes it took for me to translate each song. It's interesting
+            on its own, but not super useful if we're trying to figure out whether I'm actually
+            getting better at translating over time. Some songs are just longer than others, and
+            naturally take more time.
+          </p>
+          <p>
+            Notably, if a song has more unique characters, it's probably denser or more difficult to
+            translate. So normalizing time by dividing 'time spent' with 'unique character count'
+            might give a better sense of how efficient I'm becoming.
           </p>
         </div>
       </div>
+
+      <!-- Figure 1.2 -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">Figure 1.2 — Time / Unique Character Count (UCC)</div>
+        <div class="retro-card-body">
+          <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
+          <p class="mt-2"><small>Bar chart showing translation time divided by unique character count.</small></p>
+        </div>
+      </div>
+
+      <!-- Explanation 2 -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">Analysis</div>
+        <div class="retro-card-body">
+          <p>
+            For many linguistic reasons, it's hard to have an easy "word count" in Japanese, so we
+            use unique character count (UCC). Here we divide each length of time by the number of
+            unique characters within the lyrics — showing how many seconds I'm spending on each character.
+          </p>
+          <p>For now there's not much interesting stuff to look at, but more is coming soon!</p>
+        </div>
+      </div>
+
+      <!-- Tech stack -->
+      <div class="retro-section-header mb-3">TECH STACK</div>
+      <div class="retro-card">
+        <div class="retro-card-header">APIs, Languages &amp; Tools</div>
+        <div class="retro-card-body">
+          <p>— Main data source: Google Sheets. I track study times and other song metadata.</p>
+          <p>— Spotify API for song names and track length.</p>
+          <p>— Built with Flask (Python, HTML/CSS, JavaScript).</p>
+        </div>
+      </div>
+
     </div>
-    {% include 'footer.html' %}
+
+    <footer class="site-footer">
+      {% include 'footer.html' %}
+    </footer>
   </body>
 </html>

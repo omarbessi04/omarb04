@@ -12,32 +12,41 @@
     <!--My Stylesheet-->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
   </head>
-  <body base-page>
+  <body>
     <!-- Navigation Bar -->
     {% include 'navbar.html' %}
+
     <!-- About Section -->
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-4">
-          <img src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}" class="img-fluid rounded-circle" alt="Headshot photo">
-        </div>
-        <div class="col-md-8">
-          <h1 id="center_this"><span id="typewriter-text"></span><span class="blink-cursor" id="cursor"></span></h1>
-          <br>
-          <h4>I am a Computer Science student at Reykjavik University, mainly focusing on Machine-Learning research and working with data.
-            <br><br>Currently working on the translation project, really excited about working with data that is of personal interest to me; check it out!
-          </h4>
-        </div>
+    <div class="container mt-5 mb-5">
+      <div class="text-center mb-4">
+        <img
+          src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}"
+          class="headshot"
+          alt="Headshot photo"
+        >
+        <h1 class="mt-4">
+          <span id="typewriter-text"></span><span class="blink-cursor"></span>
+        </h1>
+      </div>
+      <div class="mx-auto" style="max-width: 680px;">
+        <p class="retro-prompt">
+          Computer Science student at Reykjavik University, focusing on Machine-Learning research and working with data.
+        </p>
+        <p class="retro-prompt">
+          Currently working on the translation project — really excited about working with data that is of personal interest to me. Check it out!
+        </p>
       </div>
     </div>
+
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-dark">
+    <footer class="site-footer">
       {% include 'footer.html' %}
     </footer>
+
     <script>
       (function () {
         var el = document.getElementById('typewriter-text');
-        var text = "Hello! I'm Ómar";
+        var text = "Hello! I'm \u00d3mar";
         var i = 0;
         el.textContent = '';
         function type() {

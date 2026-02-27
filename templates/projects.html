@@ -12,126 +12,142 @@
     <!--My Stylesheet-->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
   </head>
-  <body base-page>
+  <body>
     <!-- Navigation Bar -->
     {% include 'navbar.html' %}
 
-    <!-- Projects Section -->
-    <div class="container mt-5">
-      <div class="text-center">
-        <h1>Current Projects</h1>
-        <h2 id="project_title">Translation project</h2>
-        <p>
-          An early personal project started during my BSc to gain hands-on experience with data visualization and exploratory tooling.
-          While the project was never fully completed, it served as a practical learning exercise in presenting and structuring language-related data.
-          More details and live updates available via the navigation bar.
-        </p>
+    <div class="container mt-5 mb-5">
+
+      <!-- ── CURRENT PROJECTS ── -->
+      <div class="retro-section-header mb-3">CURRENT PROJECTS</div>
+
+      <div class="retro-card">
+        <div class="retro-card-header">Translation Project</div>
+        <div class="retro-card-body">
+          <p>
+            An early personal project started during my BSc to gain hands-on experience with data
+            visualization and exploratory tooling. While the project was never fully completed, it
+            served as a practical learning exercise in presenting and structuring language-related data.
+          </p>
+          <p>More details and live updates available via the navigation bar.</p>
+        </div>
       </div>
 
+      <hr>
 
-      <hr size="6">
+      <!-- ── OLDER PROJECTS ── -->
+      <div class="retro-section-header mb-3">OLDER PROJECTS</div>
 
-      <!-- Older Projects -->
-      <div class="container mt-5">
-        <div class="text-center">
-          <h1>Older Projects</h1>
-        </div>
-
-        <!-- New Old Project -->
-        <div class="text-center mt-4">
-          <h2 id="project_title">Final Project in Reykjavík University</h2>
+      <!-- LOVE Synthesizers -->
+      <div class="retro-card">
+        <div class="retro-card-header">Final Project — Reykjavík University</div>
+        <div class="retro-card-body">
           <p>
             Did a website for LOVE Synthesizers as my final project in Reykjavik University.
-            I worked with Flask and AWS, and learned a lot about handling data, structuring larger codebases,
-            and thinking more carefully about overall architecture.
+            I worked with Flask and AWS, and learned a lot about handling data, structuring larger
+            codebases, and thinking more carefully about overall architecture.
           </p>
           <p>
             <a target="_blank" href="https://skemman.is/handle/1946/52015">
-              View the project on Skemman
+              View the project on Skemman ↗
             </a>
           </p>
         </div>
+      </div>
 
-        <div class="text-center mt-4">
-          <h2 id="project_title">Neural Architecture Search Research</h2>
+      <!-- NAS Research -->
+      <div class="retro-card">
+        <div class="retro-card-header">Neural Architecture Search — Research</div>
+        <div class="retro-card-body">
           <p>
-            Worked over the summer of 2025 at Reykjavík University on research focused on optimizing CNN models for sleep stage classification.
-            <br>The project was titled <strong>MELD: A Multimodal Ensemble of Lightweight 1D Convolutional Neural Networks for Sleep Stage Classification</strong>.
-            <br>I worked on designing and implementing a genetic algorithm to identify effective kernel sizes for the models.
-            <br>Turns out only tuning kernel sizes didn't do much, but that's a story for a different time.
+            Worked over the summer of 2025 at Reykjavík University on research focused on optimizing
+            CNN models for sleep stage classification. The project was titled
+            <strong>MELD: A Multimodal Ensemble of Lightweight 1D Convolutional Neural Networks for
+            Sleep Stage Classification</strong>.
           </p>
           <p>
-            The project resulted in a full technical report written for Rannís, detailing the methodology, experiments, and findings.
+            I worked on designing and implementing a genetic algorithm to identify effective kernel
+            sizes for the models. Turns out only tuning kernel sizes didn't do much, but that's a
+            story for a different time.
+          </p>
+          <p>
+            The project resulted in a full technical report written for Rannís, detailing the
+            methodology, experiments, and findings.
             <br>
             <a target="_blank" href="{{ url_for('static', filename='assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
-              View the technical report
+              View the technical report ↗
             </a>
           </p>
         </div>
       </div>
 
-      <div class="text-center">
-        <h2 id="project_title">Shadow Lightning</h2>
-      </div>
-      <p>
-        A metroidvania game developed during a 3-week intensive game design course at Reykjavík University.
-        The core mechanic revolves around possessing enemies and fighting as them.
-        I did a large portion of the programming and was responsible for tying systems together within the Unity engine.
-        The project was built using C# and Unity, and served as a fast-paced introduction to working on a larger, collaborative codebase under tight deadlines.
-      </p>
-      <div class="text-center">
-        <video width="720" height="420" autoplay muted loop>
-          <source src="{{url_for('static', filename='assets/projects/SL_gameplay.mp4')}}" type="video/mp4">
-        </video>
-        <p>
-          Gameplay available
-          <a href="https://tryggvi04.itch.io/shadow-lightning">on itch.io</a>.
-        </p>
-      </div>
-
-
-      <hr class="rounded">
-      <div class="container">
-        <div class="text-center">
-          <h2 id="project_title">Grimoire</h2>
+      <!-- Shadow Lightning -->
+      <div class="retro-card">
+        <div class="retro-card-header">Shadow Lightning — Game</div>
+        <div class="retro-card-body">
           <p>
-            An roguelike deck-builder game started during my freshman year with my friendgroup.
-            While the project never progressed beyond the prototyping phase, we implemented core gameplay ideas,
-            conducted informal user testing, and iterated based on feedback.
-            Building and testing a game from scratch in Godot using GDScript was a valuable learning experience in collaboration,
+            A metroidvania game developed during a 3-week intensive game design course at Reykjavík
+            University. The core mechanic revolves around possessing enemies and fighting as them.
+            I did a large portion of the programming and was responsible for tying systems together
+            within the Unity engine. Built using C# and Unity — a fast-paced introduction to working
+            on a larger, collaborative codebase under tight deadlines.
+          </p>
+          <p>
+            <a href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io ↗</a>
+          </p>
+        </div>
+        <div class="retro-card-media">
+          <video width="720" height="420" autoplay muted loop>
+            <source src="{{url_for('static', filename='assets/projects/SL_gameplay.mp4')}}" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- Grimoire -->
+      <div class="retro-card">
+        <div class="retro-card-header">Grimoire — Game</div>
+        <div class="retro-card-body">
+          <p>
+            A roguelike deck-builder game started during my freshman year with my friend group.
+            While the project never progressed beyond the prototyping phase, we implemented core
+            gameplay ideas, conducted informal user testing, and iterated based on feedback. Built
+            from scratch in Godot using GDScript — a valuable learning experience in collaboration,
             scoping, and experimentation.
           </p>
+        </div>
+        <div class="retro-card-media">
           <video width="720" height="420" autoplay muted loop>
             <source src="{{url_for('static', filename='assets/projects/grimoire_gameplay.mp4')}}" type="video/mp4">
           </video>
         </div>
+      </div>
 
-
-      <hr class="rounded">
-      <div class="text-center">
-        <h2 id="project_title">Monkey Business</h2>
-        <p>
-          Monkey Business was a project we built in a 3-week course in RU.
-          It was a job application page that we made with Django.
-          We used Python, SQL, HTMl, CSS, & Javascript.
-        </p>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm">
-              <img src="{{url_for('static', filename='assets/projects/monkeymain.png')}}" class="img-fluid float-left" alt="Monkey Business main page">
+      <!-- Monkey Business -->
+      <div class="retro-card">
+        <div class="retro-card-header">Monkey Business — Web App</div>
+        <div class="retro-card-body">
+          <p>
+            A job application page built during a 3-week course at Reykjavík University using Django.
+            Stack: Python, SQL, HTML, CSS, &amp; JavaScript.
+          </p>
+          <div class="row mt-3 project-screenshots">
+            <div class="col-sm-4">
+              <img src="{{url_for('static', filename='assets/projects/monkeymain.png')}}" class="img-fluid" alt="Monkey Business main page">
             </div>
-            <div class="col-sm">
+            <div class="col-sm-4">
               <img src="{{url_for('static', filename='assets/projects/monkeyaccount.png')}}" class="img-fluid" alt="Monkey Business account page">
             </div>
-            <div class="col-sm">
-              <img src="{{url_for('static', filename='assets/projects/monkeyapplications.png')}}" class="img-fluid float-right" alt="Monkey Business application page">
+            <div class="col-sm-4">
+              <img src="{{url_for('static', filename='assets/projects/monkeyapplications.png')}}" class="img-fluid" alt="Monkey Business applications page">
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
-    <br><br><br>
-    {% include 'footer.html' %}
+    <footer class="site-footer">
+      {% include 'footer.html' %}
+    </footer>
   </body>
 </html>

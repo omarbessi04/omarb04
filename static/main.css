@@ -27,6 +27,8 @@ body {
     min-height: 100vh;
     font-size: 0.95rem;
     line-height: 1.7;
+    margin: 0;
+    padding: 0;
 }
 
 /* === TYPOGRAPHY === */
@@ -68,7 +70,7 @@ a:hover {
 
 .navbar-brand {
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     color: var(--accent) !important;
     margin-left: 2%;
 }
@@ -76,8 +78,9 @@ a:hover {
 .nav-link {
     font-family: 'JetBrains Mono', monospace;
     color: var(--nav-text) !important;
-    font-size: 0.9rem;
-    margin-right: 0.5rem;
+    font-size: 1.05rem;
+    margin-right: 0.25rem;
+    padding: 0.5rem 0.8rem !important;
 }
 
 .nav-link:hover,
@@ -101,20 +104,131 @@ a:hover {
 .dropdown-menu {
     background-color: var(--nav-bg);
     border: 2px solid var(--accent);
+    border-top: 3px solid var(--accent);
     border-radius: 0;
+    padding: 0;
+    min-width: 180px;
+    margin-top: 0 !important;
 }
 
 .dropdown-item {
     font-family: 'JetBrains Mono', monospace;
     color: var(--nav-text);
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(244, 160, 28, 0.25);
+    font-size: 0.95rem;
 }
 
-.dropdown-item:hover {
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item::before {
+    content: '> ';
+    color: var(--accent);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
     background-color: var(--accent);
     color: var(--nav-bg);
 }
 
-/* === CARDS === */
+.dropdown-item:hover::before,
+.dropdown-item:focus::before {
+    color: var(--nav-bg);
+}
+
+/* === RETRO SECTION HEADER === */
+.retro-section-header {
+    background-color: var(--text);
+    color: var(--accent);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    user-select: none;
+}
+
+.retro-section-header::before {
+    content: '█';
+    color: var(--accent);
+    font-size: 0.65rem;
+    flex-shrink: 0;
+}
+
+/* === RETRO CARD === */
+.retro-card {
+    border: 2px solid var(--border);
+    margin-bottom: 2rem;
+    background-color: var(--bg);
+}
+
+.retro-card-header {
+    background-color: var(--text);
+    color: var(--accent);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65rem;
+    padding: 0.55rem 1rem;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.retro-card-header::before {
+    content: '▶';
+    font-size: 0.55rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.retro-card-body {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--surface);
+}
+
+.retro-card-body p {
+    margin-bottom: 0.75rem;
+}
+
+.retro-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.retro-card-media {
+    padding: 1.25rem;
+    background-color: var(--bg);
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+/* === RETRO PROMPT === */
+.retro-prompt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+    text-align: left;
+    display: block;
+    padding-left: 1.6em;
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.retro-prompt::before {
+    content: '>';
+    color: var(--accent-dark);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+}
+
+/* === BOOTSTRAP CARD OVERRIDES === */
 .card {
     border: 2px solid var(--border) !important;
     border-radius: 0 !important;
@@ -128,7 +242,6 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-/* Override Bootstrap text-white / bg-dark inside page cards */
 .card.text-white,
 .card.text-white .card-title,
 .card.text-white .card-text,
@@ -166,41 +279,63 @@ a:hover {
 
 /* === HR === */
 hr {
-    width: 90%;
+    width: 100%;
     border: none;
     border-top: 2px solid var(--accent);
-    margin: 2rem auto;
+    margin: 2rem 0;
     opacity: 1;
 }
 
-/* === FOOTER === */
-.footer,
-footer.footer {
+/* === SITE FOOTER === */
+.site-footer {
     margin-top: auto;
-    background-color: var(--nav-bg) !important;
+    background-color: var(--nav-bg);
     color: var(--nav-text);
     padding: 1.5em 0;
     border-top: 3px solid var(--accent);
     font-family: 'JetBrains Mono', monospace;
+    width: 100%;
 }
 
-.footer h4 {
+.site-footer h4 {
     font-family: 'Press Start 2P', monospace;
     color: var(--accent);
     font-size: 0.75rem;
     margin-bottom: 1rem;
 }
 
-.footer p {
+.site-footer p {
     color: var(--nav-text);
     font-size: 0.85rem;
     margin: 0.25rem 0;
 }
 
 /* === HEADSHOT === */
+.headshot {
+    border: 4px solid var(--accent);
+    display: block;
+    max-width: 180px;
+    margin: 0 auto 1.5rem auto;
+}
+
 .rounded-circle {
     border-radius: 0 !important;
     border: 4px solid var(--accent);
+}
+
+/* === VIDEO === */
+video {
+    border: 2px solid var(--border);
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* === PROJECT SCREENSHOTS === */
+.project-screenshots img {
+    border: 2px solid var(--border);
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 /* === UTILITY === */
@@ -209,10 +344,6 @@ footer.footer {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-}
-
-#project_title {
-    color: var(--accent-dark);
 }
 
 #study-time {
@@ -255,15 +386,15 @@ footer.footer {
     h2 { font-size: 0.75rem; }
     h3 { font-size: 0.65rem; }
 
-    #study-time {
-        font-size: 0.6rem;
-    }
+    .navbar-brand { font-size: 0.7rem; }
+    .nav-link { font-size: 0.9rem; }
 
-    .card {
-        margin-bottom: 10px;
-    }
+    .retro-section-header { font-size: 0.6rem; }
+    .retro-card-header { font-size: 0.55rem; }
 
-    #chart_div {
-        height: 200px;
-    }
+    #study-time { font-size: 0.6rem; }
+
+    .card { margin-bottom: 10px; }
+
+    #chart_div { height: 200px; }
 }
