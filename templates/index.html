@@ -18,23 +18,25 @@
 
     <!-- About Section -->
     <div class="container mt-5 mb-5">
-      <div class="text-center mb-4">
-        <img
-          src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}"
-          class="headshot"
-          alt="Headshot photo"
-        >
-        <h1 class="mt-4">
-          <span id="typewriter-text"></span><span class="blink-cursor"></span>
-        </h1>
-      </div>
-      <div class="mx-auto" style="max-width: 680px;">
-        <p class="retro-prompt">
-          Computer Science student at Reykjavik University, focusing on Machine-Learning research and working with data.
-        </p>
-        <p class="retro-prompt">
-          Currently working on the translation project — really excited about working with data that is of personal interest to me. Check it out!
-        </p>
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <h1 class="mb-4">
+            <span id="typewriter-text"></span><span class="blink-cursor"></span>
+          </h1>
+          <p class="retro-prompt">
+            Computer Science student at Reykjavik University, focusing on Machine-Learning research and working with data.
+          </p>
+          <p class="retro-prompt">
+            Feel free to explore the website to get to know me and my projects better!
+          </p>
+        </div>
+        <div class="col-md-5 text-center">
+          <img
+            src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}"
+            class="headshot"
+            alt="Headshot photo"
+          >
+        </div>
       </div>
     </div>
 
@@ -46,7 +48,7 @@
     <script>
       (function () {
         var el = document.getElementById('typewriter-text');
-        var text = "Hello! I'm \u00d3mar";
+        var text = "hello! i'm ómar bessi.";
         var i = 0;
         el.textContent = '';
         function type() {
