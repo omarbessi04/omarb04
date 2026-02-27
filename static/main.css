@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
 }
 
-h1 { font-size: 1.3rem; }
+h1 { font-size: 1.6rem; }
 h2 { font-size: 1rem; color: var(--accent-dark); }
 h3 { font-size: 0.85rem; }
 h4 { font-size: 0.75rem; }
@@ -210,7 +210,7 @@ a:hover {
 /* === RETRO PROMPT === */
 .retro-prompt {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     color: var(--text);
     text-align: left;
@@ -314,7 +314,7 @@ hr {
 .headshot {
     border: 4px solid var(--accent);
     display: block;
-    max-width: 340px;
+    max-width: 420px;
     width: 100%;
     margin: 0 auto;
 }
@@ -382,7 +382,7 @@ video {
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-    h1 { font-size: 0.9rem; }
+    h1 { font-size: 1.1rem; }
     h2 { font-size: 0.75rem; }
     h3 { font-size: 0.65rem; }
 
