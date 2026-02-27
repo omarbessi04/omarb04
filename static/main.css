@@ -1,60 +1,209 @@
+/* === FONTS === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* === VARIABLES === */
+:root {
+    --bg: #F5F0E8;
+    --surface: #EDE8DF;
+    --text: #1A1A1A;
+    --accent: #F4A01C;
+    --accent-dark: #C47B00;
+    --border: #1A1A1A;
+    --nav-bg: #1A1A1A;
+    --nav-text: #F5F0E8;
+}
+
+/* === BASE === */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
-    background-color: #231F20;
+    background-color: var(--bg);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    color: var(--text);
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
-    padding-bottom: 0; /* Remove the padding-bottom */
+    min-height: 100vh;
+    font-size: 0.95rem;
+    line-height: 1.7;
 }
 
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+h1 { font-size: 1.3rem; }
+h2 { font-size: 1rem; color: var(--accent-dark); }
+h3 { font-size: 0.85rem; }
+h4 { font-size: 0.75rem; }
+h5 { font-size: 0.7rem; }
+
+p {
+    line-height: 1.8;
+    color: var(--text);
+}
+
+a {
+    color: var(--accent-dark);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+/* === NAVBAR === */
+.navbar,
 .custom-navbar-color {
-    background-color: #624CAB;
-}
-
-h1, h2, h3, h4, p, #study-time {
-    color: white;
-}
-
-.nav-link, .navbar-brand {
-    color: white;
-}
-
-hr {
-    width: 90%;
-    color: #624CAB;
-    margin: auto;
-}
-
-.nav-link {
-    font-size: 1.375rem;
-    margin-right: 0.5%;
+    background-color: var(--nav-bg) !important;
+    border-bottom: 3px solid var(--accent);
+    position: static;
+    width: 100%;
 }
 
 .navbar-brand {
-    font-size: 1.438rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.75rem;
+    color: var(--accent) !important;
     margin-left: 2%;
+}
+
+.nav-link {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--nav-text) !important;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--accent) !important;
 }
 
 #last-nav-bar-item {
     margin-right: 2%;
 }
 
-#project_title {
-    color: #624CAB;
+.navbar-toggler {
+    border-color: var(--accent);
 }
 
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* === DROPDOWN === */
+.dropdown-menu {
+    background-color: var(--nav-bg);
+    border: 2px solid var(--accent);
+    border-radius: 0;
+}
+
+.dropdown-item {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--nav-text);
+}
+
+.dropdown-item:hover {
+    background-color: var(--accent);
+    color: var(--nav-bg);
+}
+
+/* === CARDS === */
+.card {
+    border: 2px solid var(--border) !important;
+    border-radius: 0 !important;
+    background-color: var(--surface) !important;
+}
+
+.card-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    color: var(--text) !important;
+    margin-bottom: 1rem;
+}
+
+/* Override Bootstrap text-white / bg-dark inside page cards */
+.card.text-white,
+.card.text-white .card-title,
+.card.text-white .card-text,
+.card.text-white p,
+.card.text-white li,
+.card.text-white small {
+    color: var(--text) !important;
+}
+
+.card.bg-dark {
+    background-color: var(--surface) !important;
+}
+
+/* === TRANSLATION CARD === */
 #translation-card {
-    background-color: #624CAB;
+    background-color: var(--accent) !important;
+    border-color: var(--border) !important;
 }
 
-.chart-card {
-    background-color: #231F20 !important; /* Custom background */
-    color: white !important; /* Ensures text color stays white */
-    border: none !important; /* Removes the border */
-    box-shadow: none !important; /* Removes any shadow if present */
-  }
-  
-  
+#translation-card .card-title,
+#translation-card .card-text,
+#translation-card p,
+#translation-card li,
+#translation-card a,
+#translation-card em {
+    color: var(--nav-bg) !important;
+}
 
+/* === CHART CARD === */
+.chart-card {
+    background-color: var(--bg) !important;
+    border: 2px solid var(--border) !important;
+    box-shadow: none !important;
+}
+
+/* === HR === */
+hr {
+    width: 90%;
+    border: none;
+    border-top: 2px solid var(--accent);
+    margin: 2rem auto;
+    opacity: 1;
+}
+
+/* === FOOTER === */
+.footer,
+footer.footer {
+    margin-top: auto;
+    background-color: var(--nav-bg) !important;
+    color: var(--nav-text);
+    padding: 1.5em 0;
+    border-top: 3px solid var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.footer h4 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--accent);
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.footer p {
+    color: var(--nav-text);
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+}
+
+/* === HEADSHOT === */
+.rounded-circle {
+    border-radius: 0 !important;
+    border: 4px solid var(--accent);
+}
+
+/* === UTILITY === */
 #center_this {
     max-width: fit-content;
     margin-left: auto;
@@ -62,34 +211,58 @@ hr {
     text-align: center;
 }
 
-/* Remove the fixed positioning from the navbar */
-.navbar {
-    position: static; /* Change from fixed to static */
-    width: 100%;
-    background-color: #624CAB;
+#project_title {
+    color: var(--accent-dark);
 }
 
-/* Ensure the footer is at the bottom of the page */
-.footer {
-    margin-top: auto; /* Push the footer to the bottom */
-    background-color: #231F20; /* Ensure the footer has a background color */
-    color: white; /* Ensure the text color is white */
-    padding: 1em 0; /* Add some padding */
+#study-time {
+    color: var(--text);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    font-weight: normal;
 }
 
-hr {
-    width: 90%;
-    color: #7B6D8D;
-    margin: auto;
+/* === PROGRESS BAR === */
+#container-of-progress-bar {
+    border: 2px solid var(--border);
+    border-radius: 0;
 }
 
+.progress-bar {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+/* === BLINKING CURSOR === */
+.blink-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    background-color: var(--accent);
+    margin-left: 0.15em;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
+    h1 { font-size: 0.9rem; }
+    h2 { font-size: 0.75rem; }
+    h3 { font-size: 0.65rem; }
+
     #study-time {
-        font-size: 1.2rem;
+        font-size: 0.6rem;
     }
+
     .card {
         margin-bottom: 10px;
     }
+
     #chart_div {
         height: 200px;
     }

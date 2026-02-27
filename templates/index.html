@@ -22,7 +22,7 @@
           <img src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}" class="img-fluid rounded-circle" alt="Headshot photo">
         </div>
         <div class="col-md-8">
-          <h1 id="center_this">Hello! I'm Ómar</h1>
+          <h1 id="center_this"><span id="typewriter-text"></span><span class="blink-cursor" id="cursor"></span></h1>
           <br>
           <h4>I am a Computer Science student at Reykjavik University, mainly focusing on Machine-Learning research and working with data.
             <br><br>Currently working on the translation project, really excited about working with data that is of personal interest to me; check it out!
@@ -34,5 +34,21 @@
     <footer class="footer mt-auto py-3 bg-dark">
       {% include 'footer.html' %}
     </footer>
+    <script>
+      (function () {
+        var el = document.getElementById('typewriter-text');
+        var text = "Hello! I'm Ómar";
+        var i = 0;
+        el.textContent = '';
+        function type() {
+          if (i < text.length) {
+            el.textContent += text[i];
+            i++;
+            setTimeout(type, 80);
+          }
+        }
+        setTimeout(type, 400);
+      })();
+    </script>
   </body>
 </html>
