@@ -125,4 +125,7 @@ def get_ucc():
 
 
 if __name__ == "__main__":
-    app.run()
+    try:
+        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    except:
+        app.run()
