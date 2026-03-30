@@ -125,7 +125,13 @@ def get_ucc():
 
 
 if __name__ == "__main__":
+    port_num = 5000
+
+    load_dotenv()
     try:
-        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+        port_num = os.environ.get("PORT")
     except:
-        app.run()
+        port_num = os.getenv("PORT")
+    port_num = int(port_num)
+
+    app.run(host="0.0.0.0", port=port_num)
