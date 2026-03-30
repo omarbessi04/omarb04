@@ -4,218 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ómar B - Translations</title>
-    <!--Load google charts api-->
+    <!--Load Google Charts API before translations.js-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!--Base Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!--Navbar-->
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <!--My Stylesheet-->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
-    <script type="text/javascript">
-      async function fetchProgress() {
-        try {
-          const response = await fetch("/translation_progress");
-          const data = await response.json();
-
-          const total = data.completed + data.inProgress + data.remaining;
-          const completedPercentage = (data.completed / total) * 100;
-          const inProgressPercentage = (data.inProgress / total) * 100;
-          const remainingPercentage = (data.remaining / total) * 100;
-
-          document.getElementById("progress-completed").style.width = completedPercentage + "%";
-          document.getElementById("progress-inprogress").style.width = inProgressPercentage + "%";
-          document.getElementById("progress-remaining").style.width = remainingPercentage + "%";
-
-          document.getElementById("progress-completed").innerText = Math.round(completedPercentage) + "%";
-          document.getElementById("progress-inprogress").innerText = Math.round(inProgressPercentage) + "%";
-          document.getElementById("progress-remaining").innerText = Math.round(remainingPercentage) + "%";
-
-          let progress_bar_height = "4em";
-          document.getElementById("progress-completed").style.height = progress_bar_height;
-          document.getElementById("progress-inprogress").style.height = progress_bar_height;
-          document.getElementById("progress-remaining").style.height = progress_bar_height;
-          document.getElementById("container-of-progress-bar").style.height = progress_bar_height;
-
-        } catch (error) {
-          console.error("Error fetching progress:", error);
-        }
-      }
-      fetchProgress();
-
-      google.charts.load('current', {'packages':['corechart']});
-
-      google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
-        endpoint: '/songs_and_times',
-        chartTitle: 'Time Spent on Songs',
-        xAxisTitle: 'Song',
-        yAxisTitle: 'Minutes Translating',
-        color: '#F4A01C',
-        chart_name: 'figure_1.1'
-      }));
-
-      google.charts.setOnLoadCallback(() => fetchDataAndDrawChart({
-        endpoint: '/get_UCCPC',
-        chartTitle: 'Time spent divided by Unique Character Count',
-        xAxisTitle: 'Song',
-        yAxisTitle: 'Time Spent / UCC',
-        color: '#C47B00',
-        chart_name: 'figure_1.2'
-      }));
-
-      function larger_multiple_of_ten(n) {
-        let a = parseInt(n / 10, 10) * 10;
-        let b = a + 10;
-        return b;
-      }
-
-      async function fetchDataAndDrawChart({endpoint, chartTitle, xAxisTitle, yAxisTitle, color, chart_name}) {
-        try {
-          const response = await fetch(endpoint);
-          const data = await response.json();
-
-          const chartData = [[xAxisTitle, yAxisTitle, { role: 'style' }]];
-
-          var smallestDataPoint = 0;
-          var biggestDataPoint = 0;
-
-          if (endpoint == '/songs_and_times') {
-            biggestDataPoint = null;
-            data.forEach(item => {
-              const timeParts = item[1].split(':');
-              const timeInMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
-              chartData.push([item[0], timeInMinutes, color]);
-            });
-          } else if (endpoint == '/get_tttl') {
-            data.forEach(item => {
-              chartData.push([item[0], parseInt(item[1]), color]);
-              if (parseInt(item[1]) > biggestDataPoint) biggestDataPoint = parseInt(item[1]);
-            });
-            biggestDataPoint = larger_multiple_of_ten(biggestDataPoint);
-          } else if (endpoint == '/get_UCCPC') {
-            smallestDataPoint = Infinity;
-            biggestDataPoint = -Infinity;
-            data.forEach(item => {
-              const value = parseFloat(item[1]);
-              chartData.push([item[0], value, color]);
-              if (value > biggestDataPoint) biggestDataPoint = value;
-              if (value < smallestDataPoint) smallestDataPoint = value;
-            });
-            biggestDataPoint = Math.ceil(biggestDataPoint * 10) / 10;
-          }
-
-          const dataTable = google.visualization.arrayToDataTable(chartData);
-
-          const options = {
-              title: chartTitle,
-              titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-              backgroundColor: '#F5F0E8',
-              hAxis: {
-                  title: xAxisTitle,
-                  textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                  titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' }
-              },
-              vAxis: {
-                  title: yAxisTitle,
-                  minValue: smallestDataPoint,
-                  viewWindow: { max: biggestDataPoint },
-                  textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                  titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' }
-              },
-              legend: { position: 'none' }
-          };
-
-          const chart = new google.visualization.ColumnChart(document.getElementById(chart_name));
-          chart.draw(dataTable, options);
-
-        } catch (error) {
-          console.error('Error fetching data or drawing chart:', error);
-        }
-      }
-
-      async function updateSpotifyEmbed() {
-        try {
-          const response = await fetch("/get_current_song_id");
-          const data = await response.json();
-          const songId = data.song_id;
-          if (songId) {
-            document.getElementById("spotify-embed").src = `https://open.spotify.com/embed/track/${songId}?utm_source=generator&theme=0`;
-          }
-        } catch (error) {
-          console.error("Error fetching current song:", error);
-        }
-      }
-
-      fetchProgress();
-      updateSpotifyEmbed();
-    </script>
+    <!--Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/translations.css') }}">
   </head>
   <body>
-    <!--Navigation Bar-->
     {% include 'navbar.html' %}
 
     <div class="container mt-4 mb-5">
 
       <!-- ── PAGE HEADER ── -->
-      <div class="retro-section-header mb-3">AKFG TRANSLATION PROJECT</div>
+      <div class="retro-section-header mb-3">
+        <button class="preamble-toggle" data-bs-toggle="collapse" data-bs-target="#preamble-collapse" aria-expanded="false" aria-controls="preamble-collapse">
+          <span class="preamble-chevron">&#62;</span>
+          'Asian Kung-Fu Generation' Translation Project Visualisation
+        </button>
+        <div class="ms-auto d-flex gap-2">
+          <button class="info-btn" id="btn-techstack" tabindex="0">? TECH</button>
+        </div>
+      </div>
 
-      <!-- Study time + progress bar -->
-      <div class="retro-card mb-4">
-        <div class="retro-card-header">Status</div>
-        <div class="retro-card-body">
-          <div id="study-time" style="margin-bottom: 0.75rem;"></div>
+      <!-- ── PREAMBLE ── -->
+      <div class="collapse mb-3" id="preamble-collapse">
+        <div class="retro-card">
+          <div class="retro-card-body">
+            <p class="mb-2"><strong>Asian Kung-Fu Generation</strong> (AKFG) is a Japanese alternative rock band from Yokohama, active since 1996. They blend post-punk energy with melodic hooks and introspective lyrics, they're also my favorite band!</p>
+            <p class="mb-1">This is a personal data-visualization experiment; part language learning, part data analysis. I translate their Japanese lyrics by hand:</p>
+            <ol class="mb-0">
+              <li>Write down lyrics, highlight unknown words, and break them apart.
+                <a href="/static/assets/translations/translation-onenote-example.png" target="_blank" rel="noopener noreferrer">Example.</a></li>
+              <li>Run a script to extract features: track length, unique character count, etc.</li>
+              <li>Find interesting patterns in the data.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── KPI ROW ── -->
+      <div class="row g-3 mb-3">
+        <div class="col-6 col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">SONGS DONE</div>
+            <div class="kpi-value" id="kpi-songs">—</div>
+            <div class="kpi-sub">of total</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">STUDY TIME</div>
+            <div class="kpi-value" id="kpi-time">—</div>
+            <div class="kpi-sub">hours + minutes</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">AVG EFF</div>
+            <div class="kpi-value" id="kpi-avg-eff">—</div>
+            <div class="kpi-sub">min / char</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">BEST EFF</div>
+            <div class="kpi-value" id="kpi-best-eff">—</div>
+            <div class="kpi-sub">min / char</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROGRESS ── -->
+      <div class="retro-card mb-3">
+        <div class="retro-card-header">
+          <span>PROGRESS</span>
+        </div>
+        <div class="retro-card-body progress-card-body">
           <div class="progress" id="container-of-progress-bar">
             <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
             <div id="progress-inprogress" class="progress-bar bg-warning" style="width: 0%"></div>
             <div id="progress-remaining" class="progress-bar bg-danger" style="width: 0%"></div>
           </div>
+          <div class="progress-legend mt-2">
+            <span><span class="legend-dot" style="background: #198754;"></span>Completed</span>
+            <span><span class="legend-dot" style="background: #ffc107;"></span>In Progress</span>
+            <span><span class="legend-dot" style="background: #dc3545;"></span>Remaining</span>
+          </div>
         </div>
       </div>
 
-      <script>
-        async function updateStudyTime() {
-          try {
-            let response = await fetch('/get_total_study');
-            let data = await response.json();
-            document.getElementById('study-time').innerText = `Total time spent translating: ${data.hours}h ${data.minutes}m`;
-          } catch (error) {
-            console.error('Error fetching study time:', error);
-          }
-        }
-        updateStudyTime();
-      </script>
-
-      <!-- Preamble + current song -->
-      <h1 class="text-center mb-4">The <em>Asian Kung-Fu Generation</em> translation project</h1>
-
-      <div class="row d-flex align-items-stretch mb-4">
-        <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+      <!-- ── SPOTIFY + SCATTER ── -->
+      <div class="row g-3 mb-3">
+        <div class="col-lg-4">
           <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">Project Preamble</div>
-            <div class="retro-card-body">
-              <p>
-                The <em>Asian Kung-Fu Generation</em> (AKFG) translation project is a personal
-                data-visualization experiment — part language learning, part data analysis.
-              </p>
-              <p>There are three main aspects to the project:</p>
-              <ol>
-                <li>
-                  Start with the lyrics: I write them down, highlight words I don't know, and break
-                  them apart.
-                  <a href="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Here's an example.</a>
-                </li>
-                <li>Then I run a script to pull out various features from the song; length, unique character count, etc.</li>
-                <li>Finally, try to find interesting data points from there.</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6">
-          <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">Currently Translating</div>
-            <div class="retro-card-body d-flex flex-column justify-content-center align-items-center">
-              <iframe id="spotify-embed" style="border-radius:0; border: none;"
+            <div class="retro-card-header">CURRENTLY TRANSLATING</div>
+            <div class="retro-card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 190px;">
+              <iframe id="spotify-embed" style="border-radius: 0; border: none;"
                 src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0"
                 width="100%" height="152" frameBorder="0"
                 allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -224,76 +113,45 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- ── DATA SECTION ── -->
-      <div class="retro-section-header mb-3">BASIC DATA</div>
-
-      <!-- Intro text -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">Overview</div>
-        <div class="retro-card-body">
-          <p>First, let's just look at how long it has taken me (in minutes) to translate each song so far.</p>
+        <div class="col-lg-8">
+          <div class="retro-card h-100" style="margin-bottom: 0;">
+            <div class="retro-card-header">DIFFICULTY VS EFFORT</div>
+            <div class="retro-card-body">
+              <div id="scatter-chart" class="chart-container"></div>
+              <p class="chart-caption">Unique character count vs. minutes spent translating. Hover a point for song details.</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Figure 1.1 -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">Figure 1.1 — Time Spent per Song</div>
-        <div class="retro-card-body">
-          <div id="figure_1.1" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-          <p class="mt-2"><small>Bar chart showing minutes spent translating each song.</small></p>
+      <!-- ── TIME PER SONG + LEARNING CURVE ── -->
+      <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+          <div class="retro-card h-100" style="margin-bottom: 0;">
+            <div class="retro-card-header">TIME PER SONG</div>
+            <div class="retro-card-body">
+              <div id="time-song-chart" class="chart-container"></div>
+              <p class="chart-caption">Raw minutes spent on each translated song.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="retro-card h-100" style="margin-bottom: 0;">
+            <div class="retro-card-header">LEARNING CURVE</div>
+            <div class="retro-card-body">
+              <div id="learning-curve-chart" class="chart-container"></div>
+              <p class="chart-caption">Efficiency (min/char) over translation order. Downward trend = improving. Hover for song name.</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Explanation 1 -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">Analysis</div>
+      <!-- ── EFFICIENCY (FULL WIDTH) ── -->
+      <div class="retro-card" style="margin-bottom: 0;">
+        <div class="retro-card-header">EFFICIENCY (TIME / UCC)</div>
         <div class="retro-card-body">
-          <p>
-            This chart shows how many minutes it took for me to translate each song. It's interesting
-            on its own, but not super useful if we're trying to figure out whether I'm actually
-            getting better at translating over time. Some songs are just longer than others, and
-            naturally take more time.
-          </p>
-          <p>
-            Notably, if a song has more unique characters, it's probably denser or more difficult to
-            translate. So normalizing time by dividing 'time spent' with 'unique character count'
-            might give a better sense of how efficient I'm becoming.
-          </p>
-        </div>
-      </div>
-
-      <!-- Figure 1.2 -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">Figure 1.2 — Time / Unique Character Count (UCC)</div>
-        <div class="retro-card-body">
-          <div id="figure_1.2" style="width: 100%; height: auto; min-height: 18.75rem;"></div>
-          <p class="mt-2"><small>Bar chart showing translation time divided by unique character count.</small></p>
-        </div>
-      </div>
-
-      <!-- Explanation 2 -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">Analysis</div>
-        <div class="retro-card-body">
-          <p>
-            For many linguistic reasons, it's hard to have an easy "word count" in Japanese, so we
-            use unique character count (UCC). Here we divide each length of time by the number of
-            unique characters within the lyrics — showing how many seconds I'm spending on each character.
-          </p>
-          <p>For now there's not much interesting stuff to look at, but more is coming soon!</p>
-        </div>
-      </div>
-
-      <!-- Tech stack -->
-      <div class="retro-section-header mb-3">TECH STACK</div>
-      <div class="retro-card">
-        <div class="retro-card-header">APIs, Languages &amp; Tools</div>
-        <div class="retro-card-body">
-          <p>— Main data source: Google Sheets. I track study times and other song metadata.</p>
-          <p>— Spotify API for song names and track length.</p>
-          <p>— Built with Flask (Python, HTML/CSS, JavaScript).</p>
+          <div id="bar-chart" class="chart-container-wide"></div>
+          <p class="chart-caption">Minutes spent per unique character per song. Lower = more efficient translation.</p>
         </div>
       </div>
 
@@ -302,5 +160,7 @@
     <footer class="site-footer">
       {% include 'footer.html' %}
     </footer>
+
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
   </body>
 </html>

@@ -10,15 +10,15 @@
         Credentials
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('static', filename='assets/transcripts/ferilskra.pdf') }}">Resume</a>
-          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('static', filename='assets/transcripts/einkunnir.pdf') }}">Grades</a>
+          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('resume') }}">Resume</a>
+          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('grades') }}">Grades</a>
         </div>
       </li>
       <li class="nav-item">
         <a class="nav-link text-center" href="{{ url_for('projects') }}">Projects</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-center" style="margin-right:0.5ref" href="{{ url_for('translations') }}">Translations</a>
+        <a class="nav-link text-center" style="margin-right:0.5ref" href="{{ url_for('translations') }}">AKFG Project</a>
       </li>
     </ul>
   </div>
