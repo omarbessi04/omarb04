@@ -129,9 +129,9 @@ if __name__ == "__main__":
 
     load_dotenv()
     try:
-        port_num = os.environ.get("PORT")
+        port_num = os.environ.get("PORT", 5000)
     except:
-        port_num = os.getenv("PORT")
+        port_num = os.getenv("PORT", 5000)
     port_num = int(port_num)
 
     app.run(host="0.0.0.0", port=port_num)
