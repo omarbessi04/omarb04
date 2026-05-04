@@ -16,13 +16,13 @@
 #     print("\n".join(lyrics))
 
 
-def get_all_song_params():
-    import pandas
+# def get_all_song_params():
+#     import pandas
 
-    df = pandas.read_csv(
-        r"C:\HR\omarb04\ajikan_scraper\data\songs.csv",
-    )
-    print(df.iloc[0])
+#     df = pandas.read_csv(
+#         r"C:\HR\omarb04\ajikan_scraper\data\songs.csv",
+#     )
+#     print(df.iloc[0])
 
 
-get_all_song_params()
+# get_all_song_params()
