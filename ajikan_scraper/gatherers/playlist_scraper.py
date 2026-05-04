@@ -59,7 +59,10 @@ class Playlist_Scraper:
 
     def make_csv(self, tracknames):
         with open(
-            "ajikan_scraper/data/songs.csv", "w", newline="", encoding="utf-8"
+            "C:/HR/omarb04/ajikan_scraper/data/songs.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
         ) as songs:
             track_writer = csv.writer(songs, quoting=csv.QUOTE_MINIMAL)
 
@@ -68,6 +71,8 @@ class Playlist_Scraper:
                     [
                         i + 1,
                         track["name"],
+                        ", ".join(a["name"] for a in track["artists"]),
+                        track["album"]["name"],
                         self.ms_to_time(track["duration_ms"]),
                         track["album"]["images"][ALBUM_COVER_SIZE]["url"],
                         track["external_urls"]["spotify"],
@@ -100,4 +105,7 @@ class Playlist_Scraper:
                 return [point for point in track_writer][id]
             else:
                 # 4 is the link of the song, we're getting the id of the song, which is the last item in the link
-                return [point for point in track_writer][id][4].split("/")[-1]
+                return [point for point in track_writer][id][6].split("/")[-1]
+
+
+Playlist_Scraper()
