@@ -13,7 +13,7 @@ class Playlist_Scraper:
         token = self.get_token()
         playlist = self.get_playlist(token)
         self.tracknames = self.get_tracknames(playlist)
-        self.make_csv(self.tracknames)
+        # self.make_csv(self.tracknames)
 
     def get_token(self):
 
