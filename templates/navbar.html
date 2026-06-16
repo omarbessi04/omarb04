@@ -5,20 +5,22 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto ml-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Credentials
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('resume') }}">Resume</a>
-          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('grades') }}">Grades</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link text-center" href="{{ url_for('job_history') }}">Experience</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-center" href="{{ url_for('projects') }}">Projects</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-center" style="margin-right:0.5ref" href="{{ url_for('translations') }}">AKFG Project Dashboard</a>
+        <a class="nav-link text-center" href="{{ url_for('translations') }}">Translations</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-center" href="#" id="navbarMoreDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        More
+        </a>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarMoreDropdown">
+          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('grades') }}">Grades</a>
+        </div>
       </li>
     </ul>
   </div>

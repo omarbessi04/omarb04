@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ómar B - Experience</title>
+    <!--Base Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!--Navbar-->
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <!--My Stylesheet-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    {% include 'navbar.html' %}
+
+    {#
+      Job entries, newest first. To add / edit / reorder a job, just edit this list.
+      Fields:
+        logo     - path under static/ (note the space in "job history")
+        company  - employer / institution name
+        role     - job title
+        dates    - free-text date range, e.g. "Summer 2026"
+        summary  - one-line skim text, always visible in the collapsed card
+        blurb    - longer intro paragraph shown when the entry is expanded
+        bullets  - list of detailed highlights shown when expanded
+        tech     - list of technologies (rendered as tags); use [] to hide the section
+    #}
+    {% set jobs = [
+      {
+        "logo": "assets/job history/islandsbanki_icon.png",
+        "company": "Íslandsbanki",
+        "role": "Automation Engineer",
+        "dates": "Summer 2026",
+        "summary": "Automation engineer improving and modernizing the bank's process-automation (RPA) workflows.",
+        "blurb": "Working as an automation engineer at Íslandsbanki, focused on improving and modernizing the bank's robotic process automation. Many of the existing processes were built without much optimization in mind, so a big part of the job is rethinking and rebuilding them to run leaner and more reliably. Beyond the work itself, the people, the team, and the atmosphere are what make it — easily one of the best environments I've worked in.",
+        "bullets": [
+          "Improving and optimizing existing RPA processes that were originally built without performance in mind.",
+          "Building and maintaining automation workflows to streamline internal banking operations.",
+          "Modernizing the automation toolset, moving legacy automations onto current platforms.",
+          "Collaborating closely with a tight-knit team in a genuinely great working environment."
+        ],
+        "tech": ["RPA", "Power Automate", "Process Automation"]
+      },
+      {
+        "logo": "assets/job history/arion_icon.png",
+        "company": "Arion Banki",
+        "role": "Software Engineering Intern (AI & Automation)",
+        "dates": "Spring 2026",
+        "summary": "Built an automated evaluation framework for production AI agents on the AI & Automation team.",
+        "blurb": "Interned on Arion Banki's AI & Automation team, contributing to production-level AI systems under real security constraints. My main project replaced a manual, ad-hoc agent-testing process with a repeatable, automated evaluation framework — and along the way I dug into reliability, safety, and the realities of shipping LLM-backed systems inside a bank.",
+        "bullets": [
+          "Designed and built an automated evaluation framework for AI agents, replacing a manual testing process and making agent quality measurable and repeatable.",
+          "Created an evaluation dataset from the company website to benchmark agent performance against realistic queries.",
+          "Implemented input and output guardrails to improve the reliability and safety of the AI system.",
+          "Debugged framework and integration issues through source-code analysis and Azure LLM integrations.",
+          "Worked in an agile team using Git, Jira, and code reviews, shipping changes into a production environment with strict security requirements."
+        ],
+        "tech": ["Python", "Azure", "LLMs", "Git", "Jira"]
+      },
+      {
+        "logo": "assets/job history/Reykjavik_University_Logo.png",
+        "company": "Reykjavík University",
+        "role": "Teaching Assistant",
+        "dates": "2024 – 2026",
+        "summary": "TA for Algorithms, Calculus, and Discrete Math — weekly sessions for ~60 students.",
+        "blurb": "Teaching assistant across several core Computer Science courses at Reykjavík University. I ran weekly problem-solving sessions and helped students one-on-one, which sharpened both my own fundamentals and my ability to explain hard ideas simply.",
+        "bullets": [
+          "TA for Algorithms, Calculus, and Discrete Mathematics I & II in the Computer Science program.",
+          "Led weekly sessions for ~60 students, explaining algorithms, data structures, and mathematical concepts.",
+          "Helped students debug code and reason through algorithmic problem-solving approaches (Java-focused in Algorithms).",
+          "Strengthened my ability to communicate complex technical concepts clearly to students at a range of skill levels."
+        ],
+        "tech": ["Java", "Python"]
+      },
+      {
+        "logo": "assets/job history/rannis_logo.png",
+        "company": "Rannís",
+        "role": "Neural Architecture Search Researcher",
+        "dates": "Summer 2025",
+        "summary": "Research-grant project using neural architecture search for sleep-stage classification CNNs.",
+        "blurb": "Funded by a Rannís research grant (Nýsköpunarsjóður námsmanna) and carried out at Reykjavík University. The project — MELD: A Multimodal Ensemble of Lightweight 1D Convolutional Neural Networks for Sleep Stage Classification — explored whether evolutionary search could find better CNN architectures. I focused on tuning kernel sizes via a genetic algorithm; it turned out that kernel sizes alone moved the needle very little, which was a useful (if humbling) result in itself.",
+        "bullets": [
+          "Implemented genetic algorithms in Python (PyTorch) to search CNN architectures for sleep-stage classification.",
+          "Built training pipelines for multi-hour experiments across sleep datasets.",
+          "Iterated on optimization strategies through systematic experimentation.",
+          "Co-authored a full technical report for Rannís documenting the methodology, experiments, and findings."
+        ],
+        "tech": ["Python", "PyTorch", "NumPy"]
+      },
+      {
+        "logo": "assets/job history/intrix_icon.jpg",
+        "company": "Intrix",
+        "role": "Instructor",
+        "dates": "2020 – 2023",
+        "summary": "Taught free programming workshops for kids in local libraries — making tech accessible to everyone.",
+        "blurb": "Worked as an instructor running free programming workshops for kids in local libraries. We brought iPads along so children could code hands-on, with the goal of making tech and programming accessible to anyone — no matter their background or whether they had a device of their own. An early, formative experience in breaking down technical concepts for complete beginners.",
+        "bullets": [
+          "Taught programming to children in free, drop-in workshops hosted at local libraries.",
+          "Brought iPads so kids could get hands-on coding experience without needing their own devices.",
+          "Helped make tech education accessible to everyone by removing the usual barriers to entry.",
+          "Introduced absolute beginners to programming fundamentals using Python."
+        ],
+        "tech": ["Python"]
+      }
+    ] %}
+
+    <div class="container mt-5 mb-5">
+
+      <div class="retro-section-header mb-4">EXPERIENCE</div>
+
+      <div class="timeline">
+        {% for job in jobs %}
+        <div class="timeline-entry{% if loop.first %} open{% endif %}">
+          <button class="timeline-header" type="button" aria-expanded="{{ 'true' if loop.first else 'false' }}">
+            <img class="timeline-logo" src="{{ url_for('static', filename=job.logo) }}" alt="{{ job.company }} logo">
+            <span class="timeline-meta">
+              <span class="timeline-company">{{ job.company }}</span>
+              <span class="timeline-role">{{ job.role }}</span>
+              <span class="timeline-dates">{{ job.dates }}</span>
+              {% if job.summary %}<span class="timeline-summary">{{ job.summary }}</span>{% endif %}
+            </span>
+            <span class="timeline-caret" aria-hidden="true">▸</span>
+          </button>
+          <div class="timeline-body">
+            <div class="timeline-body-inner">
+              {% if job.blurb %}<p class="timeline-blurb">{{ job.blurb }}</p>{% endif %}
+              <ul class="timeline-bullets">
+                {% for bullet in job.bullets %}
+                <li>{{ bullet }}</li>
+                {% endfor %}
+              </ul>
+              {% if job.tech %}
+              <div class="timeline-tech">
+                <span class="timeline-tech-label">Technologies</span>
+                <span class="timeline-tech-list">
+                  {% for t in job.tech %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+                </span>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      {% include 'footer.html' %}
+    </footer>
+
+    <script>
+      (function () {
+        var headers = document.querySelectorAll('.timeline-header');
+        headers.forEach(function (header) {
+          header.addEventListener('click', function () {
+            var entry = header.closest('.timeline-entry');
+            var nowOpen = entry.classList.toggle('open');
+            header.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

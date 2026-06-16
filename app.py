@@ -34,9 +34,9 @@ def translations():
     return render_template("translations.html")
 
 
-@app.route("/resume")
-def resume():
-    return render_template("resume.html")
+@app.route("/job-history")
+def job_history():
+    return render_template("job_history.html")
 
 
 @app.route("/grades")
@@ -134,4 +134,4 @@ if __name__ == "__main__":
         port_num = os.getenv("PORT", 5000)
     port_num = int(port_num)
 
-    app.run(host="0.0.0.0", port=port_num)
+    app.run(host="0.0.0.0", port=80)

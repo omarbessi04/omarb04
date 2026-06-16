@@ -277,6 +277,178 @@ a:hover {
     box-shadow: none !important;
 }
 
+/* === JOB HISTORY TIMELINE === */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background-color: var(--accent);
+}
+
+.timeline-entry {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 1.1rem;
+    width: 14px;
+    height: 14px;
+    background-color: var(--bg);
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    transform: translateX(-1px);
+    z-index: 1;
+}
+
+.timeline-entry.open::before {
+    background-color: var(--accent);
+}
+
+.timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    text-align: left;
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+}
+
+.timeline-header:hover {
+    border-color: var(--accent-dark);
+}
+
+.timeline-logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    background-color: var(--bg);
+    border: 2px solid var(--border);
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.timeline-meta {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.timeline-company {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-dark);
+    margin-bottom: 0.35rem;
+}
+
+.timeline-role {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.timeline-dates {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.timeline-summary {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-top: 0.4rem;
+    opacity: 0.9;
+}
+
+.timeline-caret {
+    flex-shrink: 0;
+    color: var(--accent-dark);
+    font-size: 1rem;
+    transition: transform 0.25s ease;
+}
+
+.timeline-entry.open .timeline-caret {
+    transform: rotate(90deg);
+}
+
+.timeline-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    border-left: 2px solid var(--border);
+    border-right: 2px solid var(--border);
+}
+
+.timeline-entry.open .timeline-body {
+    max-height: 2000px;
+    border-bottom: 2px solid var(--border);
+}
+
+.timeline-body-inner {
+    padding: 1rem 1.25rem;
+    background-color: var(--bg);
+}
+
+.timeline-blurb {
+    margin: 0 0 1rem 0;
+    line-height: 1.8;
+}
+
+.timeline-bullets {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.timeline-bullets li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+
+.timeline-bullets li:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-tech {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+}
+
+.timeline-tech-label {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-dark);
+    margin-bottom: 0.6rem;
+}
+
+.tech-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+    background-color: rgba(244, 160, 28, 0.18);
+    border: 1px solid var(--accent-dark);
+    padding: 0.15rem 0.55rem;
+    margin: 0 0.4rem 0.4rem 0;
+}
+
 /* === HR === */
 hr {
     width: 100%;
@@ -397,4 +569,10 @@ video {
     .card { margin-bottom: 10px; }
 
     #chart_div { height: 200px; }
+
+    .timeline-company { font-size: 0.6rem; }
+    .timeline-role { font-size: 0.8rem; }
+    .timeline-dates { font-size: 0.72rem; }
+    .timeline-logo { width: 42px; height: 42px; }
+    .timeline-header { gap: 0.65rem; padding: 0.6rem 0.7rem; }
 }
