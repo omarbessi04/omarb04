@@ -3,150 +3,176 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ómar B - Projects</title>
-    <!--Base Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!--Navbar-->
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <!--My Stylesheet-->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <title>Omar Bessi &mdash; Projects</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
   </head>
   <body>
-    <!-- Navigation Bar -->
     {% include 'navbar.html' %}
 
-    <div class="container mt-5 mb-5">
+    <main>
+      <div class="page-wrap">
 
-      <!-- ── CURRENT PROJECTS ── -->
-      <div class="retro-section-header mb-3">CURRENT PROJECTS</div>
-
-      <div class="retro-card">
-        <div class="retro-card-header">Translation Project</div>
-        <div class="retro-card-body">
-          <p>
-            An early personal project started during my BSc to gain hands-on experience with data
-            visualization and exploratory tooling. I'm still working on this, so cut me some slack.
-          </p>
-          <p>More details and live updates available via the navigation bar.</p>
+        <div class="page-head">
+          <h1>Projects</h1>
+          <p>From bank AI systems to research and games &mdash; things I&rsquo;ve designed, broken and rebuilt.</p>
         </div>
-      </div>
 
-      <hr>
-
-      <!-- ── OLDER PROJECTS ── -->
-      <div class="retro-section-header mb-3">OLDER PROJECTS</div>
-
-      <!-- LOVE Synthesizers -->
-      <div class="retro-card">
-        <div class="retro-card-header">Final Project — Reykjavík University</div>
-        <div class="retro-card-body">
-          <p>
-            Did a website for LOVE Synthesizers as my final project in Reykjavik University.
-            I worked with Flask and AWS, and learned a lot about handling data, structuring larger
-            codebases, and thinking more carefully about overall architecture.
-          </p>
-          <p>
-            <a target="_blank" href="https://skemman.is/handle/1946/52015">
-              View the project on Skemman ↗
-            </a>
-          </p>
-        </div>
-      </div>
-
-      <!-- NAS Research -->
-      <div class="retro-card">
-        <div class="retro-card-header">Neural Architecture Search — Research</div>
-        <div class="retro-card-body">
-          <p>
-            Worked over the summer of 2025 at Reykjavík University on research focused on optimizing
-            CNN models for sleep stage classification. The project was titled
-            <strong>MELD: A Multimodal Ensemble of Lightweight 1D Convolutional Neural Networks for
-            Sleep Stage Classification</strong>.
-          </p>
-          <p>
-            I worked on designing and implementing a genetic algorithm to identify effective kernel
-            sizes for the models. Turns out only tuning kernel sizes didn't do much, but that's a
-            story for a different time.
-          </p>
-          <p>
-            The project resulted in a full technical report written for Rannís, detailing the
-            methodology, experiments, and findings.
-            <br>
-            <a target="_blank" href="{{ url_for('static', filename='assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
-              View the technical report ↗
-            </a>
-          </p>
-        </div>
-      </div>
-
-      <!-- Shadow Lightning -->
-      <div class="retro-card">
-        <div class="retro-card-header">Shadow Lightning — Game</div>
-        <div class="retro-card-body">
-          <p>
-            A metroidvania game developed during a 3-week intensive game design course at Reykjavík
-            University. The core mechanic revolves around possessing enemies and fighting as them.
-            I did a large portion of the programming and was responsible for tying systems together
-            within the Unity engine. Built using C# and Unity — a fast-paced introduction to working
-            on a larger, collaborative codebase under tight deadlines.
-          </p>
-          <p>
-            <a href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io ↗</a>
-          </p>
-        </div>
-        <div class="retro-card-media">
-          <video width="720" height="420" autoplay muted loop>
-            <source src="{{url_for('static', filename='assets/projects/SL_gameplay.mp4')}}" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <!-- Grimoire -->
-      <div class="retro-card">
-        <div class="retro-card-header">Grimoire — Game</div>
-        <div class="retro-card-body">
-          <p>
-            A roguelike deck-builder game started during my freshman year with my friend group.
-            While the project never progressed beyond the prototyping phase, we implemented core
-            gameplay ideas, conducted informal user testing, and iterated based on feedback. Built
-            from scratch in Godot using GDScript — a valuable learning experience in collaboration,
-            scoping, and experimentation.
-          </p>
-        </div>
-        <div class="retro-card-media">
-          <video width="720" height="420" autoplay muted loop>
-            <source src="{{url_for('static', filename='assets/projects/grimoire_gameplay.mp4')}}" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <!-- Monkey Business -->
-      <div class="retro-card">
-        <div class="retro-card-header">Monkey Business — Web App</div>
-        <div class="retro-card-body">
-          <p>
-            A job application page built during a 3-week course at Reykjavík University using Django.
-            Stack: Python, SQL, HTML, CSS, &amp; JavaScript.
-          </p>
-          <div class="row mt-3 project-screenshots">
-            <div class="col-sm-4">
-              <img src="{{url_for('static', filename='assets/projects/monkeymain.png')}}" class="img-fluid" alt="Monkey Business main page">
+        <!-- Feature -->
+        <a class="project-feature" href="{{ url_for('translations') }}">
+          <div class="project-feature-copy">
+            <div class="status-pill"><span class="status-dot"></span>In progress</div>
+            <div class="project-feature-title">Translation Project</div>
+            <p>A little corner where language-learning meets data. I hand-translate the lyrics of my favourite band and chart the effort along the way &mdash; songs done, hours spent, and whether I&rsquo;m actually getting faster.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Data viz</span>
+              <span class="tech-tag">Flask</span>
             </div>
-            <div class="col-sm-4">
-              <img src="{{url_for('static', filename='assets/projects/monkeyaccount.png')}}" class="img-fluid" alt="Monkey Business account page">
+            <span class="project-feature-link">Open the live dashboard &#8599;</span>
+          </div>
+          <div class="project-feature-media">
+            <div class="tr-preview">
+              <div class="tr-preview-row">
+                <div class="tr-preview-stat">
+                  <div class="tr-preview-value" id="pfp-songs">&mdash;</div>
+                  <div class="tr-preview-label">Songs done</div>
+                </div>
+                <div class="tr-preview-stat">
+                  <div class="tr-preview-value" id="pfp-time">&mdash;</div>
+                  <div class="tr-preview-label">Study time</div>
+                </div>
+                <div class="tr-preview-stat">
+                  <div class="tr-preview-value" id="pfp-eff">&mdash;</div>
+                  <div class="tr-preview-label">Best min/char</div>
+                </div>
+              </div>
+              <div class="tr-preview-bars" id="pfp-bars" aria-hidden="true"></div>
+              <div class="tr-preview-caption">Live from the translations dashboard</div>
             </div>
-            <div class="col-sm-4">
-              <img src="{{url_for('static', filename='assets/projects/monkeyapplications.png')}}" class="img-fluid" alt="Monkey Business applications page">
+          </div>
+        </a>
+
+        <!-- Work -->
+        <div class="eyebrow" style="margin-bottom: 18px;">Selected work</div>
+        <div class="project-grid">
+          <a class="project-card" target="_blank" href="{{ url_for('static', filename='assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
+            <div class="project-card-head">
+              <span class="project-card-title">MELD Research</span>
+              <span class="project-card-year">2025</span>
+            </div>
+            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for Rann&iacute;s.</p>
+            <span class="project-card-link">Read the report &#8599;</span>
+          </a>
+          <a class="project-card" target="_blank" href="https://skemman.is/handle/1946/52015">
+            <div class="project-card-head">
+              <span class="project-card-title">LOVE Synthesizers</span>
+              <span class="project-card-year">BSc final</span>
+            </div>
+            <p>A website built with Flask &amp; AWS as my BSc final project at Reykjav&iacute;k University &mdash; data handling, larger-codebase structure, and thinking carefully about architecture.</p>
+            <span class="project-card-link">View on Skemman &#8599;</span>
+          </a>
+          <div class="project-card-wide">
+            <div class="project-card-wide-body">
+              <div class="project-card-head">
+                <span class="project-card-title">Monkey Business</span>
+                <span class="project-card-year">Web app</span>
+              </div>
+              <p style="max-width: 70ch; margin-bottom: 0;">A job-application platform built in a 3-week Django course &mdash; Python, SQL, HTML/CSS and JavaScript.</p>
+            </div>
+            <div class="project-screenshots-grid">
+              <img src="{{ url_for('static', filename='assets/projects/monkeymain.png') }}" alt="Monkey Business main page">
+              <img src="{{ url_for('static', filename='assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page">
             </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <!-- Games -->
+        <div class="eyebrow" style="margin-bottom: 6px;">Games &amp; experiments</div>
+        <p class="games-lede">Earlier work from courses and side projects &mdash; where I first learned to ship under deadline.</p>
+        <div class="games-grid">
+          <a class="game-card" target="_blank" href="https://tryggvi04.itch.io/shadow-lightning">
+            <div class="game-card-media">
+              <video autoplay muted loop playsinline>
+                <source src="{{ url_for('static', filename='assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
+              </video>
+            </div>
+            <div class="game-card-body">
+              <div class="game-card-head">
+                <span class="game-card-title">Shadow Lightning</span>
+                <span class="game-card-year">2024</span>
+              </div>
+              <p>A Unity metroidvania built in a 3-week intensive &mdash; possess enemies and fight as them. I tied the systems together in C#.</p>
+              <span class="game-card-link">Play on itch.io &#8599;</span>
+            </div>
+          </a>
+          <div class="game-card">
+            <div class="game-card-media">
+              <video autoplay muted loop playsinline>
+                <source src="{{ url_for('static', filename='assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
+              </video>
+            </div>
+            <div class="game-card-body">
+              <div class="game-card-head">
+                <span class="game-card-title">Grimoire</span>
+                <span class="game-card-year">2023</span>
+              </div>
+              <p style="margin-bottom: 0;">A roguelike deck-builder prototyped from scratch in Godot with friends &mdash; scoping, user testing, iteration.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
 
     <footer class="site-footer">
       {% include 'footer.html' %}
     </footer>
+
+    <script>
+      (async function () {
+        try {
+          const [progressRes, studyRes, uccpcRes, timesRes] = await Promise.all([
+            fetch('/translation_progress'),
+            fetch('/get_total_study'),
+            fetch('/get_UCCPC'),
+            fetch('/songs_and_times'),
+          ]);
+          const progress = await progressRes.json();
+          const study = await studyRes.json();
+          const uccpc = await uccpcRes.json();
+          const times = await timesRes.json();
+
+          const total = progress.completed + progress.inProgress + progress.remaining;
+          document.getElementById('pfp-songs').textContent = `${progress.completed}/${total}`;
+          document.getElementById('pfp-time').textContent = `${study.hours}h ${study.minutes}m`;
+
+          const effValues = uccpc
+            .map(([, v]) => parseFloat(v))
+            .filter((v) => !isNaN(v) && v > 0);
+          if (effValues.length) {
+            document.getElementById('pfp-eff').textContent = Math.min(...effValues).toFixed(2);
+          }
+
+          const mins = times
+            .map(([, t]) => {
+              const [h, m, s] = t.split(':').map(Number);
+              return h * 60 + m + s / 60;
+            })
+            .filter((m) => m > 0)
+            .slice(0, 14);
+
+          const max = Math.max(...mins, 1);
+          const bars = document.getElementById('pfp-bars');
+          mins.forEach((m) => {
+            const bar = document.createElement('div');
+            bar.className = 'tr-preview-bar';
+            bar.style.height = Math.max(6, (m / max) * 100) + '%';
+            bars.appendChild(bar);
+          });
+        } catch (err) {
+          console.error('Error loading translation preview:', err);
+        }
+      })();
+    </script>
   </body>
 </html>

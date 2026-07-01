@@ -1,27 +1,10 @@
-<nav class="navbar navbar-expand-lg custom-navbar-color">
-  <a class="navbar-brand" href="{{ url_for('home') }}">OmarB</a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ms-auto ml-auto">
-      <li class="nav-item">
-        <a class="nav-link text-center" href="{{ url_for('job_history') }}">Experience</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-center" href="{{ url_for('projects') }}">Projects</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-center" href="{{ url_for('translations') }}">Translations</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-center" href="#" id="navbarMoreDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        More
-        </a>
-        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarMoreDropdown">
-          <a class="dropdown-item text-center" target="_blank" href="{{ url_for('grades') }}">Grades</a>
-        </div>
-      </li>
-    </ul>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="{{ url_for('home') }}">Omar Bessi</a>
+    <nav class="nav-links">
+      <a class="nav-link{% if request.endpoint == 'job_history' %} active{% endif %}" href="{{ url_for('job_history') }}">Experience</a>
+      <a class="nav-link{% if request.endpoint == 'projects' %} active{% endif %}" href="{{ url_for('projects') }}">Projects</a>
+      <a class="nav-link{% if request.endpoint == 'contact' %} active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
+    </nav>
   </div>
-</nav>
+</header>

@@ -3,107 +3,90 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ómar B - Translations</title>
+    <title>Omar Bessi &mdash; Translations</title>
     <!--Load Google Charts API before translations.js-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <!--Base Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!--Navbar-->
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <!--Stylesheets-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/translations.css') }}">
   </head>
   <body>
     {% include 'navbar.html' %}
 
-    <div class="container mt-4 mb-5">
+    <main>
+      <div class="page-wrap">
 
-      <!-- ── PAGE HEADER ── -->
-      <div class="retro-section-header mb-3">
-        <button class="preamble-toggle" data-bs-toggle="collapse" data-bs-target="#preamble-collapse" aria-expanded="false" aria-controls="preamble-collapse">
-          <span class="preamble-chevron">&#62;</span>
-          'Asian Kung-Fu Generation' Translation Project Visualisation
-        </button>
-        <div class="ms-auto d-flex gap-2">
-          <button class="info-btn" id="btn-techstack" tabindex="0">? TECH</button>
+        <div class="page-head" style="margin-bottom: 14px;">
+          <h1>Translations</h1>
+          <p style="max-width: 44ch;">A data-visualization experiment &mdash; hand-translating <span class="italic-accent" style="font-family: var(--font-serif); font-size: 17px;">Asian Kung-Fu Generation</span> lyrics from Japanese, and charting the effort.</p>
         </div>
-      </div>
 
-      <!-- ── PREAMBLE ── -->
-      <div class="collapse mb-3" id="preamble-collapse">
-        <div class="retro-card">
-          <div class="retro-card-body">
-            <p class="mb-2"><strong>Asian Kung-Fu Generation</strong> (AKFG) is a Japanese alternative rock band from Yokohama, active since 1996. They blend post-punk energy with melodic hooks and introspective lyrics, they're also my favorite band!</p>
-            <p class="mb-1">This is a personal data-visualization experiment; part language learning, part data analysis. I translate their Japanese lyrics by hand:</p>
-            <ol class="mb-0">
-              <li>Write down lyrics, highlight unknown words, and break them apart.
-                <a href="/static/assets/translations/translation-onenote-example.png" target="_blank" rel="noopener noreferrer">Example.</a></li>
-              <li>Run a script to extract features: track length, unique character count, etc.</li>
-              <li>Find interesting patterns in the data.</li>
-            </ol>
+        <div class="tr-intro">
+          <p>Part language-learning, part analysis &mdash; I hand-translate the lyrics of my favourite band and chart the effort as I go.</p>
+          <button class="about-toggle" id="about-toggle" aria-expanded="false" aria-controls="about-panel">
+            <span id="about-toggle-label">Read more about this project</span> &rarr;
+          </button>
+          <div class="about-panel" id="about-panel" hidden>
+            <div class="about-panel-grid">
+              <div>
+                <p><span class="italic-accent" style="font-family: var(--font-serif); font-size: 18px;">Asian Kung-Fu Generation</span> is a Japanese alt-rock band from Yokohama &mdash; and my favourite band. Translating their lyrics is how I practise the language and scratch the itch to measure things. Here&rsquo;s how a song goes:</p>
+                <ol>
+                  <li>Write the lyrics out by hand, highlight the words I don&rsquo;t know, and break them apart. <a href="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Example.</a></li>
+                  <li>Run a script to pull out features &mdash; track length, unique character count, minutes spent.</li>
+                  <li>Look for patterns: am I getting faster, and which songs fought back hardest?</li>
+                </ol>
+              </div>
+              <figure>
+                <img src="{{ url_for('static', filename='assets/translations/translation-onenote-example.png') }}" alt="A handwritten page breaking down song lyrics">
+                <figcaption>A page from my notebook &mdash; highlighting and breaking down unfamiliar words.</figcaption>
+              </figure>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- ── KPI ROW ── -->
-      <div class="row g-3 mb-3">
-        <div class="col-6 col-md-3">
+        <!-- KPI row -->
+        <div class="kpi-grid">
           <div class="kpi-card">
-            <div class="kpi-label">SONGS DONE</div>
-            <div class="kpi-value" id="kpi-songs">—</div>
+            <div class="kpi-label">Songs done</div>
+            <div class="kpi-value" id="kpi-songs">&mdash;</div>
             <div class="kpi-sub">of total</div>
           </div>
-        </div>
-        <div class="col-6 col-md-3">
           <div class="kpi-card">
-            <div class="kpi-label">STUDY TIME</div>
-            <div class="kpi-value" id="kpi-time">—</div>
+            <div class="kpi-label">Study time</div>
+            <div class="kpi-value" id="kpi-time">&mdash;</div>
             <div class="kpi-sub">hours + minutes</div>
           </div>
-        </div>
-        <div class="col-6 col-md-3">
           <div class="kpi-card">
-            <div class="kpi-label">AVG EFF</div>
-            <div class="kpi-value" id="kpi-avg-eff">—</div>
-            <div class="kpi-sub">min / char</div>
+            <div class="kpi-label">Avg efficiency</div>
+            <div class="kpi-value" id="kpi-avg-eff">&mdash;</div>
+            <div class="kpi-sub">min / character</div>
           </div>
-        </div>
-        <div class="col-6 col-md-3">
           <div class="kpi-card">
-            <div class="kpi-label">BEST EFF</div>
-            <div class="kpi-value" id="kpi-best-eff">—</div>
-            <div class="kpi-sub">min / char</div>
+            <div class="kpi-label">Best efficiency</div>
+            <div class="kpi-value kpi-value-accent" id="kpi-best-eff">&mdash;</div>
+            <div class="kpi-sub">min / character</div>
           </div>
         </div>
-      </div>
 
-      <!-- ── PROGRESS ── -->
-      <div class="retro-card mb-3">
-        <div class="retro-card-header">
-          <span>PROGRESS</span>
-        </div>
-        <div class="retro-card-body progress-card-body">
-          <div class="progress" id="container-of-progress-bar">
-            <div id="progress-completed" class="progress-bar bg-success" style="width: 0%"></div>
-            <div id="progress-inprogress" class="progress-bar bg-warning" style="width: 0%"></div>
-            <div id="progress-remaining" class="progress-bar bg-danger" style="width: 0%"></div>
+        <!-- Progress -->
+        <div class="tr-card tr-card-progress">
+          <div class="tr-card-label">Progress</div>
+          <div class="progress-track" id="container-of-progress-bar">
+            <div id="progress-completed" class="progress-fill progress-completed" style="width: 0%"></div>
+            <div id="progress-inprogress" class="progress-fill progress-inprogress" style="width: 0%"></div>
+            <div id="progress-remaining" class="progress-fill progress-remaining" style="width: 0%"></div>
           </div>
-          <div class="progress-legend mt-2">
-            <span><span class="legend-dot" style="background: #198754;"></span>Completed</span>
-            <span><span class="legend-dot" style="background: #ffc107;"></span>In Progress</span>
-            <span><span class="legend-dot" style="background: #dc3545;"></span>Remaining</span>
+          <div class="progress-legend">
+            <span><span class="legend-dot legend-dot-completed"></span>Completed</span>
+            <span><span class="legend-dot legend-dot-inprogress"></span>In progress</span>
+            <span><span class="legend-dot legend-dot-remaining"></span>Remaining</span>
           </div>
         </div>
-      </div>
 
-      <!-- ── SPOTIFY + SCATTER ── -->
-      <div class="row g-3 mb-3">
-        <div class="col-lg-4">
-          <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">CURRENTLY TRANSLATING</div>
-            <div class="retro-card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 190px;">
+        <!-- Now translating + scatter -->
+        <div class="tr-row tr-row-1-2">
+          <div class="tr-card tr-card-flush">
+            <div class="tr-card-label">Currently translating</div>
+            <div class="spotify-slot">
               <iframe id="spotify-embed" style="border-radius: 0; border: none;"
                 src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0"
                 width="100%" height="152" frameBorder="0"
@@ -112,55 +95,64 @@
               </iframe>
             </div>
           </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">DIFFICULTY VS EFFORT</div>
-            <div class="retro-card-body">
-              <div id="scatter-chart" class="chart-container"></div>
-              <p class="chart-caption">Unique character count vs. minutes spent translating. Hover a point for song details.</p>
+          <div class="tr-card">
+            <div class="tr-card-label tech-label-row">
+              Difficulty vs. effort
+              <span class="tech-popover-wrap">
+                <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">? Tech</button>
+                <div class="tech-popover" id="tech-popover" hidden>
+                  <p>&mdash; <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>
+                  <p>&mdash; <strong>Spotify API</strong>: song names and track lengths.</p>
+                  <p>&mdash; <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>
+                </div>
+              </span>
             </div>
+            <div id="scatter-chart" class="chart-container"></div>
+            <p class="chart-caption">Unique character count vs. minutes spent translating. Hover a point for song details.</p>
           </div>
         </div>
-      </div>
 
-      <!-- ── TIME PER SONG + LEARNING CURVE ── -->
-      <div class="row g-3 mb-3">
-        <div class="col-lg-6">
-          <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">TIME PER SONG</div>
-            <div class="retro-card-body">
-              <div id="time-song-chart" class="chart-container"></div>
-              <p class="chart-caption">Raw minutes spent on each translated song.</p>
-            </div>
+        <!-- Time per song + learning curve -->
+        <div class="tr-row tr-row-1-1">
+          <div class="tr-card">
+            <div class="tr-card-label">Time per song</div>
+            <div id="time-song-chart" class="chart-container"></div>
+            <p class="chart-caption">Raw minutes spent on each translated song.</p>
+          </div>
+          <div class="tr-card">
+            <div class="tr-card-label">Learning curve</div>
+            <div id="learning-curve-chart" class="chart-container"></div>
+            <p class="chart-caption">Efficiency (min/char) over translation order. Downward trend = improving. Hover for song name.</p>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="retro-card h-100" style="margin-bottom: 0;">
-            <div class="retro-card-header">LEARNING CURVE</div>
-            <div class="retro-card-body">
-              <div id="learning-curve-chart" class="chart-container"></div>
-              <p class="chart-caption">Efficiency (min/char) over translation order. Downward trend = improving. Hover for song name.</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- ── EFFICIENCY (FULL WIDTH) ── -->
-      <div class="retro-card" style="margin-bottom: 0;">
-        <div class="retro-card-header">EFFICIENCY (TIME / UCC)</div>
-        <div class="retro-card-body">
+        <!-- Efficiency full width -->
+        <div class="tr-card">
+          <div class="tr-card-label">Efficiency &middot; time per unique character</div>
           <div id="bar-chart" class="chart-container-wide"></div>
-          <p class="chart-caption">Minutes spent per unique character per song. Lower = more efficient translation.</p>
+          <p class="chart-caption">Minutes spent per unique character, per song. Lower is more efficient.</p>
         </div>
-      </div>
 
-    </div>
+      </div>
+    </main>
 
     <footer class="site-footer">
       {% include 'footer.html' %}
     </footer>
 
     <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+    <script>
+      (function () {
+        var toggle = document.getElementById('about-toggle');
+        var label = document.getElementById('about-toggle-label');
+        var panel = document.getElementById('about-panel');
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          panel.hidden = open;
+          label.textContent = open ? 'Read more about this project' : 'Hide the details';
+        });
+      })();
+    </script>
   </body>
 </html>

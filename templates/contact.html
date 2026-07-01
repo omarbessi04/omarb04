@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar Bessi &mdash; Contact</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+
+    <main>
+      <div class="page-wrap">
+
+        <section class="contact-hero">
+          <div class="kicker">Get in touch</div>
+          <h1>Let&rsquo;s build something that <span class="italic-accent">works</span>.</h1>
+          <p class="contact-hero-lede">Always happy to talk &mdash; about a role, a project, a good album, or just to say hi. Email is the surest way to reach me, but I&rsquo;m around in most of the usual places too.</p>
+
+          <div class="contact-details">
+            <div>
+              <div class="contact-label">Email</div>
+              <a class="contact-value" href="mailto:omarbessi04@gmail.com">omarbessi04@gmail.com</a>
+            </div>
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">+354 895 1919</div>
+            </div>
+            <div>
+              <div class="contact-label">Based in</div>
+              <div class="contact-value">Reykjav&iacute;k, Iceland</div>
+            </div>
+          </div>
+
+          <div class="contact-label contact-elsewhere-label">Find me elsewhere <span class="tbc">&nbsp;// links TBC</span></div>
+          <div class="social-links">
+            <a class="social-link" target="_blank" href="#">
+              <span class="social-link-name">GitHub</span>
+              <span class="social-link-handle">@omarbessi</span>
+            </a>
+            <a class="social-link" target="_blank" href="#">
+              <span class="social-link-name">LinkedIn</span>
+              <span class="social-link-handle">Omar Bessi</span>
+            </a>
+            <a class="social-link" target="_blank" href="#">
+              <span class="social-link-name">itch.io</span>
+              <span class="social-link-handle">games</span>
+            </a>
+            <a class="social-link" target="_blank" href="#">
+              <span class="social-link-name">Spotify</span>
+              <span class="social-link-handle">what I&rsquo;m translating</span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      {% include 'footer.html' %}
+    </footer>
+  </body>
+</html>

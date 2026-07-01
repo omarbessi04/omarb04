@@ -6,7 +6,7 @@ google.charts.setOnLoadCallback(initCharts);
 document.addEventListener('DOMContentLoaded', () => {
     updateKPIs();
     updateSpotifyEmbed();
-    initPopovers();
+    initTechPopover();
 });
 
 // ── Charts init ────────────────────────────────────────────────────────────────
@@ -87,21 +87,33 @@ async function updateSpotifyEmbed() {
     }
 }
 
-// ── Popovers ───────────────────────────────────────────────────────────────────
-function initPopovers() {
-    const techContent = [
-        '<p>— <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>',
-        '<p>— <strong>Spotify API</strong>: song names and track lengths.</p>',
-        '<p>— <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>',
-    ].join('');
+// ── Tech popover ───────────────────────────────────────────────────────────────
+function initTechPopover() {
+    const btn = document.getElementById('btn-techstack');
+    const popover = document.getElementById('tech-popover');
+    if (!btn || !popover) return;
 
-    new bootstrap.Popover(document.getElementById('btn-techstack'), {
-        html: true,
-        content: techContent,
-        title: 'Tech Stack',
-        trigger: 'focus',
-        container: 'body',
-        placement: 'bottom',
+    function close() {
+        popover.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        if (open) {
+            close();
+        } else {
+            popover.hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!popover.hidden && !popover.contains(e.target) && e.target !== btn) close();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
     });
 }
 
@@ -141,19 +153,19 @@ async function drawScatter() {
         });
 
         const options = {
-            backgroundColor: '#F5F0E8',
+            backgroundColor: '#efe7d6',
             hAxis: {
                 title: 'Unique Character Count',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
             },
             vAxis: {
                 title: 'Minutes Spent',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
             },
             legend: { position: 'none' },
-            colors: ['#F4A01C'],
+            colors: ['#a8632c'],
             pointSize: 9,
             tooltip: { isHtml: true },
             chartArea: { left: 65, right: 20, top: 15, bottom: 55 },
@@ -177,20 +189,20 @@ async function drawTimeSongBar() {
         const chartData = [['Song', 'Minutes Spent', { role: 'style' }]];
         data.forEach(([name, timeStr]) => {
             const mins = timeToMinutes(timeStr);
-            if (mins > 0) chartData.push([name, mins, '#F4A01C']);
+            if (mins > 0) chartData.push([name, mins, '#a8632c']);
         });
 
         const dataTable = google.visualization.arrayToDataTable(chartData);
 
         const options = {
-            backgroundColor: '#F5F0E8',
+            backgroundColor: '#efe7d6',
             hAxis: {
                 title: 'Minutes Spent',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
             },
             vAxis: {
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono', fontSize: 11 },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono', fontSize: 11 },
             },
             legend: { position: 'none' },
             chartArea: { left: 175, right: 15, top: 10, bottom: 45 },
@@ -230,21 +242,21 @@ async function drawLearningCurve() {
         });
 
         const options = {
-            backgroundColor: '#F5F0E8',
+            backgroundColor: '#efe7d6',
             hAxis: {
                 title: 'Translation order',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
                 gridlines: { count: songNum - 1 },
                 format: '#',
             },
             vAxis: {
                 title: 'Min / Unique Char',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
             },
             legend: { position: 'none' },
-            colors: ['#F4A01C'],
+            colors: ['#a8632c'],
             lineWidth: 2,
             pointSize: 6,
             curveType: 'function',
@@ -271,21 +283,21 @@ async function drawBarChart() {
         data.forEach(([name, val]) => {
             const value = parseFloat(val);
             if (!isNaN(value) && value > 0) {
-                chartData.push([name, value, '#F4A01C']);
+                chartData.push([name, value, '#a8632c']);
             }
         });
 
         const dataTable = google.visualization.arrayToDataTable(chartData);
 
         const options = {
-            backgroundColor: '#F5F0E8',
+            backgroundColor: '#efe7d6',
             hAxis: {
                 title: 'Min / Unique Character',
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono' },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
+                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
             },
             vAxis: {
-                textStyle: { color: '#1A1A1A', fontName: 'JetBrains Mono', fontSize: 11 },
+                textStyle: { color: '#211d16', fontName: 'JetBrains Mono', fontSize: 11 },
             },
             legend: { position: 'none' },
             chartArea: { left: 195, right: 20, top: 10, bottom: 45 },

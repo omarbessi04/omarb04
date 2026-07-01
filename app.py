@@ -44,6 +44,11 @@ def grades():
     return render_template("grades.html")
 
 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(

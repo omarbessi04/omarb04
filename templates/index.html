@@ -3,44 +3,50 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ómar B - About Me</title>
-    <!--Base Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!--Navbar-->
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <!--My Stylesheet-->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <title>Omar Bessi</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
   </head>
   <body>
-    <!-- Navigation Bar -->
     {% include 'navbar.html' %}
 
-    <!-- About Section -->
-    <div class="container mt-5 mb-5">
-      <div class="row align-items-center">
-        <div class="col-md-7">
-          <h1 class="mb-4">
-            <span id="typewriter-text"></span><span class="blink-cursor"></span>
-          </h1>
-          <p class="retro-prompt">
-            Computer Science student at Reykjavik University.
-          </p>
-          <p class="retro-prompt">
-            Feel free to explore the website to get to know me and my projects better!
-          </p>
-        </div>
-        <div class="col-md-5 text-center">
-          <img
-            src="{{url_for('static', filename='assets/transcripts/headshot.jpg')}}"
-            class="headshot"
-            alt="Headshot photo"
-          >
-        </div>
+    <main>
+      <div class="page-wrap">
+        <section class="hero">
+          <div class="hero-photo">
+            <img src="{{ url_for('static', filename='assets/transcripts/headshot.jpg') }}" alt="Omar Bessi">
+            <div class="hero-photo-caption">
+              <span>Reykjav&iacute;k, Iceland</span>
+              <span class="italic-accent" style="font-family: var(--font-serif); font-size: 16px;">nice to meet you</span>
+            </div>
+          </div>
+          <div>
+            <div class="kicker">Software &amp; Automation Engineer</div>
+            <h1><span id="typewriter-text"></span><span class="blink-cursor"></span><span class="hero-tail" id="hero-tail"> <span class="italic-accent">Glad</span> you&rsquo;re here.</span></h1>
+            <p class="hero-lede">I&rsquo;m a software &amp; automation engineer based in Reykjav&iacute;k. These days I build automation and applied-AI systems inside Icelandic banks &mdash; but what I really enjoy is taking the tedious work off people&rsquo;s plates and making the day-to-day feel a little lighter. Have a look around.</p>
+            <div class="hero-ctas">
+              <a class="btn-solid" href="{{ url_for('projects') }}">See my work</a>
+              <a class="btn-text" href="{{ url_for('contact') }}">Get in touch</a>
+            </div>
+            <div class="eyebrow" style="margin-bottom: 4px;">Recently</div>
+            <div class="recent-list">
+              <a href="{{ url_for('job_history') }}">
+                <span class="recent-date">Now</span>
+                <span class="recent-role">Automation Engineer <span>&middot; &Iacute;slandsbanki</span></span>
+              </a>
+              <a href="{{ url_for('job_history') }}">
+                <span class="recent-date">2026</span>
+                <span class="recent-role">AI &amp; Automation Intern <span>&middot; Arion Banki</span></span>
+              </a>
+              <a href="{{ url_for('job_history') }}">
+                <span class="recent-date">2025</span>
+                <span class="recent-role">NAS Researcher <span>&middot; Rann&iacute;s</span></span>
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
       {% include 'footer.html' %}
     </footer>
@@ -48,7 +54,8 @@
     <script>
       (function () {
         var el = document.getElementById('typewriter-text');
-        var text = "Hello! I'm Omar Bessi.";
+        var tail = document.getElementById('hero-tail');
+        var text = "Hey, I’m Omar.";
         var i = 0;
         el.textContent = '';
         function type() {
@@ -56,6 +63,8 @@
             el.textContent += text[i];
             i++;
             setTimeout(type, 80);
+          } else {
+            tail.classList.add('visible');
           }
         }
         setTimeout(type, 400);
