@@ -39,11 +39,6 @@ def job_history():
     return render_template("job_history.html")
 
 
-@app.route("/grades")
-def grades():
-    return render_template("grades.html")
-
-
 @app.route("/contact")
 def contact():
     return render_template("contact.html")

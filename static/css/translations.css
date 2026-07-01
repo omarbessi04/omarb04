@@ -13,6 +13,13 @@
     max-width: 74ch;
 }
 
+.tr-intro-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
 .about-toggle {
     background: none;
     border: none;
@@ -157,10 +164,15 @@
 
 .spotify-slot {
     flex: 1;
-    min-height: 150px;
+    min-height: 352px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.spotify-iframe {
+    border: none;
+    border-radius: 4px;
 }
 
 /* === PROGRESS BAR === */
@@ -201,6 +213,12 @@
 .legend-dot-completed { background: var(--green); }
 .legend-dot-inprogress { background: var(--accent); }
 .legend-dot-remaining { background: rgba(33, 29, 22, .2); }
+
+.legend-pct {
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    margin-left: .4em;
+}
 
 /* === INFO / TECH POPOVER === */
 .tech-popover-wrap {
@@ -253,15 +271,10 @@
     margin-bottom: 0;
 }
 
-/* === CHART CONTAINERS === */
+/* === CHART CONTAINERS (lightweight, no external charting library) === */
 .chart-container {
     width: 100%;
     height: 220px;
-}
-
-.chart-container-wide {
-    width: 100%;
-    height: 260px;
 }
 
 .chart-caption {
@@ -269,6 +282,96 @@
     line-height: 1.5;
     color: var(--text-faint);
     margin: 12px 0 0;
+}
+
+.chart-empty {
+    font: 400 13px var(--font-sans);
+    color: var(--text-faint);
+}
+
+.chart-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.chart-gridline {
+    stroke: rgba(33, 29, 22, .1);
+    stroke-width: 1;
+}
+
+.chart-axis-line {
+    stroke: rgba(33, 29, 22, .25);
+    stroke-width: 1;
+}
+
+.chart-axis-label {
+    font: 500 9px var(--font-mono);
+    fill: var(--text-muted);
+}
+
+.chart-axis-title {
+    font: 500 10px var(--font-mono);
+    fill: var(--text-faint);
+}
+
+.chart-point {
+    fill: var(--accent);
+}
+
+.chart-point-solid {
+    fill: var(--text);
+}
+
+.chart-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+}
+
+/* Horizontal bar-list charts (time per song / efficiency) */
+.chart-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chart-bar-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 46px;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-bar-label {
+    font: 400 12px/1.3 var(--font-sans);
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chart-bar-track {
+    display: block;
+    height: 10px;
+    border-radius: 2px;
+    background: rgba(33, 29, 22, .08);
+    overflow: hidden;
+}
+
+.chart-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px 0 0 2px;
+}
+
+.chart-bar-value {
+    font: 500 11px var(--font-mono);
+    color: var(--text-faint);
+    text-align: right;
 }
 
 /* === RESPONSIVE === */
@@ -285,5 +388,5 @@
     .kpi-grid { grid-template-columns: 1fr 1fr; }
     .kpi-value { font-size: 32px; }
     .chart-container { height: 190px; }
-    .chart-container-wide { height: 220px; }
+    .chart-bar-row { grid-template-columns: 90px 1fr 40px; }
 }

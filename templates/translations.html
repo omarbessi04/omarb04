@@ -26,9 +26,19 @@
 
         <div class="tr-intro">
           <p>Part language-learning, part analysis &mdash; I hand-translate the lyrics of my favourite band and chart the effort as I go.</p>
-          <button class="about-toggle" id="about-toggle" aria-expanded="false" aria-controls="about-panel">
-            <span id="about-toggle-label">Read more about this project</span> &rarr;
-          </button>
+          <div class="tr-intro-actions">
+            <button class="about-toggle" id="about-toggle" aria-expanded="false" aria-controls="about-panel">
+              <span id="about-toggle-label">Read more about this project</span> &rarr;
+            </button>
+            <span class="tech-popover-wrap">
+              <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">? Tech stack</button>
+              <div class="tech-popover" id="tech-popover" hidden>
+                <p>&mdash; <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>
+                <p>&mdash; <strong>Spotify API</strong>: song names and track lengths.</p>
+                <p>&mdash; <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>
+              </div>
+            </span>
+          </div>
           <div class="about-panel" id="about-panel" hidden>
             <div class="about-panel-grid">
               <div>
@@ -80,9 +90,9 @@
             <div id="progress-remaining" class="progress-fill progress-remaining" style="width: 0%"></div>
           </div>
           <div class="progress-legend">
-            <span><span class="legend-dot legend-dot-completed"></span>Completed</span>
-            <span><span class="legend-dot legend-dot-inprogress"></span>In progress</span>
-            <span><span class="legend-dot legend-dot-remaining"></span>Remaining</span>
+            <span><span class="legend-dot legend-dot-completed"></span>Completed <span class="legend-pct" id="legend-pct-completed">&mdash;</span></span>
+            <span><span class="legend-dot legend-dot-inprogress"></span>In progress <span class="legend-pct" id="legend-pct-inprogress">&mdash;</span></span>
+            <span><span class="legend-dot legend-dot-remaining"></span>Remaining <span class="legend-pct" id="legend-pct-remaining">&mdash;</span></span>
           </div>
         </div>
 
@@ -91,26 +101,16 @@
           <div class="tr-card tr-card-flush">
             <div class="tr-card-label">Currently translating</div>
             <div class="spotify-slot">
-              <iframe id="spotify-embed" style="border-radius: 0; border: none;"
+              <iframe id="spotify-embed" class="spotify-iframe"
                 src="https://open.spotify.com/embed/track/4EZnEUoKYVG5wfx5pF8Gb7?utm_source=generator&theme=0"
-                width="100%" height="152" frameBorder="0"
+                width="100%" height="352" frameBorder="0"
                 allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy">
               </iframe>
             </div>
           </div>
           <div class="tr-card">
-            <div class="tr-card-label tech-label-row">
-              Difficulty vs. effort
-              <span class="tech-popover-wrap">
-                <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">? Tech</button>
-                <div class="tech-popover" id="tech-popover" hidden>
-                  <p>&mdash; <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>
-                  <p>&mdash; <strong>Spotify API</strong>: song names and track lengths.</p>
-                  <p>&mdash; <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>
-                </div>
-              </span>
-            </div>
+            <div class="tr-card-label">Difficulty vs. effort</div>
             <div id="scatter-chart" class="chart-container"></div>
             <p class="chart-caption">Unique character count vs. minutes spent translating. Hover a point for song details.</p>
           </div>
@@ -120,7 +120,7 @@
         <div class="tr-row tr-row-1-1">
           <div class="tr-card">
             <div class="tr-card-label">Time per song</div>
-            <div id="time-song-chart" class="chart-container"></div>
+            <div id="time-song-chart" class="chart-bars"></div>
             <p class="chart-caption">Raw minutes spent on each translated song.</p>
           </div>
           <div class="tr-card">
@@ -133,7 +133,7 @@
         <!-- Efficiency full width -->
         <div class="tr-card">
           <div class="tr-card-label">Efficiency &middot; time per unique character</div>
-          <div id="bar-chart" class="chart-container-wide"></div>
+          <div id="bar-chart" class="chart-bars"></div>
           <p class="chart-caption">Minutes spent per unique character, per song. Lower is more efficient.</p>
         </div>
 
@@ -144,8 +144,6 @@
       {% include 'footer.html' %}
     </footer>
 
-    <!--Load Google Charts API before translations.js; placed here so it no longer blocks the initial page render-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
     <script>
       (function () {

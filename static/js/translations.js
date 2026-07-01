@@ -1,12 +1,9 @@
-// ── Google Charts ──────────────────────────────────────────────────────────────
-google.charts.load('current', { packages: ['corechart'] });
-google.charts.setOnLoadCallback(initCharts);
-
 // ── DOM Ready ──────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     updateKPIs();
     updateSpotifyEmbed();
     initTechPopover();
+    initCharts();
 });
 
 // ── Charts init ────────────────────────────────────────────────────────────────
@@ -54,6 +51,10 @@ async function updateKPIs() {
         setBar('progress-inprogress', inProgressPct);
         setBar('progress-remaining', remainingPct);
 
+        setPct('legend-pct-completed', completedPct);
+        setPct('legend-pct-inprogress', inProgressPct);
+        setPct('legend-pct-remaining', remainingPct);
+
         // KPI: songs done
         document.getElementById('kpi-songs').innerText = `${progress.completed}/${total}`;
 
@@ -79,6 +80,11 @@ async function updateKPIs() {
 
 function setBar(id, pct) {
     document.getElementById(id).style.width = pct + '%';
+}
+
+function setPct(id, pct) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = Math.round(pct) + '%';
 }
 
 // ── Spotify Embed ──────────────────────────────────────────────────────────────
@@ -134,48 +140,20 @@ function drawScatter(timesData, uccData) {
             if (!isNaN(ucc) && ucc > 0) uccMap[name] = ucc;
         });
 
-        const dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('number', 'Unique Characters');
-        dataTable.addColumn('number', 'Minutes Spent');
-        dataTable.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
-
+        const points = [];
         timesData.forEach(([name, timeStr]) => {
             if (!(name in uccMap)) return;
             const mins = timeToMinutes(timeStr);
             if (mins <= 0) return;
-            const ucc = uccMap[name];
-            const tooltip = `
-                <div style="padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;">
-                    <strong>${name}</strong><br/>
-                    UCC: ${ucc}<br/>
-                    Time: ${mins.toFixed(1)} min
-                </div>`;
-            dataTable.addRow([ucc, mins, tooltip]);
+            points.push({
+                name,
+                x: uccMap[name],
+                y: mins,
+                tooltip: `${name} — UCC ${uccMap[name]}, ${mins.toFixed(1)} min`,
+            });
         });
 
-        const options = {
-            backgroundColor: '#efe7d6',
-            hAxis: {
-                title: 'Unique Character Count',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-            },
-            vAxis: {
-                title: 'Minutes Spent',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-            },
-            legend: { position: 'none' },
-            colors: ['#a8632c'],
-            pointSize: 9,
-            tooltip: { isHtml: true },
-            chartArea: { left: 65, right: 20, top: 15, bottom: 55 },
-        };
-
-        const chart = new google.visualization.ScatterChart(
-            document.getElementById('scatter-chart')
-        );
-        chart.draw(dataTable, options);
+        renderScatterSvg(document.getElementById('scatter-chart'), points, 'Unique Character Count', 'Minutes Spent');
     } catch (err) {
         console.error('Error drawing scatter chart:', err);
     }
@@ -184,32 +162,10 @@ function drawScatter(timesData, uccData) {
 // ── Bar Chart: Time per Song ───────────────────────────────────────────────────
 function drawTimeSongBar(data) {
     try {
-        const chartData = [['Song', 'Minutes Spent', { role: 'style' }]];
-        data.forEach(([name, timeStr]) => {
-            const mins = timeToMinutes(timeStr);
-            if (mins > 0) chartData.push([name, mins, '#a8632c']);
-        });
-
-        const dataTable = google.visualization.arrayToDataTable(chartData);
-
-        const options = {
-            backgroundColor: '#efe7d6',
-            hAxis: {
-                title: 'Minutes Spent',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-            },
-            vAxis: {
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono', fontSize: 11 },
-            },
-            legend: { position: 'none' },
-            chartArea: { left: 175, right: 15, top: 10, bottom: 45 },
-        };
-
-        const chart = new google.visualization.BarChart(
-            document.getElementById('time-song-chart')
-        );
-        chart.draw(dataTable, options);
+        const items = data
+            .map(([name, timeStr]) => ({ label: name, value: timeToMinutes(timeStr) }))
+            .filter(d => d.value > 0);
+        renderBarList(document.getElementById('time-song-chart'), items, { decimals: 0 });
     } catch (err) {
         console.error('Error drawing time per song chart:', err);
     }
@@ -218,51 +174,10 @@ function drawTimeSongBar(data) {
 // ── Line Chart: Learning Curve ─────────────────────────────────────────────────
 function drawLearningCurve(data) {
     try {
-        const dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('number', 'Song #');
-        dataTable.addColumn('number', 'Min / Unique Char');
-        dataTable.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
-
-        let songNum = 1;
-        data.forEach(([name, val]) => {
-            const value = parseFloat(val);
-            if (isNaN(value) || value <= 0) return;
-            const tooltip = `
-                <div style="padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;">
-                    <strong>#${songNum}: ${name}</strong><br/>
-                    ${value.toFixed(3)} min / char
-                </div>`;
-            dataTable.addRow([songNum, value, tooltip]);
-            songNum++;
-        });
-
-        const options = {
-            backgroundColor: '#efe7d6',
-            hAxis: {
-                title: 'Translation order',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                gridlines: { count: songNum - 1 },
-                format: '#',
-            },
-            vAxis: {
-                title: 'Min / Unique Char',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-            },
-            legend: { position: 'none' },
-            colors: ['#a8632c'],
-            lineWidth: 2,
-            pointSize: 6,
-            curveType: 'function',
-            tooltip: { isHtml: true },
-            chartArea: { left: 70, right: 20, top: 15, bottom: 55 },
-        };
-
-        const chart = new google.visualization.LineChart(
-            document.getElementById('learning-curve-chart')
-        );
-        chart.draw(dataTable, options);
+        const points = data
+            .map(([name, val]) => ({ name, value: parseFloat(val) }))
+            .filter(d => !isNaN(d.value) && d.value > 0);
+        renderLearningCurveSvg(document.getElementById('learning-curve-chart'), points);
     } catch (err) {
         console.error('Error drawing learning curve:', err);
     }
@@ -271,37 +186,129 @@ function drawLearningCurve(data) {
 // ── Bar Chart: Efficiency (Time / UCC) ────────────────────────────────────────
 function drawBarChart(data) {
     try {
-        const chartData = [['Song', 'Min / Unique Char', { role: 'style' }]];
-        data.forEach(([name, val]) => {
-            const value = parseFloat(val);
-            if (!isNaN(value) && value > 0) {
-                chartData.push([name, value, '#a8632c']);
-            }
-        });
-
-        const dataTable = google.visualization.arrayToDataTable(chartData);
-
-        const options = {
-            backgroundColor: '#efe7d6',
-            hAxis: {
-                title: 'Min / Unique Character',
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-                titleTextStyle: { color: '#211d16', fontName: 'JetBrains Mono' },
-            },
-            vAxis: {
-                textStyle: { color: '#211d16', fontName: 'JetBrains Mono', fontSize: 11 },
-            },
-            legend: { position: 'none' },
-            chartArea: { left: 195, right: 20, top: 10, bottom: 45 },
-        };
-
-        const chart = new google.visualization.BarChart(
-            document.getElementById('bar-chart')
-        );
-        chart.draw(dataTable, options);
+        const items = data
+            .map(([name, val]) => ({ label: name, value: parseFloat(val) }))
+            .filter(d => !isNaN(d.value) && d.value > 0);
+        renderBarList(document.getElementById('bar-chart'), items, { decimals: 2 });
     } catch (err) {
         console.error('Error drawing efficiency chart:', err);
     }
+}
+
+// ── Lightweight chart rendering (no external charting library) ────────────────
+function niceMax(value) {
+    if (!value || value <= 0) return 1;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(value)));
+    const residual = value / magnitude;
+    let niceResidual;
+    if (residual > 5) niceResidual = 10;
+    else if (residual > 2) niceResidual = 5;
+    else if (residual > 1) niceResidual = 2;
+    else niceResidual = 1;
+    return niceResidual * magnitude;
+}
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+}
+
+function renderScatterSvg(container, points, xLabel, yLabel) {
+    if (!container) return;
+    if (!points.length) {
+        container.innerHTML = '<p class="chart-empty">No data yet.</p>';
+        return;
+    }
+
+    const W = 520, H = 220;
+    const padL = 44, padR = 14, padT = 12, padB = 40;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxX = niceMax(Math.max(...points.map((p) => p.x)));
+    const maxY = niceMax(Math.max(...points.map((p) => p.y)));
+    const xScale = (v) => padL + (v / maxX) * plotW;
+    const yScale = (v) => padT + plotH - (v / maxY) * plotH;
+
+    let gridSvg = '';
+    const gridLines = 4;
+    for (let i = 0; i <= gridLines; i++) {
+        const v = (maxY / gridLines) * i;
+        const y = yScale(v);
+        gridSvg += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" class="chart-gridline"/>`;
+        gridSvg += `<text x="${padL - 8}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" class="chart-axis-label">${Math.round(v)}</text>`;
+    }
+
+    const pointsSvg = points.map((p) => (
+        `<circle cx="${xScale(p.x).toFixed(1)}" cy="${yScale(p.y).toFixed(1)}" r="4.5" class="chart-point"><title>${escapeHtml(p.tooltip)}</title></circle>`
+    )).join('');
+
+    container.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" class="chart-svg" role="img" aria-label="${escapeHtml(xLabel)} vs ${escapeHtml(yLabel)} scatter plot">
+            ${gridSvg}
+            <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" class="chart-axis-line"/>
+            <line x1="${padL}" y1="${padT + plotH}" x2="${W - padR}" y2="${padT + plotH}" class="chart-axis-line"/>
+            ${pointsSvg}
+            <text x="${padL + plotW / 2}" y="${H - 6}" text-anchor="middle" class="chart-axis-title">${escapeHtml(xLabel)}</text>
+            <text x="12" y="${padT + plotH / 2}" text-anchor="middle" class="chart-axis-title" transform="rotate(-90 12 ${padT + plotH / 2})">${escapeHtml(yLabel)}</text>
+        </svg>`;
+}
+
+function renderLearningCurveSvg(container, points) {
+    if (!container) return;
+    if (!points.length) {
+        container.innerHTML = '<p class="chart-empty">No data yet.</p>';
+        return;
+    }
+
+    const W = 480, H = 220;
+    const padL = 44, padR = 14, padT = 12, padB = 40;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxY = niceMax(Math.max(...points.map((p) => p.value)));
+    const n = points.length;
+    const xScale = (i) => (n === 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW);
+    const yScale = (v) => padT + plotH - (v / maxY) * plotH;
+
+    let gridSvg = '';
+    const gridLines = 4;
+    for (let i = 0; i <= gridLines; i++) {
+        const v = (maxY / gridLines) * i;
+        const y = yScale(v);
+        gridSvg += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" class="chart-gridline"/>`;
+        gridSvg += `<text x="${padL - 8}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" class="chart-axis-label">${v.toFixed(1)}</text>`;
+    }
+
+    const coords = points.map((p, i) => `${xScale(i).toFixed(1)},${yScale(p.value).toFixed(1)}`).join(' ');
+    const circles = points.map((p, i) => (
+        `<circle cx="${xScale(i).toFixed(1)}" cy="${yScale(p.value).toFixed(1)}" r="3.5" class="chart-point-solid"><title>${escapeHtml(`#${i + 1}: ${p.name} — ${p.value.toFixed(3)} min/char`)}</title></circle>`
+    )).join('');
+
+    container.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" class="chart-svg" role="img" aria-label="Efficiency over translation order">
+            ${gridSvg}
+            <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" class="chart-axis-line"/>
+            <line x1="${padL}" y1="${padT + plotH}" x2="${W - padR}" y2="${padT + plotH}" class="chart-axis-line"/>
+            <polyline points="${coords}" class="chart-line"/>
+            ${circles}
+            <text x="${padL + plotW / 2}" y="${H - 6}" text-anchor="middle" class="chart-axis-title">Translation order</text>
+            <text x="12" y="${padT + plotH / 2}" text-anchor="middle" class="chart-axis-title" transform="rotate(-90 12 ${padT + plotH / 2})">Min / Unique Char</text>
+        </svg>`;
+}
+
+function renderBarList(container, items, opts) {
+    if (!container) return;
+    if (!items.length) {
+        container.innerHTML = '<p class="chart-empty">No data yet.</p>';
+        return;
+    }
+    const decimals = opts && opts.decimals != null ? opts.decimals : 1;
+    const max = Math.max(...items.map((d) => d.value), 1);
+    container.innerHTML = items.map((d) => `
+        <div class="chart-bar-row">
+            <span class="chart-bar-label" title="${escapeHtml(d.label)}">${escapeHtml(d.label)}</span>
+            <span class="chart-bar-track"><span class="chart-bar-fill" style="width:${Math.max(2, (d.value / max) * 100)}%"></span></span>
+            <span class="chart-bar-value">${d.value.toFixed(decimals)}</span>
+        </div>
+    `).join('');
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────

@@ -759,16 +759,6 @@ a.contact-value {
     color: var(--text-faint-2);
 }
 
-.footer-grades-link {
-    font: 400 12px/1 var(--font-mono);
-    color: var(--text-faint-2);
-    text-decoration: underline;
-}
-
-.footer-grades-link:hover {
-    color: var(--accent);
-}
-
 /* === BLINKING CURSOR === */
 .blink-cursor {
     display: inline-block;
