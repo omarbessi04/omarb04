@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omar Bessi</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <meta name="theme-color" content="#efe7d6">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
   </head>
   <body>
@@ -15,14 +21,14 @@
           <div class="hero-photo">
             <img src="{{ url_for('static', filename='assets/transcripts/headshot.jpg') }}" alt="Omar Bessi">
             <div class="hero-photo-caption">
-              <span>Reykjav&iacute;k, Iceland</span>
+              <span>K&oacute;pavogur, Iceland</span>
               <span class="italic-accent" style="font-family: var(--font-serif); font-size: 16px;">nice to meet you</span>
             </div>
           </div>
           <div>
             <div class="kicker">Software &amp; Automation Engineer</div>
-            <h1><span id="typewriter-text"></span><span class="blink-cursor"></span><span class="hero-tail" id="hero-tail"> <span class="italic-accent">Glad</span> you&rsquo;re here.</span></h1>
-            <p class="hero-lede">I&rsquo;m a software &amp; automation engineer based in Reykjav&iacute;k. These days I build automation and applied-AI systems inside Icelandic banks &mdash; but what I really enjoy is taking the tedious work off people&rsquo;s plates and making the day-to-day feel a little lighter. Have a look around.</p>
+            <h1><span id="typewriter-text"></span><span class="blink-cursor"></span></h1>
+            <p class="hero-lede">I&rsquo;m a software &amp; automation engineer based in K&oacute;pavogur. These days I build automation and applied-AI systems inside Icelandic banks &mdash; but what I really enjoy is taking the tedious work off people&rsquo;s plates and making the day-to-day feel a little lighter. Have a look around.</p>
             <div class="hero-ctas">
               <a class="btn-solid" href="{{ url_for('projects') }}">See my work</a>
               <a class="btn-text" href="{{ url_for('contact') }}">Get in touch</a>
@@ -54,18 +60,35 @@
     <script>
       (function () {
         var el = document.getElementById('typewriter-text');
-        var tail = document.getElementById('hero-tail');
-        var text = "Hey, I’m Omar.";
-        var i = 0;
+        var chunks = [
+          { text: 'Hey, I’m Omar. ', accent: false },
+          { text: 'Glad', accent: true },
+          { text: ' you’re here.', accent: false }
+        ];
         el.textContent = '';
+        var chunkIndex = 0, charIndex = 0, span = null;
         function type() {
-          if (i < text.length) {
-            el.textContent += text[i];
-            i++;
-            setTimeout(type, 80);
-          } else {
-            tail.classList.add('visible');
+          if (chunkIndex >= chunks.length) return;
+          var chunk = chunks[chunkIndex];
+          if (charIndex === 0 && chunk.accent) {
+            span = document.createElement('span');
+            span.className = 'italic-accent';
+            el.appendChild(span);
+          } else if (charIndex === 0) {
+            span = null;
           }
+          var ch = chunk.text[charIndex];
+          if (span) {
+            span.textContent += ch;
+          } else {
+            el.appendChild(document.createTextNode(ch));
+          }
+          charIndex++;
+          if (charIndex >= chunk.text.length) {
+            chunkIndex++;
+            charIndex = 0;
+          }
+          setTimeout(type, 80);
         }
         setTimeout(type, 400);
       })();

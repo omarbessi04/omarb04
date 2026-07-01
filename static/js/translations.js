@@ -10,11 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Charts init ────────────────────────────────────────────────────────────────
-function initCharts() {
-    drawScatter();
-    drawTimeSongBar();
-    drawLearningCurve();
-    drawBarChart();
+async function initCharts() {
+    try {
+        const [timesRes, uccRes, uccpcRes] = await Promise.all([
+            fetch('/songs_and_times'),
+            fetch('/get_ucc'),
+            fetch('/get_UCCPC'),
+        ]);
+        const [timesData, uccData, uccpcData] = await Promise.all([
+            timesRes.json(),
+            uccRes.json(),
+            uccpcRes.json(),
+        ]);
+
+        drawScatter(timesData, uccData);
+        drawTimeSongBar(timesData);
+        drawLearningCurve(uccpcData);
+        drawBarChart(uccpcData);
+    } catch (err) {
+        console.error('Error loading chart data:', err);
+    }
 }
 
 // ── KPIs + Progress Bar ────────────────────────────────────────────────────────
@@ -35,11 +50,6 @@ async function updateKPIs() {
         const inProgressPct = (progress.inProgress / total) * 100;
         const remainingPct = (progress.remaining / total) * 100;
 
-        const barHeight = '4em';
-        document.getElementById('container-of-progress-bar').style.height = barHeight;
-        ['progress-completed', 'progress-inprogress', 'progress-remaining'].forEach(id => {
-            document.getElementById(id).style.height = barHeight;
-        });
         setBar('progress-completed', completedPct);
         setBar('progress-inprogress', inProgressPct);
         setBar('progress-remaining', remainingPct);
@@ -68,9 +78,7 @@ async function updateKPIs() {
 }
 
 function setBar(id, pct) {
-    const el = document.getElementById(id);
-    el.style.width = pct + '%';
-    el.innerText = Math.round(pct) + '%';
+    document.getElementById(id).style.width = pct + '%';
 }
 
 // ── Spotify Embed ──────────────────────────────────────────────────────────────
@@ -118,15 +126,8 @@ function initTechPopover() {
 }
 
 // ── Scatter Chart: UCC vs Time ─────────────────────────────────────────────────
-async function drawScatter() {
+function drawScatter(timesData, uccData) {
     try {
-        const [timesRes, uccRes] = await Promise.all([
-            fetch('/songs_and_times'),
-            fetch('/get_ucc'),
-        ]);
-        const timesData = await timesRes.json();
-        const uccData = await uccRes.json();
-
         const uccMap = {};
         uccData.forEach(([name, val]) => {
             const ucc = parseFloat(val);
@@ -181,11 +182,8 @@ async function drawScatter() {
 }
 
 // ── Bar Chart: Time per Song ───────────────────────────────────────────────────
-async function drawTimeSongBar() {
+function drawTimeSongBar(data) {
     try {
-        const response = await fetch('/songs_and_times');
-        const data = await response.json();
-
         const chartData = [['Song', 'Minutes Spent', { role: 'style' }]];
         data.forEach(([name, timeStr]) => {
             const mins = timeToMinutes(timeStr);
@@ -218,11 +216,8 @@ async function drawTimeSongBar() {
 }
 
 // ── Line Chart: Learning Curve ─────────────────────────────────────────────────
-async function drawLearningCurve() {
+function drawLearningCurve(data) {
     try {
-        const response = await fetch('/get_UCCPC');
-        const data = await response.json();
-
         const dataTable = new google.visualization.DataTable();
         dataTable.addColumn('number', 'Song #');
         dataTable.addColumn('number', 'Min / Unique Char');
@@ -274,11 +269,8 @@ async function drawLearningCurve() {
 }
 
 // ── Bar Chart: Efficiency (Time / UCC) ────────────────────────────────────────
-async function drawBarChart() {
+function drawBarChart(data) {
     try {
-        const response = await fetch('/get_UCCPC');
-        const data = await response.json();
-
         const chartData = [['Song', 'Min / Unique Char', { role: 'style' }]];
         data.forEach(([name, val]) => {
             const value = parseFloat(val);

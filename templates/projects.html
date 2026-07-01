@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omar Bessi &mdash; Projects</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <meta name="theme-color" content="#efe7d6">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
   </head>
   <body>
@@ -92,8 +98,8 @@
         <div class="games-grid">
           <a class="game-card" target="_blank" href="https://tryggvi04.itch.io/shadow-lightning">
             <div class="game-card-media">
-              <video autoplay muted loop playsinline>
-                <source src="{{ url_for('static', filename='assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
+              <video muted loop playsinline preload="none" data-lazy-video>
+                <source data-src="{{ url_for('static', filename='assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
               </video>
             </div>
             <div class="game-card-body">
@@ -107,8 +113,8 @@
           </a>
           <div class="game-card">
             <div class="game-card-media">
-              <video autoplay muted loop playsinline>
-                <source src="{{ url_for('static', filename='assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
+              <video muted loop playsinline preload="none" data-lazy-video>
+                <source data-src="{{ url_for('static', filename='assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
               </video>
             </div>
             <div class="game-card-body">
@@ -172,6 +178,35 @@
         } catch (err) {
           console.error('Error loading translation preview:', err);
         }
+      })();
+    </script>
+    <script>
+      (function () {
+        var videos = document.querySelectorAll('video[data-lazy-video]');
+        if (!('IntersectionObserver' in window)) {
+          // Fallback: just load them all immediately.
+          videos.forEach(function (video) {
+            video.querySelectorAll('source[data-src]').forEach(function (source) {
+              source.src = source.dataset.src;
+            });
+            video.load();
+            video.play().catch(function () {});
+          });
+          return;
+        }
+        var observer = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var video = entry.target;
+            video.querySelectorAll('source[data-src]').forEach(function (source) {
+              source.src = source.dataset.src;
+            });
+            video.load();
+            video.play().catch(function () {});
+            obs.unobserve(video);
+          });
+        }, { rootMargin: '200px 0px' });
+        videos.forEach(function (video) { observer.observe(video); });
       })();
     </script>
   </body>

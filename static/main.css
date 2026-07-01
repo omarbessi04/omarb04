@@ -692,13 +692,6 @@ a.contact-value {
     margin-bottom: 16px;
 }
 
-.contact-elsewhere-label .tbc {
-    font-family: var(--font-mono);
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--text-faint-2);
-}
-
 .social-links {
     display: flex;
     flex-wrap: wrap;
@@ -785,17 +778,6 @@ a.contact-value {
     margin-left: .1em;
     vertical-align: text-bottom;
     animation: blink 1s step-end infinite;
-}
-
-.hero-lede-fade,
-.hero-tail {
-    opacity: 0;
-    transition: opacity .5s ease;
-}
-
-.hero-lede-fade.visible,
-.hero-tail.visible {
-    opacity: 1;
 }
 
 @keyframes blink {
