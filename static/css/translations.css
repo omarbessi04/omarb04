@@ -155,7 +155,7 @@
 }
 
 .tr-row-1-2 {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 380px 1fr;
 }
 
 .tr-row-1-1 {
