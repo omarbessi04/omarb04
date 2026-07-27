@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Bessi &mdash; Contact</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <meta name="theme-color" content="#efe7d6">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-  </head>
-  <body>
-    {% include 'navbar.html' %}
+{% extends "base.html" %}
 
-    <main>
+{% block title %}Omar Bessi &mdash; Contact{% endblock %}
+{% block description %}Get in touch with Omar Bessi &mdash; software &amp; automation engineer based in K&oacute;pavogur, Iceland.{% endblock %}
+
+{% block content %}
       <div class="page-wrap">
 
         <section class="contact-hero">
@@ -30,21 +18,21 @@
             </div>
             <div>
               <div class="contact-label">Phone</div>
-              <div class="contact-value">+354 895 1919</div>
+              <a class="contact-value" href="tel:+3548951919">+354 895 1919</a>
             </div>
             <div>
               <div class="contact-label">Based in</div>
-              <div class="contact-value">K&oacute;pavogur, Iceland</div>
+              <div class="contact-value" lang="is">K&oacute;pavogur, Iceland</div>
             </div>
           </div>
 
           <div class="contact-label contact-elsewhere-label">Find me elsewhere</div>
           <div class="social-links">
-            <a class="social-link" target="_blank" href="https://github.com/omarbessi04">
+            <a class="social-link" target="_blank" rel="noopener noreferrer" href="https://github.com/omarbessi04">
               <span class="social-link-name">GitHub</span>
               <span class="social-link-handle">@omarbessi04</span>
             </a>
-            <a class="social-link" target="_blank" href="https://www.linkedin.com/in/omar-bessi-omarsson">
+            <a class="social-link" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/omar-bessi-omarsson">
               <span class="social-link-name">LinkedIn</span>
               <span class="social-link-handle">Omar Bessi</span>
             </a>
@@ -52,10 +40,4 @@
         </section>
 
       </div>
-    </main>
-
-    <footer class="site-footer">
-      {% include 'footer.html' %}
-    </footer>
-  </body>
-</html>
+{% endblock %}

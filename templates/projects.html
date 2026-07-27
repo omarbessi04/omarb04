@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Bessi &mdash; Projects</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <meta name="theme-color" content="#efe7d6">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-  </head>
-  <body>
-    {% include 'navbar.html' %}
+{% extends "base.html" %}
 
-    <main>
+{% block title %}Omar Bessi &mdash; Projects{% endblock %}
+{% block description %}Projects by Omar Bessi &mdash; a live translation-data dashboard, neural architecture search research, Flask and Django web apps, and Unity/Godot games.{% endblock %}
+
+{% block content %}
       <div class="page-wrap">
 
         <div class="page-head">
@@ -59,22 +47,22 @@
         </a>
 
         <!-- Work -->
-        <div class="eyebrow" style="margin-bottom: 18px;">Selected work</div>
+        <div class="eyebrow eyebrow-section">Selected work</div>
         <div class="project-grid">
-          <a class="project-card" target="_blank" href="{{ url_for('static', filename='assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
+          <a class="project-card" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
             <div class="project-card-head">
               <span class="project-card-title">MELD Research</span>
               <span class="project-card-year">2025</span>
             </div>
-            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for Rann&iacute;s.</p>
+            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for <span lang="is">Rann&iacute;s</span>.</p>
             <span class="project-card-link">Read the report &#8599;</span>
           </a>
-          <a class="project-card" target="_blank" href="https://skemman.is/handle/1946/52015">
+          <a class="project-card" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">
             <div class="project-card-head">
               <span class="project-card-title">LOVE Synthesizers</span>
               <span class="project-card-year">BSc final</span>
             </div>
-            <p>A website built with Flask &amp; AWS as my BSc final project at Reykjav&iacute;k University &mdash; data handling, larger-codebase structure, and thinking carefully about architecture.</p>
+            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span> &mdash; data handling, larger-codebase structure, and thinking carefully about architecture.</p>
             <span class="project-card-link">View on Skemman &#8599;</span>
           </a>
           <div class="project-card-wide">
@@ -83,24 +71,30 @@
                 <span class="project-card-title">Monkey Business</span>
                 <span class="project-card-year">Web app</span>
               </div>
-              <p style="max-width: 70ch; margin-bottom: 0;">A job-application platform built in a 3-week Django course &mdash; Python, SQL, HTML/CSS and JavaScript.</p>
+              <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course &mdash; Python, SQL, HTML/CSS and JavaScript.</p>
             </div>
             <div class="project-screenshots-grid">
-              <img src="{{ url_for('static', filename='assets/projects/monkeymain.png') }}" alt="Monkey Business main page">
-              <img src="{{ url_for('static', filename='assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page">
+              <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
+              <img src="{{ asset('assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page" loading="lazy">
             </div>
           </div>
         </div>
 
         <!-- Games -->
-        <div class="eyebrow" style="margin-bottom: 6px;">Games &amp; experiments</div>
+        <div class="eyebrow eyebrow-tight">Games &amp; experiments</div>
         <p class="games-lede">Earlier work from courses and side projects &mdash; where I first learned to ship under deadline.</p>
         <div class="games-grid">
-          <a class="game-card" target="_blank" href="https://tryggvi04.itch.io/shadow-lightning">
+          <div class="game-card game-card-linked">
             <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-lazy-video>
-                <source data-src="{{ url_for('static', filename='assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
+              <video muted loop playsinline preload="none" data-lazy-video
+                     aria-label="Shadow Lightning gameplay footage">
+                <source data-src="{{ asset('assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
               </video>
+              <button class="video-play" type="button" data-video-play>
+                <span class="video-play-icon" aria-hidden="true">&#9654;</span>
+                <span class="video-play-label">Play gameplay</span>
+                <span class="video-play-size">45&nbsp;MB</span>
+              </button>
             </div>
             <div class="game-card-body">
               <div class="game-card-head">
@@ -108,106 +102,34 @@
                 <span class="game-card-year">2024</span>
               </div>
               <p>A Unity metroidvania built in a 3-week intensive &mdash; possess enemies and fight as them. I tied the systems together in C#.</p>
-              <span class="game-card-link">Play on itch.io &#8599;</span>
+              <a class="game-card-link" target="_blank" rel="noopener noreferrer" href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io &#8599;</a>
             </div>
-          </a>
+          </div>
           <div class="game-card">
             <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-lazy-video>
-                <source data-src="{{ url_for('static', filename='assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
+              <video muted loop playsinline preload="none" data-lazy-video
+                     aria-label="Grimoire gameplay footage">
+                <source data-src="{{ asset('assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
               </video>
+              <button class="video-play" type="button" data-video-play>
+                <span class="video-play-icon" aria-hidden="true">&#9654;</span>
+                <span class="video-play-label">Play gameplay</span>
+                <span class="video-play-size">29&nbsp;MB</span>
+              </button>
             </div>
             <div class="game-card-body">
               <div class="game-card-head">
                 <span class="game-card-title">Grimoire</span>
                 <span class="game-card-year">2023</span>
               </div>
-              <p style="margin-bottom: 0;">A roguelike deck-builder prototyped from scratch in Godot with friends &mdash; scoping, user testing, iteration.</p>
+              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends &mdash; scoping, user testing, iteration.</p>
             </div>
           </div>
         </div>
 
       </div>
-    </main>
+{% endblock %}
 
-    <footer class="site-footer">
-      {% include 'footer.html' %}
-    </footer>
-
-    <script>
-      (async function () {
-        try {
-          const [progressRes, studyRes, uccpcRes, timesRes] = await Promise.all([
-            fetch('/translation_progress'),
-            fetch('/get_total_study'),
-            fetch('/get_UCCPC'),
-            fetch('/songs_and_times'),
-          ]);
-          const progress = await progressRes.json();
-          const study = await studyRes.json();
-          const uccpc = await uccpcRes.json();
-          const times = await timesRes.json();
-
-          const total = progress.completed + progress.inProgress + progress.remaining;
-          document.getElementById('pfp-songs').textContent = `${progress.completed}/${total}`;
-          document.getElementById('pfp-time').textContent = `${study.hours}h ${study.minutes}m`;
-
-          const effValues = uccpc
-            .map(([, v]) => parseFloat(v))
-            .filter((v) => !isNaN(v) && v > 0);
-          if (effValues.length) {
-            document.getElementById('pfp-eff').textContent = Math.min(...effValues).toFixed(2);
-          }
-
-          const mins = times
-            .map(([, t]) => {
-              const [h, m, s] = t.split(':').map(Number);
-              return h * 60 + m + s / 60;
-            })
-            .filter((m) => m > 0)
-            .slice(0, 14);
-
-          const max = Math.max(...mins, 1);
-          const bars = document.getElementById('pfp-bars');
-          mins.forEach((m) => {
-            const bar = document.createElement('div');
-            bar.className = 'tr-preview-bar';
-            bar.style.height = Math.max(6, (m / max) * 100) + '%';
-            bars.appendChild(bar);
-          });
-        } catch (err) {
-          console.error('Error loading translation preview:', err);
-        }
-      })();
-    </script>
-    <script>
-      (function () {
-        var videos = document.querySelectorAll('video[data-lazy-video]');
-        if (!('IntersectionObserver' in window)) {
-          // Fallback: just load them all immediately.
-          videos.forEach(function (video) {
-            video.querySelectorAll('source[data-src]').forEach(function (source) {
-              source.src = source.dataset.src;
-            });
-            video.load();
-            video.play().catch(function () {});
-          });
-          return;
-        }
-        var observer = new IntersectionObserver(function (entries, obs) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var video = entry.target;
-            video.querySelectorAll('source[data-src]').forEach(function (source) {
-              source.src = source.dataset.src;
-            });
-            video.load();
-            video.play().catch(function () {});
-            obs.unobserve(video);
-          });
-        }, { rootMargin: '200px 0px' });
-        videos.forEach(function (video) { observer.observe(video); });
-      })();
-    </script>
-  </body>
-</html>
+{% block scripts %}
+    <script src="{{ asset('js/projects.js') }}"></script>
+{% endblock %}

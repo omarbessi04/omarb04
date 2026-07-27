@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Something broke &mdash; Omar Bessi{% endblock %}
+{% block description %}Something went wrong on this page.{% endblock %}
+{% block extra_head %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+      <div class="page-wrap error-page">
+        <h1 class="error-headline">Something broke on my end.</h1>
+        <p class="error-lede">That&rsquo;s a bug, not you. Try again in a moment &mdash; or head back to the <a href="{{ url_for('home') }}">home page</a>.</p>
+      </div>
+{% endblock %}

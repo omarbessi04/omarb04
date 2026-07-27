@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Omar Bessi{% endblock %}</title>
+    <meta name="description" content="{% block description %}Omar Bessi &mdash; software &amp; automation engineer based in K&oacute;pavogur, Iceland.{% endblock %}">
+    <meta name="author" content="Omar Bessi">
+    <link rel="canonical" href="{{ request.base_url }}">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="Omar Bessi">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.description() }}">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='og-image.jpg', _external=True) }}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ self.title() }}">
+    <meta name="twitter:description" content="{{ self.description() }}">
+    <meta name="twitter:image" content="{{ self.og_image() }}">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="theme-color" content="#efe7d6">
+
+    <!-- Fonts: preconnect + direct link beats an @import inside the stylesheet,
+         which would delay discovery until the CSS has been parsed. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('main.css') }}">
+    {% block extra_head %}{% endblock %}
+
+    {% if goatcounter_code %}
+    <script data-goatcounter="https://{{ goatcounter_code }}.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    {% endif %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {% include 'navbar.html' %}
+
+    <main id="main" tabindex="-1">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      {% include 'footer.html' %}
+    </footer>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

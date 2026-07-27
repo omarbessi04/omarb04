@@ -1,21 +1,86 @@
-from flask import Flask, jsonify, request, render_template, send_from_directory
-from ajikan_scraper.gatherers.playlist_scraper import Playlist_Scraper
-from ajikan_scraper.gatherers.translation_data_getter import TranslationDataGetter
-from dotenv import load_dotenv
 import os
 
+from dotenv import load_dotenv
+from flask import (
+    Flask,
+    Response,
+    jsonify,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
+
+from ajikan_scraper.gatherers.playlist_scraper import Playlist_Scraper
+from ajikan_scraper.gatherers.translation_data_getter import TranslationDataGetter
+
+# Load .env at import time so it applies under gunicorn too, not just when this
+# module is run directly.
+load_dotenv()
+
 app = Flask(__name__)
+
+# Static assets are fingerprinted by asset() below, so they can be cached hard.
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 31536000  # 1 year
+
+try:
+    from flask_compress import Compress
+
+    Compress(app)
+except ImportError:
+    # Compression is a nice-to-have; the site works without it.
+    pass
 
 sheets = TranslationDataGetter()
 ps = Playlist_Scraper()
 
+# GoatCounter site code. Not a secret — it ships in the page source on every
+# request — so it lives here rather than in the environment, where a missing
+# value would silently disable analytics on a deploy. Override only if the site
+# ever moves to a different GoatCounter account.
+GOATCOUNTER_CODE = os.environ.get("GOATCOUNTER_CODE", "omarbessi").strip()
+
+# Hosts whose traffic shouldn't be counted (local development).
+LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0", "[::1]", "::1"}
+
+
+def analytics_enabled():
+    """True only for real visitors — never for local development."""
+    if not GOATCOUNTER_CODE or app.debug or app.testing:
+        return False
+    return request.host.split(":")[0] not in LOCAL_HOSTS
+
+# Pages that belong in the sitemap, with their change frequency.
+SITEMAP_ROUTES = [
+    ("home", "monthly"),
+    ("job_history", "monthly"),
+    ("projects", "monthly"),
+    ("translations", "weekly"),
+    ("contact", "yearly"),
+]
+
 
 ###### Helper functions ######
 def wrap_up(item):
-    response = jsonify(item)
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    return jsonify(item)
 
-    return response
+
+def asset(filename):
+    """static URL with an mtime cache-buster, so a long max-age is safe."""
+    path = os.path.join(app.static_folder, filename)
+    try:
+        version = int(os.path.getmtime(path))
+    except OSError:
+        return url_for("static", filename=filename)
+    return url_for("static", filename=filename, v=version)
+
+
+@app.context_processor
+def inject_globals():
+    return {
+        "asset": asset,
+        "goatcounter_code": GOATCOUNTER_CODE if analytics_enabled() else "",
+    }
 
 
 ###### Templates ######
@@ -53,9 +118,45 @@ def favicon():
     )
 
 
+@app.route("/robots.txt")
+def robots():
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "",
+        f"Sitemap: {url_for('sitemap', _external=True)}",
+    ]
+    return Response("\n".join(lines) + "\n", mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    entries = []
+    for endpoint, changefreq in SITEMAP_ROUTES:
+        entries.append(
+            "  <url>\n"
+            f"    <loc>{url_for(endpoint, _external=True)}</loc>\n"
+            f"    <changefreq>{changefreq}</changefreq>\n"
+            "  </url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(entries)
+        + "\n</urlset>\n"
+    )
+    return Response(xml, mimetype="application/xml")
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template("500.html"), 500
 
 
 ###### Data returns ######
@@ -63,14 +164,6 @@ def page_not_found(error):
 def get_songs():
     parameter = request.args.get("parameter")
     data = sheets.get_songs(parameter)
-
-    return wrap_up(data)
-
-
-@app.route("/timewriteup", methods=["GET"])
-def get_timewriteup():
-    parameter = request.args.get("parameter")
-    data = sheets.get_timewriteup(parameter)
 
     return wrap_up(data)
 
@@ -85,13 +178,15 @@ def get_hours_studied():
 def get_current_song():
     sheet_song = sheets.find_current_song()
 
+    # Nothing is marked "Working On It" — the page keeps its default embed.
+    if not sheet_song:
+        return wrap_up({"song_id": None})
+
     # 0 is the ID column in the google sheet
     csv_song_link = ps.get_song_by_id(sheet_song[0], only_link=True)
 
-    # 4 is the link of the song, we're getting the id of the song, which is in the link
-    spotify_song_id = {"song_id": csv_song_link}
-
-    return wrap_up(spotify_song_id)
+    # The Spotify track id lives in the song's link
+    return wrap_up({"song_id": csv_song_link})
 
 
 @app.route("/translation_progress", methods=["GET"])
@@ -125,13 +220,5 @@ def get_ucc():
 
 
 if __name__ == "__main__":
-    port_num = 5000
-
-    load_dotenv()
-    try:
-        port_num = os.environ.get("PORT", 5000)
-    except:
-        port_num = os.getenv("PORT", 5000)
-    port_num = int(port_num)
-
-    app.run(host="0.0.0.0", port=80)
+    port_num = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port_num)

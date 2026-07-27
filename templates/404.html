@@ -1,58 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 &mdash; Omar Bessi</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <meta name="theme-color" content="#efe7d6">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-  </head>
-  <body>
-    {% include 'navbar.html' %}
+{% extends "base.html" %}
 
-    <main>
-      <div class="page-wrap" style="padding-top: 80px; padding-bottom: 90px;">
-        <h1 style="font-size: 3.4rem;"><span id="typewriter-text"></span><span class="blink-cursor"></span></h1>
+{% block title %}404 &mdash; Omar Bessi{% endblock %}
+{% block description %}That page doesn&rsquo;t exist.{% endblock %}
+{% block extra_head %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+      <div class="page-wrap error-page">
+        <h1 class="error-headline"><span id="typewriter-text" data-chunks='[{"text":"Uh Oh... This page doesn&#39;t exist...\n","speed":50},{"text":"Let&#39;s get you back on track.","speed":25}]' data-start-delay="700"></span><span class="blink-cursor"></span></h1>
+        <p class="error-lede">Head back to the <a href="{{ url_for('home') }}">home page</a>, or try <a href="{{ url_for('projects') }}">projects</a> and <a href="{{ url_for('job_history') }}">experience</a>.</p>
       </div>
-    </main>
+{% endblock %}
 
-    <footer class="site-footer">
-      {% include 'footer.html' %}
-    </footer>
-
-  <script>
-    (async function () {
-      var el = document.getElementById('typewriter-text');
-      var text1 = "Uh Oh...";
-      var text2 = " This page doesn't exist...";
-      var text3 = "Try clicking something in the navigation bar above!";
-      el.innerHTML = '';
-
-      function type(text, typing_delay) {
-        return new Promise((resolve) => {
-          let i = 0;
-          function step() {
-            if (i < text.length) {
-              el.innerHTML += text[i++];
-              setTimeout(step, typing_delay);
-            } else {
-              resolve();
-            }
-          }
-          setTimeout(step, 700);
-        });
-      }
-
-      await type(text1, 50);
-      await type(text2, 50);
-      el.appendChild(document.createElement('br'));
-      await type(text3, 25);
-    })();
-  </script>
-  </body>
-</html>
+{% block scripts %}
+    <script src="{{ asset('js/typewriter.js') }}"></script>
+{% endblock %}

@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Bessi &mdash; Experience</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <meta name="theme-color" content="#efe7d6">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-  </head>
-  <body>
-    {% include 'navbar.html' %}
+{% extends "base.html" %}
 
+{% block title %}Omar Bessi &mdash; Experience{% endblock %}
+{% block description %}Omar Bessi&rsquo;s experience across banking, research and teaching &mdash; &Iacute;slandsbanki, Arion Banki, Reykjav&iacute;k University, Rann&iacute;s and Intrix.{% endblock %}
+
+{% block content %}
     {#
       Job entries, newest first. To add / edit / reorder a job, just edit this list.
       Fields:
+        slug     - url fragment for deep links, e.g. #job-rannis (keep stable!)
         logo     - path under static/ (note the space in "job history")
         company  - employer / institution name
+        lang     - optional BCP-47 tag for the company name (screen readers)
         role     - job title
         dates    - free-text date range, e.g. "Summer 2026"
         summary  - one-line skim text, always visible in the collapsed card
@@ -29,8 +20,10 @@
     #}
     {% set jobs = [
       {
+        "slug": "islandsbanki",
         "logo": "assets/job history/islandsbanki_icon.png",
         "company": "Íslandsbanki",
+        "lang": "is",
         "role": "Automation Engineer",
         "dates": "Summer 2026",
         "summary": "Automation engineer improving and modernizing the bank's process-automation (RPA) workflows.",
@@ -44,8 +37,10 @@
         "tech": ["RPA", "Power Automate", "Power Platform", "Process Automation"]
       },
       {
+        "slug": "arion-banki",
         "logo": "assets/job history/arion_icon.png",
         "company": "Arion Banki",
+        "lang": "is",
         "role": "Software Engineering Intern (AI & Automation)",
         "dates": "Spring 2026",
         "summary": "Built an automated evaluation framework for production AI agents on the AI & Automation team.",
@@ -60,8 +55,10 @@
         "tech": ["Python", "Azure", "LLMs", "Git", "Jira"]
       },
       {
+        "slug": "reykjavik-university",
         "logo": "assets/job history/Reykjavik_University_Logo.png",
         "company": "Reykjavík University",
+        "lang": "is",
         "role": "Teaching Assistant",
         "dates": "2024 – 2026",
         "summary": "TA for Algorithms, Calculus, and Discrete Math — weekly sessions for ~60 students.",
@@ -75,8 +72,10 @@
         "tech": ["Java", "Python"]
       },
       {
+        "slug": "rannis",
         "logo": "assets/job history/rannis_logo.png",
         "company": "Rannís",
+        "lang": "is",
         "role": "Neural Architecture Search Researcher",
         "dates": "Summer 2025",
         "summary": "Research-grant project using neural architecture search for sleep-stage classification CNNs.",
@@ -90,6 +89,7 @@
         "tech": ["Python", "PyTorch", "NumPy"]
       },
       {
+        "slug": "intrix",
         "logo": "assets/job history/intrix_icon.jpg",
         "company": "Intrix",
         "role": "Instructor",
@@ -106,7 +106,6 @@
       }
     ] %}
 
-    <main>
       <div class="page-wrap">
 
         <div class="page-head">
@@ -116,33 +115,37 @@
 
         <div class="timeline">
           {% for job in jobs %}
-          <div class="timeline-entry{% if loop.first %} open{% endif %}">
-            <button class="timeline-header" type="button" aria-expanded="{{ 'true' if loop.first else 'false' }}">
+          <div class="timeline-entry{% if loop.first %} open{% endif %}" id="job-{{ job.slug }}">
+            <button class="timeline-header" type="button"
+                    aria-expanded="{{ 'true' if loop.first else 'false' }}"
+                    aria-controls="job-{{ job.slug }}-body">
               <span class="timeline-header-left">
-                <img class="timeline-logo" src="{{ url_for('static', filename=job.logo) }}" alt="{{ job.company }} logo">
+                <img class="timeline-logo" src="{{ asset(job.logo) }}" alt="{{ job.company }} logo" loading="lazy">
                 <span class="timeline-header-dates">{{ job.dates }}</span>
               </span>
               <span class="timeline-header-mid">
-                <span class="timeline-company">{{ job.company }}</span>
+                <span class="timeline-company"{% if job.lang %} lang="{{ job.lang }}"{% endif %}>{{ job.company }}</span>
                 <span class="timeline-role">&middot; {{ job.role }}</span>
                 {% if job.summary %}<span class="timeline-summary">{{ job.summary }}</span>{% endif %}
               </span>
               <span class="timeline-sign" aria-hidden="true">{{ '–' if loop.first else '+' }}</span>
             </button>
-            <div class="timeline-body" {% if not loop.first %}style="display:none"{% endif %}>
-              <span></span>
-              <div>
-                {% if job.blurb %}<p class="timeline-blurb">{{ job.blurb }}</p>{% endif %}
-                <ul class="timeline-bullets">
-                  {% for bullet in job.bullets %}
-                  <li>{{ bullet }}</li>
-                  {% endfor %}
-                </ul>
-                {% if job.tech %}
-                <div class="tech-tags">
-                  {% for t in job.tech %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+            <div class="timeline-body" id="job-{{ job.slug }}-body">
+              <div class="timeline-body-inner">
+                <span></span>
+                <div>
+                  {% if job.blurb %}<p class="timeline-blurb">{{ job.blurb }}</p>{% endif %}
+                  <ul class="timeline-bullets">
+                    {% for bullet in job.bullets %}
+                    <li>{{ bullet }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% if job.tech %}
+                  <div class="tech-tags">
+                    {% for t in job.tech %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+                  </div>
+                  {% endif %}
                 </div>
-                {% endif %}
               </div>
             </div>
           </div>
@@ -150,36 +153,8 @@
         </div>
 
       </div>
-    </main>
+{% endblock %}
 
-    <footer class="site-footer">
-      {% include 'footer.html' %}
-    </footer>
-
-    <script>
-      (function () {
-        var entries = document.querySelectorAll('.timeline-entry');
-        entries.forEach(function (entry) {
-          var header = entry.querySelector('.timeline-header');
-          var body = entry.querySelector('.timeline-body');
-          var sign = entry.querySelector('.timeline-sign');
-          header.addEventListener('click', function () {
-            var isOpen = entry.classList.contains('open');
-            entries.forEach(function (other) {
-              other.classList.remove('open');
-              other.querySelector('.timeline-header').setAttribute('aria-expanded', 'false');
-              other.querySelector('.timeline-body').style.display = 'none';
-              other.querySelector('.timeline-sign').textContent = '+';
-            });
-            if (!isOpen) {
-              entry.classList.add('open');
-              header.setAttribute('aria-expanded', 'true');
-              body.style.display = '';
-              sign.textContent = '–';
-            }
-          });
-        });
-      })();
-    </script>
-  </body>
-</html>
+{% block scripts %}
+    <script src="{{ asset('js/timeline.js') }}"></script>
+{% endblock %}

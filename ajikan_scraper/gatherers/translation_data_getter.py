@@ -1,6 +1,18 @@
 import csv
+import os
 
-CSV_PATH = "static/assets/translations/AKFG_Translation_data.csv"
+# Resolved relative to this file so the app behaves the same regardless of CWD.
+CSV_PATH = os.path.normpath(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..",
+        "..",
+        "static",
+        "assets",
+        "translations",
+        "AKFG_Translation_data.csv",
+    )
+)
 
 SONG_OBJECT_TRANSLATOR = {
     "ID": 0,
@@ -16,8 +28,27 @@ SONG_OBJECT_TRANSLATOR = {
 
 class TranslationDataGetter():
     def __init__(self):
-        self.songs_data = self.get_csv()
-    
+        self._rows = None
+        self._mtime = None
+
+    @property
+    def songs_data(self):
+        """Parsed CSV rows, re-read whenever the file changes on disk.
+
+        The CSV is the whole point of the site and gets edited often, so
+        caching it forever would mean a restart for every data update.
+        """
+        try:
+            mtime = os.path.getmtime(CSV_PATH)
+        except OSError:
+            return []
+
+        if self._rows is None or mtime != self._mtime:
+            self._rows = self.get_csv()
+            self._mtime = mtime
+
+        return self._rows
+
     def get_csv(self):
         with open(CSV_PATH, newline="", encoding="utf-8") as f:
             reader = csv.reader(f)
@@ -29,7 +60,7 @@ class TranslationDataGetter():
         else:
             data = self.songs_data[1:]
         return data
-    
+
     def get_hours_studied(self):
         hours = minutes = seconds = 0
         for song in self.songs_data[1:]:
@@ -62,9 +93,11 @@ class TranslationDataGetter():
         return {'remaining': not_comp, 'inProgress': working, 'completed': comp}
 
     def find_current_song(self):
+        """Return the row currently being worked on, or None if there isn't one."""
         for song in self.songs_data[1:]:
             if song[SONG_OBJECT_TRANSLATOR['Translated']] == "Working On It":
                 return song
+        return None
 
     def get_songs_and_attribute(self, attribute):
         data = []
