@@ -1,22 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}Omar Bessi &mdash; Projects{% endblock %}
-{% block description %}Projects by Omar Bessi &mdash; a live translation-data dashboard, neural architecture search research, Flask and Django web apps, and Unity/Godot games.{% endblock %}
+{% block title %}Omar Bessi - Projects{% endblock %}
+{% block description %}Projects by Omar Bessi - Amoki, a private shared-journal iOS app, a live translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
 
 {% block content %}
       <div class="page-wrap">
 
         <div class="page-head">
           <h1>Projects</h1>
-          <p>From bank AI systems to research and games &mdash; things I&rsquo;ve designed, broken and rebuilt.</p>
+          <p>From bank AI systems to research and games - things I&rsquo;ve designed, broken and rebuilt.</p>
         </div>
 
         <!-- Feature -->
+        <article class="project-feature project-feature-amoki">
+          <div class="project-feature-copy">
+            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Waiting for App Store review</div>
+            <div class="project-feature-title">Amoki</div>
+            <p>My girlfriend and I kept logging and rating our dates, but the spreadsheet soon got messy - my Excel skills are a little rusty. So I built an app for it; log a date, rate it, and keep a record of them all. I especially like the stats screen.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">SwiftUI</span>
+              <span class="tech-tag">iOS</span>
+              <span class="tech-tag">Supabase</span>
+            </div>
+          </div>
+          <div class="project-feature-media amoki-feature-media">
+            <div class="amoki-preview">
+              <div class="amoki-preview-brand">
+                <img src="{{ asset('assets/projects/amoki-app-icon.png') }}" alt="Amoki app icon">
+                <span>Amoki - Shared Memory Journal</span>
+              </div>
+              <div class="amoki-preview-screens">
+                <img src="{{ asset('assets/projects/amoki-reveal.png') }}" alt="Amoki&rsquo;s shared score reveal screen" loading="lazy">
+                <img src="{{ asset('assets/projects/amoki-stats.png') }}" alt="Amoki&rsquo;s shared activity statistics screen" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </article>
+
         <a class="project-feature" href="{{ url_for('translations') }}">
           <div class="project-feature-copy">
             <div class="status-pill"><span class="status-dot"></span>In progress</div>
             <div class="project-feature-title">Translation Project</div>
-            <p>A little corner where language-learning meets data. I hand-translate the lyrics of my favourite band and chart the effort along the way &mdash; songs done, hours spent, and whether I&rsquo;m actually getting faster.</p>
+            <p>I got tired of not having a specific project to work on when it came to my Japanese study, so I decided on one. I hand-translate the lyrics of my favourite band and chart the effort along the way - songs done, hours spent, and whether I&rsquo;m actually getting faster.</p>
             <div class="tech-tags">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Data viz</span>
@@ -28,15 +53,15 @@
             <div class="tr-preview">
               <div class="tr-preview-row">
                 <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-songs">&mdash;</div>
+                  <div class="tr-preview-value" id="pfp-songs">-</div>
                   <div class="tr-preview-label">Songs done</div>
                 </div>
                 <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-time">&mdash;</div>
+                  <div class="tr-preview-value" id="pfp-time">-</div>
                   <div class="tr-preview-label">Study time</div>
                 </div>
                 <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-eff">&mdash;</div>
+                  <div class="tr-preview-value" id="pfp-eff">-</div>
                   <div class="tr-preview-label">Best min/char</div>
                 </div>
               </div>
@@ -62,7 +87,7 @@
               <span class="project-card-title">LOVE Synthesizers</span>
               <span class="project-card-year">BSc final</span>
             </div>
-            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span> &mdash; data handling, larger-codebase structure, and thinking carefully about architecture.</p>
+            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span> - data handling, larger-codebase structure, and thinking carefully about architecture.</p>
             <span class="project-card-link">View on Skemman &#8599;</span>
           </a>
           <div class="project-card-wide">
@@ -71,7 +96,7 @@
                 <span class="project-card-title">Monkey Business</span>
                 <span class="project-card-year">Web app</span>
               </div>
-              <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course &mdash; Python, SQL, HTML/CSS and JavaScript.</p>
+              <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course - Python, SQL, HTML/CSS and JavaScript.</p>
             </div>
             <div class="project-screenshots-grid">
               <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
@@ -82,7 +107,7 @@
 
         <!-- Games -->
         <div class="eyebrow eyebrow-tight">Games &amp; experiments</div>
-        <p class="games-lede">Earlier work from courses and side projects &mdash; where I first learned to ship under deadline.</p>
+        <p class="games-lede">Earlier work from courses and side projects - where I first learned to ship under deadline.</p>
         <div class="games-grid">
           <div class="game-card game-card-linked">
             <div class="game-card-media">
@@ -101,7 +126,7 @@
                 <span class="game-card-title">Shadow Lightning</span>
                 <span class="game-card-year">2024</span>
               </div>
-              <p>A Unity metroidvania built in a 3-week intensive &mdash; possess enemies and fight as them. I tied the systems together in C#.</p>
+              <p>A Unity metroidvania built in a 3-week intensive - possess enemies and fight as them. I tied the systems together in C#.</p>
               <a class="game-card-link" target="_blank" rel="noopener noreferrer" href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io &#8599;</a>
             </div>
           </div>
@@ -122,7 +147,7 @@
                 <span class="game-card-title">Grimoire</span>
                 <span class="game-card-year">2023</span>
               </div>
-              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends &mdash; scoping, user testing, iteration.</p>
+              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends - scoping, user testing, iteration.</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Omar Bessi &mdash; Translations{% endblock %}
-{% block description %}A data-visualization experiment: hand-translating Asian Kung-Fu Generation lyrics from Japanese and charting the effort &mdash; songs done, hours spent, and whether I&rsquo;m getting faster.{% endblock %}
+{% block title %}Omar Bessi - Translations{% endblock %}
+{% block description %}A data-visualization experiment: hand-translating Asian Kung-Fu Generation lyrics from Japanese and charting the effort - songs done, hours spent, and whether I&rsquo;m getting faster.{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/translations.css') }}">
@@ -12,11 +12,11 @@
 
         <div class="page-head page-head-tight">
           <h1>Translations</h1>
-          <p class="page-head-p-narrow">A data-visualization experiment &mdash; hand-translating <span class="italic-accent band-name">Asian Kung-Fu Generation</span> lyrics from Japanese, and charting the effort.</p>
+          <p class="page-head-p-narrow">A data-visualization experiment - hand-translating <span class="italic-accent band-name">Asian Kung-Fu Generation</span> lyrics from Japanese, and charting the effort.</p>
         </div>
 
         <div class="tr-intro">
-          <p>Part language-learning, part analysis &mdash; I hand-translate the lyrics of my favourite band and chart the effort as I go.</p>
+          <p>Part language-learning, part analysis - I hand-translate the lyrics of my favourite band and chart the effort as I go.</p>
           <div class="tr-intro-actions">
             <button class="about-toggle" id="about-toggle" aria-expanded="false" aria-controls="about-panel">
               <span id="about-toggle-label">Read more about this project</span> &rarr;
@@ -24,25 +24,25 @@
             <span class="tech-popover-wrap">
               <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">? Tech stack</button>
               <div class="tech-popover" id="tech-popover" hidden>
-                <p>&mdash; <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>
-                <p>&mdash; <strong>Spotify API</strong>: song names and track lengths.</p>
-                <p>&mdash; <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>
+                <p>- <strong>Google Sheets</strong>: primary data source for study times and metadata.</p>
+                <p>- <strong>Spotify API</strong>: song names and track lengths.</p>
+                <p>- <strong>Flask</strong> (Python), HTML / CSS, JavaScript.</p>
               </div>
             </span>
           </div>
           <div class="about-panel" id="about-panel" hidden>
             <div class="about-panel-grid">
               <div>
-                <p><span class="italic-accent band-name band-name-lg">Asian Kung-Fu Generation</span> is a Japanese alt-rock band from Yokohama &mdash; and my favourite band. Translating their lyrics is how I practise the language and scratch the itch to measure things. Here&rsquo;s how a song goes:</p>
+                <p><span class="italic-accent band-name band-name-lg">Asian Kung-Fu Generation</span> is a Japanese alt-rock band from Yokohama - and my favourite band. Translating their lyrics is how I practise the language and scratch the itch to measure things. Here&rsquo;s how a song goes:</p>
                 <ol>
                   <li>Write the lyrics out by hand, highlight the words I don&rsquo;t know, and break them apart. <a href="{{ asset('assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Example.</a></li>
-                  <li>Run a script to pull out features &mdash; track length, unique character count, minutes spent.</li>
+                  <li>Run a script to pull out features - track length, unique character count, minutes spent.</li>
                   <li>Look for patterns: am I getting faster, and which songs fought back hardest?</li>
                 </ol>
               </div>
               <figure>
                 <img src="{{ asset('assets/translations/translation-onenote-example.png') }}" alt="A handwritten page breaking down song lyrics" loading="lazy">
-                <figcaption>A page from my notebook &mdash; highlighting and breaking down unfamiliar words.</figcaption>
+                <figcaption>A page from my notebook - highlighting and breaking down unfamiliar words.</figcaption>
               </figure>
             </div>
           </div>
@@ -52,22 +52,22 @@
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-label">Songs done</div>
-            <div class="kpi-value is-loading" id="kpi-songs">&mdash;</div>
+            <div class="kpi-value is-loading" id="kpi-songs">-</div>
             <div class="kpi-sub">of total</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-label">Study time</div>
-            <div class="kpi-value is-loading" id="kpi-time">&mdash;</div>
+            <div class="kpi-value is-loading" id="kpi-time">-</div>
             <div class="kpi-sub">hours + minutes</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-label">Avg efficiency</div>
-            <div class="kpi-value is-loading" id="kpi-avg-eff">&mdash;</div>
+            <div class="kpi-value is-loading" id="kpi-avg-eff">-</div>
             <div class="kpi-sub">min / character</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-label">Best efficiency</div>
-            <div class="kpi-value kpi-value-accent is-loading" id="kpi-best-eff">&mdash;</div>
+            <div class="kpi-value kpi-value-accent is-loading" id="kpi-best-eff">-</div>
             <div class="kpi-sub">min / character</div>
           </div>
         </div>
@@ -81,9 +81,9 @@
             <div id="progress-remaining" class="progress-fill progress-remaining"></div>
           </div>
           <div class="progress-legend">
-            <span><span class="legend-dot legend-dot-completed"></span>Completed <span class="legend-pct" id="legend-pct-completed">&mdash;</span></span>
-            <span><span class="legend-dot legend-dot-inprogress"></span>In progress <span class="legend-pct" id="legend-pct-inprogress">&mdash;</span></span>
-            <span><span class="legend-dot legend-dot-remaining"></span>Remaining <span class="legend-pct" id="legend-pct-remaining">&mdash;</span></span>
+            <span><span class="legend-dot legend-dot-completed"></span>Completed <span class="legend-pct" id="legend-pct-completed">-</span></span>
+            <span><span class="legend-dot legend-dot-inprogress"></span>In progress <span class="legend-pct" id="legend-pct-inprogress">-</span></span>
+            <span><span class="legend-dot legend-dot-remaining"></span>Remaining <span class="legend-pct" id="legend-pct-remaining">-</span></span>
           </div>
         </div>
 
