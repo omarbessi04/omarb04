@@ -1,0 +1,118 @@
+{% extends "amoki/layout.html" %}
+
+{% block title %}Amoki - Privacy Policy{% endblock %}
+{% block description %}The privacy policy for Amoki, the shared memory journal for iPhone: what is collected, who processes it, and how to delete it.{% endblock %}
+
+{% block amoki_content %}
+        <article class="amoki-doc">
+          <h1>Privacy Policy</h1>
+          <p class="amoki-doc-meta">Effective 21 September 2026</p>
+
+          <p>This privacy policy applies to the Amoki app for mobile devices, together with any related services operated by &Oacute;mar Bessi &Oacute;marsson (collectively, the &ldquo;Application&rdquo;). &Oacute;mar Bessi &Oacute;marsson is hereby referred to as the &ldquo;Service Provider&rdquo;.</p>
+
+          <h2>Information Collection and Use</h2>
+          <p>The Application collects information when you download and use it. This information may include information such as</p>
+          <ul>
+            <li>Your device&rsquo;s Internet Protocol address</li>
+            <li>The screens of the Application that you visit, the time and date of your visit, and the time spent on them</li>
+            <li>When the Application is opened, closed, installed and updated</li>
+            <li>Your device model, mobile operating system and Application version</li>
+            <li>Reports of errors and crashes that occur while you use the Application</li>
+          </ul>
+          <p>What you write in the Application &mdash; your spaces, outings, chapters, notes, places, prices, grades, ideas and photos &mdash; is stored on your device and is not collected by the Service Provider unless you turn on sync. See &ldquo;Sync and your content&rdquo; below.</p>
+
+          <h2>Analytics and error reporting</h2>
+          <p>The Service Provider uses PostHog to understand how the Application is used and to learn about crashes. PostHog is a third-party analytics provider acting as a processor on the Service Provider&rsquo;s behalf.</p>
+          <p>PostHog receives a record of which actions occur &mdash; that an outing was created, that a grade was saved, that onboarding finished &mdash; together with plain attributes such as whether an outing had a photo, or whether a space is for one person, two or a group. It also automatically records the screens you open, when the Application is opened and closed, and any errors or crashes.</p>
+          <p>PostHog does not receive what you write. No outing titles, notes, places, names, ideas, photos or grade values are sent to it.</p>
+          <p>The Application does not record your screen and does not capture your taps. Session replay and element-interaction capture are both disabled.</p>
+          <p>PostHog assigns a random identifier to your installation. If you turn on sync, these events are also associated with the anonymous account identifier described below.</p>
+
+          <h2>Sync and your content</h2>
+          <p>Sync is off by default. You turn it on yourself, either in Settings or by inviting someone into a space.</p>
+          <p>When you turn it on, the Application creates an anonymous account for you. This requires no email address, no password and no name, and it is not linked to your Apple ID.</p>
+          <p>From then on, the contents of your synced spaces are stored by Supabase, the Service Provider&rsquo;s backend provider, so that the people you share a space with can read them. This includes outing titles, dates, places, prices, who paid, notes, grades, date ideas, the display names you give the people in a space, and any photos you attach.</p>
+          <p>Photos are stripped of their metadata before upload, including any location recorded by your camera.</p>
+          <p>Only the members of a space can read that space&rsquo;s contents, and this is enforced by the database itself rather than only by the Application. If you invite someone into a space, they can read and edit everything in that space, including outings you created. Spaces you have not shared remain private to you.</p>
+          <p>If sync is on, the Application also stores your device&rsquo;s push notification token so that you can be told when someone you share a space with has graded something. That token is readable by no other user.</p>
+
+          <h2>Cookies and tracking technologies</h2>
+          <p>The Application or its third-party SDKs may use cookies, SDKs, pixels, and similar technologies to support functionality, analytics, or service delivery. Where required by applicable law, the Service Provider will obtain consent before using non-essential tracking technologies.</p>
+
+          <h2>Your Rights</h2>
+          <p>You may request access to, correction of, or deletion of your personal data held by the Service Provider. To exercise these rights, or to withdraw consent where processing is based on consent, contact the Service Provider at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>.</p>
+
+          <h2>Your California privacy rights (CCPA/CPRA)</h2>
+          <p>If you are a California resident, you have the right to know what personal information is collected, the right to delete personal information, the right to opt out of the sale or sharing of personal information, and the right to non-discrimination for exercising these rights. To exercise your CCPA/CPRA rights, contact the Service Provider at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>.</p>
+          <p>The Application does not ask for your email address or phone number, so the Service Provider has no way to contact you unless you write to them first. The only messages the Application sends are push notifications about activity in your own spaces, and reminders you have set yourself. The Service Provider sends no marketing communications.</p>
+          <p>For a better experience while using the Application, the Service Provider may require you to provide certain personally identifiable information. The information the Service Provider requests will be retained and used as described in this privacy policy.</p>
+
+          <h2>Third Party Access</h2>
+          <p>The Service Provider uses a small number of third-party processors, and the data they receive is not aggregated or anonymized:</p>
+          <ul>
+            <li>Supabase &mdash; stores the contents of your synced spaces, your photos, your anonymous account and your push notification token, when sync is on</li>
+            <li>PostHog &mdash; receives the analytics events and error reports described above, associated with a per-installation identifier and, once sync is on, with your anonymous account identifier</li>
+            <li>Apple &mdash; delivers push notifications through the Apple Push Notification service</li>
+          </ul>
+          <p>The Application also uses Google AdMob to show a banner in the Log&rsquo;s List and Calendar views and sponsored cards in Ideas and Album. It does not send your journal content, grades, names or photos to AdMob. Google&rsquo;s SDK may collect IP addresses (including approximate location), device identifiers, ad interactions and diagnostic/performance information for advertising and analytics. See <a href="https://developers.google.com/admob/ios/privacy/data-disclosure" target="_blank" rel="noopener noreferrer">Google&rsquo;s SDK data disclosure</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&rsquo;s privacy policy</a>.</p>
+          <p>The Application gathers ad consent before requesting ads and asks for Apple&rsquo;s tracking permission before accessing the advertising identifier. Declining tracking permission does not prevent ads where Google permits ad requests. Where available, use Settings &rarr; Ad privacy settings to change your consent; tracking permission can also be changed in iOS Settings. Google processes advertising data under its own policies. The Application has no subscriptions or in-app purchases.</p>
+
+          <h2>International Data Transfers</h2>
+          <p>The Service Provider&rsquo;s two principal processors both host within the European Union: Supabase in Ireland (eu-west-1), and PostHog on its EU cloud. Data stored with them is not transferred outside the European Economic Area (EEA) in the ordinary course.</p>
+          <p>Advertising data may be processed by Google outside the EEA. Push notifications are delivered by Apple, whose infrastructure is global. Where applicable law requires safeguards for international transfers, the Service Provider will use appropriate mechanisms.</p>
+          <ul>
+            <li>Standard Contractual Clauses (SCCs) approved by the European Commission</li>
+            <li>Adequacy decisions or other legally recognized transfer mechanisms</li>
+            <li>Your consent, where required and legally permitted</li>
+          </ul>
+          <p>Data protection laws in other countries may differ from those in your jurisdiction. Where required by law, the Service Provider will apply appropriate safeguards and obtain any consent required for the transfer.</p>
+          <p>The Service Provider may disclose User Provided and Automatically Collected Information:</p>
+          <ul>
+            <li>as required by law, such as to comply with a subpoena, or similar legal process;</li>
+            <li>when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;</li>
+            <li>with their trusted services providers who work on their behalf, do not have an independent use of the information the Service Provider discloses to them, and have agreed to adhere to the rules set forth in this privacy statement.</li>
+          </ul>
+
+          <h2>Opt-Out Rights</h2>
+          <p>In Settings, under &ldquo;Clear all data&rdquo;, you can delete your data on this iPhone only, or delete it everywhere &mdash; the second also removes it from the Service Provider&rsquo;s backend. Leaving a space you were invited into removes only you from it. Turning sync off in Settings stops your content being transmitted.</p>
+          <p>You can also stop further collection by uninstalling the Application. Uninstalling will stop the Application from collecting data from your device, but it does not by itself delete information that has already been transmitted to the Service Provider or to third parties.</p>
+          <p>To request deletion of your personal data, to withdraw consent, or to exercise any of your rights, contact the Service Provider at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>.</p>
+
+          <h2>Data Retention Policy</h2>
+          <p>The Service Provider retains personal data based on its necessity for the stated purposes:</p>
+          <ul>
+            <li>Content you have synced: retained until you delete it, whether from within the Application or by asking the Service Provider to</li>
+            <li>Analytics events and error reports: retained for the retention period configured with the analytics provider, and deleted sooner on request</li>
+            <li>Aggregated and anonymized data: retained indefinitely, as it no longer identifies you</li>
+            <li>Data required for legal compliance: retained as long as required by applicable law</li>
+          </ul>
+          <p>You may request deletion of your personal data, subject to any legal obligation to retain it. If you want the Service Provider to delete User Provided Data submitted through the Application, please contact them at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>. Please note that some User Provided Data may be required for the Application to function properly.</p>
+
+          <h2>Data Deletion</h2>
+          <p>You can request deletion of your personal data or account by contacting the Service Provider at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>. The Service Provider will process your request within the timeframes required by applicable law.</p>
+          <p>Upon verification of your identity, the Service Provider will delete your personal data from its systems, except where retention is required for legal compliance or legitimate business purposes.</p>
+
+          <h2>Children</h2>
+          <p>The Application is not intended for children under 16 years of age, or such higher age as required by applicable law. The Service Provider does not knowingly solicit data from children or market the Application to them.</p>
+          <p>The Service Provider does not knowingly collect personally identifiable information from children. The Service Provider encourages all children to never submit any personally identifiable information through the Application and/or Services. The Service Provider encourages parents and legal guardians to monitor their children&rsquo;s Internet usage and to help enforce this Policy by instructing their children never to provide personally identifiable information through the Application and/or Services without their permission. If you have reason to believe that a child has provided personally identifiable information to the Service Provider through the Application and/or Services, please contact the Service Provider so that they will be able to take the necessary actions. If you are under 16 years of age, your parent or guardian must provide consent on your behalf where permitted by law.</p>
+
+          <h2>Security</h2>
+          <p>The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.</p>
+
+          <h2>Data Breach Notification</h2>
+          <p>If a data breach occurs that affects your personal data, the Service Provider will notify you in accordance with applicable legal requirements, including, where required, providing information about the nature of the breach and the steps being taken to address it.</p>
+
+          <h2>Changes</h2>
+          <p>The Service Provider may update this Privacy Policy from time to time. The Service Provider will notify you of material changes by posting the updated Privacy Policy with an effective date. Where required by law, the Service Provider will seek your consent to material changes before they take effect.</p>
+          <p>Previous versions of this Privacy Policy will be maintained and made available upon request by contacting the Service Provider at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>.</p>
+          <p>This privacy policy is effective as of 2026-09-21</p>
+
+          <h2>Your Consent</h2>
+          <p>Where processing is based on consent, you provide that consent by affirmatively opting in to the relevant feature or action. You may withdraw consent at any time without affecting processing carried out before withdrawal. Processing based on other lawful bases is carried out as described above.</p>
+
+          <h2>Contact Us</h2>
+          <p>If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at <a href="mailto:amoki@omarbessi.com">amoki@omarbessi.com</a>.</p>
+
+          <p class="amoki-doc-meta">This privacy policy page was generated by App Privacy Policy Generator</p>
+        </article>
+{% endblock %}

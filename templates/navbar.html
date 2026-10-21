@@ -3,7 +3,7 @@
     <a class="brand" href="{{ url_for('home') }}">Omar Bessi</a>
     <nav class="nav-links">
       <a class="nav-link{% if request.endpoint == 'job_history' %} active{% endif %}" href="{{ url_for('job_history') }}">Experience</a>
-      <a class="nav-link{% if request.endpoint == 'projects' %} active{% endif %}" href="{{ url_for('projects') }}">Projects</a>
+      <a class="nav-link{% if request.endpoint == 'projects' or (request.endpoint or '').startswith('amoki') %} active{% endif %}" href="{{ url_for('projects') }}">Projects</a>
       <a class="nav-link{% if request.endpoint == 'contact' %} active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
     </nav>
   </div>

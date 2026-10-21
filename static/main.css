@@ -527,6 +527,12 @@ a:hover {
     display: inline-block;
 }
 
+/* Paused, not dead: a hollow ring in the accent colour. */
+.status-dot-paused {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+
 .project-feature-title {
     font: 400 34px/1.1 var(--font-serif);
     color: var(--text);
@@ -545,6 +551,20 @@ a:hover {
     font: 600 13px/1 var(--font-sans);
     color: var(--accent);
     margin-top: 22px;
+}
+
+.project-feature-links {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 24px;
+}
+
+.project-feature-links .project-feature-link {
+    text-decoration: none;
+}
+
+.project-feature-links .project-feature-link:hover {
+    text-decoration: underline;
 }
 
 .project-feature-media {

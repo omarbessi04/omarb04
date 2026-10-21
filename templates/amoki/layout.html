@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/amoki.css') }}">
+{% endblock %}
+
+{% block content %}
+      <div class="page-wrap amoki-wrap">
+        <nav class="amoki-subnav" aria-label="Amoki">
+          <a class="amoki-subnav-brand" href="{{ url_for('amoki') }}">
+            <img src="{{ asset('assets/projects/amoki-app-icon.png') }}" alt="" width="28" height="28">
+            Amoki
+          </a>
+          <a class="amoki-subnav-link{% if request.endpoint == 'amoki_support' %} active{% endif %}" href="{{ url_for('amoki_support') }}">Support</a>
+          <a class="amoki-subnav-link{% if request.endpoint == 'amoki_privacy' %} active{% endif %}" href="{{ url_for('amoki_privacy') }}">Privacy</a>
+        </nav>
+
+        {% block amoki_content %}{% endblock %}
+      </div>
+{% endblock %}

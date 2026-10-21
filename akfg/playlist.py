@@ -4,22 +4,22 @@ import os
 import requests
 from dotenv import load_dotenv
 
+from akfg import data_path
+
 # [0, 1, 2]
 ALBUM_COVER_SIZE = 1
 
-# Paths are resolved relative to this file, not the process CWD, so the app
-# behaves the same whether it is started from the repo root or elsewhere.
-_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
-SONGS_CSV_PATH = os.path.normpath(os.path.join(_DATA_DIR, "songs.csv"))
+SONGS_CSV_PATH = data_path("playlist.csv")
 
 PLAYLIST_ID = "1rEDywcuxEpa5GZRaYIJJg"
 
-# Column index of the Spotify track URL in songs.csv
+# Column indexes in playlist.csv
+NAME_COLUMN = 1
 LINK_COLUMN = 6
 
 
 class Playlist_Scraper:
-    """Reads the local songs.csv for request-time lookups.
+    """Reads the local playlist.csv for request-time lookups.
 
     Talking to Spotify is only needed to *regenerate* that CSV, so it happens
     on demand in refresh_from_spotify() rather than on import. That keeps the
@@ -32,7 +32,7 @@ class Playlist_Scraper:
 
     # ── Local CSV ──────────────────────────────────────────────────────────────
     def get_songs(self):
-        """Return the parsed songs.csv, re-reading it only when it changes."""
+        """Return the parsed playlist.csv, re-reading it only when it changes."""
         try:
             mtime = os.path.getmtime(SONGS_CSV_PATH)
         except OSError:
@@ -45,30 +45,21 @@ class Playlist_Scraper:
 
         return self._songs
 
-    def get_song_by_id(self, id, only_link=False):
-        """Look up a song row by its 1-based id. Returns None if not found."""
-        try:
-            index = int(id) - 1
-        except (TypeError, ValueError):
-            return None
+    def get_track_id(self, song_name):
+        """Spotify track id for a song, matched by name. None if not found.
 
-        songs = self.get_songs()
-        if index < 0 or index >= len(songs):
-            return None
+        Matched by name because the sheet's IDs and the playlist's order
+        drifted apart long ago.
+        """
+        for song in self.get_songs():
+            if len(song) > LINK_COLUMN and song[NAME_COLUMN] == song_name:
+                # The track id is the last path segment of the track URL.
+                return song[LINK_COLUMN].split("/")[-1]
+        return None
 
-        song = songs[index]
-        if not only_link:
-            return song
-
-        # The Spotify track id is the last path segment of the track URL.
-        try:
-            return song[LINK_COLUMN].split("/")[-1]
-        except IndexError:
-            return None
-
-    # ── Spotify (only needed to rebuild songs.csv) ────────────────────────────
+    # ── Spotify (only needed to rebuild playlist.csv) ────────────────────────────
     def refresh_from_spotify(self):
-        """Fetch the playlist from Spotify. Only used to rebuild songs.csv."""
+        """Fetch the playlist from Spotify. Only used to rebuild playlist.csv."""
         token = self.get_token()
         playlist = self.get_playlist(token)
         return self.get_tracknames(playlist)
@@ -151,6 +142,6 @@ class Playlist_Scraper:
 
 
 if __name__ == "__main__":
-    # Rebuild songs.csv from the Spotify playlist.
+    # Rebuild playlist.csv from the Spotify playlist: python -m akfg.playlist
     scraper = Playlist_Scraper()
     scraper.make_csv(scraper.refresh_from_spotify())

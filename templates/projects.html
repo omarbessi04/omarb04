@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}Omar Bessi - Projects{% endblock %}
-{% block description %}Projects by Omar Bessi - Amoki, a private shared-journal iOS app, a live translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
+{% block description %}Projects by Omar Bessi - Amoki, a shared-journal iOS app on the App Store, a live translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
 
 {% block content %}
       <div class="page-wrap">
@@ -14,13 +14,19 @@
         <!-- Feature -->
         <article class="project-feature project-feature-amoki">
           <div class="project-feature-copy">
-            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Waiting for App Store review</div>
+            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Live on the App Store</div>
             <div class="project-feature-title">Amoki</div>
             <p>My girlfriend and I kept logging and rating our dates, but the spreadsheet soon got messy - my Excel skills are a little rusty. So I built an app for it; log a date, rate it, and keep a record of them all. I especially like the stats screen.</p>
             <div class="tech-tags">
               <span class="tech-tag">SwiftUI</span>
               <span class="tech-tag">iOS</span>
               <span class="tech-tag">Supabase</span>
+            </div>
+            <div class="project-feature-links">
+              {% if amoki_app_store_url %}
+              <a class="project-feature-link" href="{{ amoki_app_store_url }}" target="_blank" rel="noopener noreferrer">Download on the App Store &#8599;</a>
+              {% endif %}
+              <a class="project-feature-link" href="{{ url_for('amoki') }}">About Amoki &rarr;</a>
             </div>
           </div>
           <div class="project-feature-media amoki-feature-media">
@@ -39,9 +45,9 @@
 
         <a class="project-feature" href="{{ url_for('translations') }}">
           <div class="project-feature-copy">
-            <div class="status-pill"><span class="status-dot"></span>In progress</div>
+            <div class="status-pill status-pill-sentence"><span class="status-dot status-dot-paused"></span>On hiatus &middot; 10 songs in</div>
             <div class="project-feature-title">Translation Project</div>
-            <p>I got tired of not having a specific project to work on when it came to my Japanese study, so I decided on one. I hand-translate the lyrics of my favourite band and chart the effort along the way - songs done, hours spent, and whether I&rsquo;m actually getting faster.</p>
+            <p>I got tired of not having a specific project to work on when it came to my Japanese study, so I decided on one. I hand-translated the lyrics of my favourite band and charted the effort - songs done, hours spent, and whether I actually got faster. It&rsquo;s paused while I build Amoki; meanwhile there&rsquo;s a kanji explorer showing which JLPT levels unlock each song.</p>
             <div class="tech-tags">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Data viz</span>
@@ -66,7 +72,7 @@
                 </div>
               </div>
               <div class="tr-preview-bars" id="pfp-bars" aria-hidden="true"></div>
-              <div class="tr-preview-caption">Live from the translations dashboard</div>
+              <div class="tr-preview-caption">From the translations dashboard</div>
             </div>
           </div>
         </a>

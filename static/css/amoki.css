@@ -1,0 +1,219 @@
+/* === AMOKI PAGES (/amoki/*) === */
+.amoki-wrap {
+    padding-bottom: 72px;
+}
+
+.amoki-subnav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 28px 0 18px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 44px;
+}
+
+.amoki-subnav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
+    font: 600 15px/1 var(--font-sans);
+    color: var(--text);
+    text-decoration: none;
+}
+
+.amoki-subnav-brand img {
+    border-radius: 7px;
+}
+
+.amoki-subnav-link {
+    font: 500 13.5px/1 var(--font-sans);
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.amoki-subnav-link:hover,
+.amoki-subnav-link.active {
+    color: var(--accent);
+}
+
+/* Landing */
+.amoki-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.amoki-hero h1 {
+    font-size: 4.25rem;
+    line-height: .98;
+    margin: 0 0 18px;
+}
+
+.amoki-hero-lede {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+    max-width: 42ch;
+    margin: 0;
+}
+
+.amoki-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.amoki-button {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font: 600 14px/1 var(--font-sans);
+    text-decoration: none;
+}
+
+.amoki-button:hover {
+    background: var(--accent);
+}
+
+.amoki-button-quiet {
+    background: transparent;
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+.amoki-button-quiet:hover {
+    background: transparent;
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.amoki-hero-screens {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 28px 24px;
+    background: #f8eed8;
+    border-radius: 6px;
+}
+
+.amoki-hero-screens img {
+    width: 100%;
+    aspect-ratio: 1320 / 2868;
+    object-fit: cover;
+    border: 4px solid #fff8e8;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(71, 56, 31, .14);
+}
+
+.amoki-hero-screens img:nth-child(2) {
+    transform: translateY(-14px);
+}
+
+.amoki-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-soft);
+}
+
+.amoki-points h2 {
+    font: 400 1.6rem/1.15 var(--font-serif);
+    margin: 0 0 8px;
+}
+
+.amoki-points p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: .95rem;
+    line-height: 1.6;
+}
+
+.amoki-footnote {
+    margin-top: 48px;
+    font-size: .9rem;
+    color: var(--text-muted);
+}
+
+.amoki-footnote a,
+.amoki-doc a {
+    color: var(--accent);
+}
+
+/* Support / privacy */
+.amoki-doc {
+    max-width: 68ch;
+}
+
+.amoki-doc h1 {
+    font-size: 3.25rem;
+    line-height: 1;
+    margin: 0 0 12px;
+}
+
+.amoki-doc h2 {
+    font: 400 1.75rem/1.2 var(--font-serif);
+    margin: 40px 0 10px;
+}
+
+.amoki-doc h3 {
+    font: 600 1rem/1.4 var(--font-sans);
+    margin: 26px 0 6px;
+}
+
+.amoki-doc p,
+.amoki-doc li {
+    color: var(--text-soft);
+    line-height: 1.7;
+}
+
+.amoki-doc ul {
+    padding-left: 1.2em;
+}
+
+.amoki-doc-meta {
+    font: 400 12.5px/1.5 var(--font-mono);
+    color: var(--text-faint) !important;
+}
+
+.amoki-contact {
+    font-size: 1.15rem;
+    margin: 24px 0 4px;
+}
+
+@media (max-width: 900px) {
+    .amoki-hero,
+    .amoki-points {
+        grid-template-columns: 1fr;
+    }
+
+    .amoki-points {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    .amoki-hero h1 {
+        font-size: 3rem;
+    }
+
+    .amoki-hero-screens {
+        gap: 8px;
+        padding: 20px 14px;
+    }
+
+    .amoki-hero-screens img {
+        border-width: 3px;
+        border-radius: 12px;
+    }
+
+    .amoki-doc h1 {
+        font-size: 2.5rem;
+    }
+}

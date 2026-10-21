@@ -11,8 +11,9 @@ from flask import (
     url_for,
 )
 
-from ajikan_scraper.gatherers.playlist_scraper import Playlist_Scraper
-from ajikan_scraper.gatherers.translation_data_getter import TranslationDataGetter
+from akfg import kanji
+from akfg.playlist import Playlist_Scraper
+from akfg.translations import TranslationDataGetter
 
 # Load .env at import time so it applies under gunicorn too, not just when this
 # module is run directly.
@@ -40,6 +41,15 @@ ps = Playlist_Scraper()
 # ever moves to a different GoatCounter account.
 GOATCOUNTER_CODE = os.environ.get("GOATCOUNTER_CODE", "omarbessi").strip()
 
+# Amoki's App Store listing, linked from /projects and /amoki. No storefront
+# segment (/is/, /us/…) so Apple sends each visitor to their own country's store.
+AMOKI_APP_STORE_URL = "https://apps.apple.com/app/amoki-shared-memory-journal/id6790505969"
+
+# Served at /app-ads.txt so AdMob can verify Amoki's ad inventory. The second
+# field is the AdMob publisher id (pub-…), not the app id; the last is Google's
+# fixed certification authority id.
+APP_ADS_TXT = "google.com, pub-8167890306220440, DIRECT, f08c47fec0942fa0\n"
+
 # Hosts whose traffic shouldn't be counted (local development).
 LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0", "[::1]", "::1"}
 
@@ -57,6 +67,9 @@ SITEMAP_ROUTES = [
     ("projects", "monthly"),
     ("translations", "weekly"),
     ("contact", "yearly"),
+    ("amoki", "monthly"),
+    ("amoki_privacy", "yearly"),
+    ("amoki_support", "yearly"),
 ]
 
 
@@ -79,6 +92,7 @@ def asset(filename):
 def inject_globals():
     return {
         "asset": asset,
+        "amoki_app_store_url": AMOKI_APP_STORE_URL,
         "goatcounter_code": GOATCOUNTER_CODE if analytics_enabled() else "",
     }
 
@@ -107,6 +121,30 @@ def job_history():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+
+###### Amoki ######
+@app.route("/amoki/")
+def amoki():
+    return render_template("amoki/index.html")
+
+
+@app.route("/amoki/privacy")
+def amoki_privacy():
+    return render_template("amoki/privacy.html")
+
+
+@app.route("/amoki/support")
+def amoki_support():
+    return render_template("amoki/support.html")
+
+
+# AdMob only ever crawls the domain root for this file; the /amoki copy is just
+# so it sits with the rest of the app's pages.
+@app.route("/app-ads.txt")
+@app.route("/amoki/app-ads.txt")
+def app_ads_txt():
+    return Response(APP_ADS_TXT, mimetype="text/plain")
 
 
 @app.route("/favicon.ico")
@@ -178,15 +216,12 @@ def get_hours_studied():
 def get_current_song():
     sheet_song = sheets.find_current_song()
 
-    # Nothing is marked "Working On It" — the page keeps its default embed.
+    # Nothing is in progress or queued — the page keeps its default embed.
     if not sheet_song:
-        return wrap_up({"song_id": None})
+        return wrap_up({"song_id": None, "status": None})
 
-    # 0 is the ID column in the google sheet
-    csv_song_link = ps.get_song_by_id(sheet_song[0], only_link=True)
-
-    # The Spotify track id lives in the song's link
-    return wrap_up({"song_id": csv_song_link})
+    # 1 is the Song Name column, 3 is Translated in the google sheet
+    return wrap_up({"song_id": ps.get_track_id(sheet_song[1]), "status": sheet_song[3]})
 
 
 @app.route("/translation_progress", methods=["GET"])
@@ -217,6 +252,11 @@ def get_pagecount_times():
 def get_ucc():
     data = sheets.get_songs_and_attribute("Unique Character Count")
     return wrap_up(data)
+
+
+@app.route("/kanji_levels", methods=["GET"])
+def get_kanji_levels():
+    return wrap_up(kanji.load_levels())
 
 
 if __name__ == "__main__":

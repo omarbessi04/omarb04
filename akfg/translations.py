@@ -1,18 +1,15 @@
 import csv
 import os
 
-# Resolved relative to this file so the app behaves the same regardless of CWD.
-CSV_PATH = os.path.normpath(
-    os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "..",
-        "..",
-        "static",
-        "assets",
-        "translations",
-        "AKFG_Translation_data.csv",
-    )
-)
+from akfg import data_path
+
+CSV_PATH = data_path("translations.csv")
+
+# Values of the "Translated" column. Anything else counts as not started.
+DONE = "Fully Translated"
+WORKING = "Working On It"
+# Queued for when the project picks back up; shown as "Next up" on the page.
+UP_NEXT = "Up Next"
 
 SONG_OBJECT_TRANSLATOR = {
     "ID": 0,
@@ -83,9 +80,9 @@ class TranslationDataGetter():
         not_comp = working = comp = 0
         for song in self.songs_data[1:]:
             status = song[SONG_OBJECT_TRANSLATOR['Translated']]
-            if status == 'Fully Translated':
+            if status == DONE:
                 comp += 1
-            elif status == 'Working On It':
+            elif status == WORKING:
                 working += 1
             else:
                 not_comp += 1
@@ -93,16 +90,17 @@ class TranslationDataGetter():
         return {'remaining': not_comp, 'inProgress': working, 'completed': comp}
 
     def find_current_song(self):
-        """Return the row currently being worked on, or None if there isn't one."""
-        for song in self.songs_data[1:]:
-            if song[SONG_OBJECT_TRANSLATOR['Translated']] == "Working On It":
-                return song
+        """The row being worked on, else the one queued up next, else None."""
+        for status in (WORKING, UP_NEXT):
+            for song in self.songs_data[1:]:
+                if song[SONG_OBJECT_TRANSLATOR['Translated']] == status:
+                    return song
         return None
 
     def get_songs_and_attribute(self, attribute):
         data = []
         for song in self.songs_data[1:]:
-            if song[SONG_OBJECT_TRANSLATOR['Translated']] == 'Fully Translated':
+            if song[SONG_OBJECT_TRANSLATOR['Translated']] == DONE:
                 mytpl = (song[SONG_OBJECT_TRANSLATOR['Song Name']], song[SONG_OBJECT_TRANSLATOR[attribute]])
                 data.append(mytpl)
         return data

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateKPIs();
     updateSpotifyEmbed();
     initCharts();
+    initKanjiExplorer();
 });
 
 // ── Fetch helper ───────────────────────────────────────────────────────────────
@@ -92,6 +93,12 @@ async function updateKPIs() {
         setPct('legend-pct-inprogress', inProgressPct);
         setPct('legend-pct-remaining', remainingPct);
 
+        // Nothing in progress while the project is on hiatus; drop the 0% entry.
+        if (!progress.inProgress) {
+            const legend = document.getElementById('legend-pct-inprogress');
+            if (legend) legend.parentElement.hidden = true;
+        }
+
         // KPI: songs done
         document.getElementById('kpi-songs').textContent = `${progress.completed}/${total}`;
 
@@ -144,11 +151,14 @@ function setPct(id, pct) {
 async function updateSpotifyEmbed() {
     try {
         const data = await getJSON('/get_current_song_id');
-        // song_id is null when nothing is marked "Working On It" — in that case
+        // song_id is null when nothing is in progress or queued — in that case
         // the markup's default embed stays put.
         if (data.song_id) {
             document.getElementById('spotify-embed').src =
                 `https://open.spotify.com/embed/track/${data.song_id}?utm_source=generator&theme=0`;
+        }
+        if (data.status === 'Working On It') {
+            document.getElementById('spotify-label').textContent = 'Currently translating';
         }
     } catch (err) {
         console.error('Error fetching current song:', err);
@@ -382,8 +392,10 @@ function dataTable(caption, columns, rows) {
         return `<tr>${tds}</tr>`;
     }).join('');
 
-    return `<table class="sr-only"><caption>${escapeHtml(caption)}</caption>`
-        + `<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    // The wrapper does the hiding: a <table> ignores the 1px box and overflow
+    // clip, and on a phone its full width stretched the page sideways.
+    return `<div class="sr-only"><table><caption>${escapeHtml(caption)}</caption>`
+        + `<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
 function renderScatterSvg(container, points, xLabel, yLabel) {
@@ -529,6 +541,114 @@ function renderBarList(container, items, opts) {
         + dataTable(valueHeading + ' per song', ['Song', valueHeading], items.map((d) => [d.label, d.value.toFixed(decimals)]));
 
     bindTooltips(container);
+}
+
+// ── Kanji explorer ─────────────────────────────────────────────────────────────
+// Pick any mix of JLPT levels; each song's bar shows what share of its kanji
+// (by occurrence) those levels cover. Data is precomputed by akfg/kanji.py.
+const KX_LEVELS = ['N5', 'N4', 'N3', 'N2', 'N1', 'none'];
+
+async function initKanjiExplorer() {
+    const container = document.getElementById('kanji-explorer');
+    const buttons = document.querySelectorAll('.kx-level');
+    if (!container) return;
+
+    let songs;
+    try {
+        songs = await getJSON('/kanji_levels');
+    } catch (err) {
+        console.error('Error loading kanji levels:', err);
+        clearLoading('kx-coverage');
+        document.getElementById('kx-coverage').textContent = '—';
+        showChartError(container, "Couldn't load the kanji data. Try refreshing.");
+        return;
+    }
+
+    clearLoading('kx-coverage');
+    if (!songs.length) {
+        container.innerHTML = '<p class="chart-empty">No data yet.</p>';
+        return;
+    }
+
+    const open = new Set();
+
+    function known() {
+        return new Set([...buttons]
+            .filter((b) => b.getAttribute('aria-pressed') === 'true')
+            .map((b) => b.dataset.level));
+    }
+
+    function render() {
+        const knownLevels = known();
+        const rows = songs.map((song) => {
+            const total = KX_LEVELS.reduce((sum, l) => sum + song.levels[l].count, 0);
+            const covered = KX_LEVELS
+                .filter((l) => knownLevels.has(l))
+                .reduce((sum, l) => sum + song.levels[l].count, 0);
+            return { song, total, covered, pct: total ? covered / total : 0 };
+        }).sort((a, b) => b.pct - a.pct || a.song.order - b.song.order);
+
+        const allTotal = rows.reduce((sum, r) => sum + r.total, 0);
+        const allCovered = rows.reduce((sum, r) => sum + r.covered, 0);
+        document.getElementById('kx-coverage').textContent =
+            `${Math.round((allCovered / allTotal) * 100)}%`;
+        document.getElementById('kx-summary-text').innerHTML = knownLevels.size
+            ? `of the kanji across all ${rows.length} translated songs. Easiest for you: ${songLabel(rows[0].song.name)} at ${Math.round(rows[0].pct * 100)}%.`
+            : 'Pick a level above to start.';
+
+        container.innerHTML = rows.map(({ song, total, pct }) => {
+            const segments = KX_LEVELS
+                .filter((l) => song.levels[l].count)
+                .map((l) => {
+                    const cls = knownLevels.has(l) ? 'kx-seg is-known' : 'kx-seg';
+                    return `<span class="${cls}" style="flex-grow:${song.levels[l].count}"></span>`;
+                }).join('');
+
+            const detail = KX_LEVELS
+                .filter((l) => song.levels[l].kanji)
+                .map((l) => {
+                    const lvl = song.levels[l];
+                    const name = l === 'none' ? 'No level' : l;
+                    const state = knownLevels.has(l) ? 'is-known' : '';
+                    return `<div class="kx-detail-level ${state}">
+                        <span class="kx-detail-name">${name}</span>
+                        <span class="kx-detail-meta">${lvl.kanji.length} kanji · ${lvl.count}×</span>
+                        <span class="kx-detail-kanji" lang="ja">${escapeHtml(lvl.kanji)}</span>
+                    </div>`;
+                }).join('');
+
+            const isOpen = open.has(song.name);
+            return `<div class="kx-song">
+                <button type="button" class="kx-row" aria-expanded="${isOpen}" data-song="${escapeHtml(song.name)}">
+                    <span class="chart-bar-label" lang="ja">${escapeHtml(song.name)}</span>
+                    <span class="kx-bar" aria-hidden="true">${segments}</span>
+                    <span class="chart-bar-value">${Math.round(pct * 100)}%</span>
+                    <span class="sr-only">of ${total} kanji</span>
+                </button>
+                <div class="kx-detail"${isOpen ? '' : ' hidden'}>${detail}</div>
+            </div>`;
+        }).join('');
+    }
+
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const pressed = button.getAttribute('aria-pressed') === 'true';
+            button.setAttribute('aria-pressed', String(!pressed));
+            render();
+        });
+    });
+
+    container.addEventListener('click', (e) => {
+        const row = e.target.closest('.kx-row');
+        if (!row) return;
+        const name = row.dataset.song;
+        const isOpen = row.getAttribute('aria-expanded') === 'true';
+        if (isOpen) open.delete(name); else open.add(name);
+        row.setAttribute('aria-expanded', String(!isOpen));
+        row.nextElementSibling.hidden = isOpen;
+    });
+
+    render();
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
