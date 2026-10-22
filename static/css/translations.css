@@ -213,51 +213,6 @@
     border-radius: 4px;
 }
 
-/* === PROGRESS BAR === */
-.progress-track {
-    display: flex;
-    height: 16px;
-    border-radius: 2px;
-    overflow: hidden;
-    background: rgba(33, 29, 22, .1);
-}
-
-.progress-fill {
-    height: 100%;
-    transition: width .3s ease;
-}
-
-.progress-completed { background: var(--green); }
-.progress-inprogress { background: var(--accent); }
-.progress-remaining { background: rgba(33, 29, 22, .12); }
-
-.progress-legend {
-    display: flex;
-    gap: 24px;
-    margin-top: 14px;
-    font: 400 12.5px/1 var(--font-sans);
-    color: var(--text-muted);
-    flex-wrap: wrap;
-}
-
-.legend-dot {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    border-radius: 2px;
-    margin-right: 7px;
-}
-
-.legend-dot-completed { background: var(--green); }
-.legend-dot-inprogress { background: var(--accent); }
-.legend-dot-remaining { background: rgba(33, 29, 22, .2); }
-
-.legend-pct {
-    font-family: var(--font-mono);
-    color: var(--text-faint);
-    margin-left: .4em;
-}
-
 /* === INFO / TECH POPOVER === */
 .tech-popover-wrap {
     position: relative;
@@ -467,22 +422,22 @@
     text-align: right;
 }
 
-/* === HIATUS NOTE === */
-.tr-hiatus {
+/* === STATUS NOTE === */
+.tr-status {
     border-left: 2px solid var(--accent-soft);
     padding: 4px 0 4px 18px;
     margin-bottom: 28px;
     max-width: 680px;
 }
 
-.tr-hiatus p {
+.tr-status p {
     margin: 10px 0 0;
     color: var(--text-soft);
     font-size: 15px;
     line-height: 1.6;
 }
 
-.tr-hiatus a {
+.tr-status a {
     color: var(--accent);
 }
 

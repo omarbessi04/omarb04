@@ -216,7 +216,7 @@ def get_hours_studied():
 def get_current_song():
     sheet_song = sheets.find_current_song()
 
-    # Nothing is in progress or queued — the page keeps its default embed.
+    # Nothing is marked "Working On It".
     if not sheet_song:
         return wrap_up({"song_id": None, "status": None})
 

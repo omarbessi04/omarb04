@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}Omar Bessi - Projects{% endblock %}
-{% block description %}Projects by Omar Bessi - Amoki, a shared-journal iOS app on the App Store, a live translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
+{% block description %}Projects by Omar Bessi - Amoki, a shared-journal iOS app on the App Store, a translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
 
 {% block content %}
       <div class="page-wrap">
 
         <div class="page-head">
           <h1>Projects</h1>
-          <p>From bank AI systems to research and games - things I&rsquo;ve designed, broken and rebuilt.</p>
+          <p>A list of things that I thought couldn&rsquo;t possibly be that hard.</p>
         </div>
 
         <!-- Feature -->
@@ -16,7 +16,7 @@
           <div class="project-feature-copy">
             <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Live on the App Store</div>
             <div class="project-feature-title">Amoki</div>
-            <p>My girlfriend and I kept logging and rating our dates, but the spreadsheet soon got messy - my Excel skills are a little rusty. So I built an app for it; log a date, rate it, and keep a record of them all. I especially like the stats screen.</p>
+            <p>My girlfriend and I kept logging and rating our dates, but with my lack of Excel expertise and my unwillingness to fix that, I figured launching an app couldn&rsquo;t be that hard. So I built one. You can log activities, rate them, and keep a record of them.</p>
             <div class="tech-tags">
               <span class="tech-tag">SwiftUI</span>
               <span class="tech-tag">iOS</span>
@@ -45,22 +45,22 @@
 
         <a class="project-feature" href="{{ url_for('translations') }}">
           <div class="project-feature-copy">
-            <div class="status-pill status-pill-sentence"><span class="status-dot status-dot-paused"></span>On hiatus &middot; 10 songs in</div>
+            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Finished &middot; 10 songs</div>
             <div class="project-feature-title">Translation Project</div>
-            <p>I got tired of not having a specific project to work on when it came to my Japanese study, so I decided on one. I hand-translated the lyrics of my favourite band and charted the effort - songs done, hours spent, and whether I actually got faster. It&rsquo;s paused while I build Amoki; meanwhile there&rsquo;s a kanji explorer showing which JLPT levels unlock each song.</p>
+            <p>I was tired of not having a specific project to work on when it came to my Japanese study, and when I was biking to school I wished I understood the songs in the playlist I was listening to. I thought, &ldquo;I could just translate them. How hard can it be?&rdquo; I hand-translated the lyrics, wrote down how long that took me along with some other things, and charted the effort. In the end, I felt limited by only allowing myself to translate songs from one specific band in this one specific playlist. I&rsquo;ve since translated other songs from other bands, so I think that the dashboard dreams are dead.</p>
             <div class="tech-tags">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Data viz</span>
               <span class="tech-tag">Flask</span>
             </div>
-            <span class="project-feature-link">Open the live dashboard &#8599;</span>
+            <span class="project-feature-link">Open the dashboard &#8599;</span>
           </div>
           <div class="project-feature-media">
             <div class="tr-preview">
               <div class="tr-preview-row">
                 <div class="tr-preview-stat">
                   <div class="tr-preview-value" id="pfp-songs">-</div>
-                  <div class="tr-preview-label">Songs done</div>
+                  <div class="tr-preview-label">Songs translated</div>
                 </div>
                 <div class="tr-preview-stat">
                   <div class="tr-preview-value" id="pfp-time">-</div>
@@ -77,84 +77,90 @@
           </div>
         </a>
 
+        <a class="project-feature" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
+          <div class="project-feature-copy">
+            <div class="status-pill">2025</div>
+            <div class="project-feature-title">MELD Research</div>
+            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for <span lang="is">Rann&iacute;s</span>.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">NumPy</span>
+            </div>
+            <span class="project-feature-link">Read the report &#8599;</span>
+          </div>
+          <div class="project-feature-media meld-feature-media">
+            <img src="{{ asset('assets/projects/meld-report-cover.jpg') }}" alt="First page of the MELD technical report" loading="lazy">
+          </div>
+        </a>
+
         <!-- Work -->
         <div class="eyebrow eyebrow-section">Selected work</div>
         <div class="project-grid">
-          <a class="project-card" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
-            <div class="project-card-head">
-              <span class="project-card-title">MELD Research</span>
-              <span class="project-card-year">2025</span>
-            </div>
-            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for <span lang="is">Rann&iacute;s</span>.</p>
-            <span class="project-card-link">Read the report &#8599;</span>
-          </a>
-          <a class="project-card" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">
+          <a class="project-card project-card-span" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">
             <div class="project-card-head">
               <span class="project-card-title">LOVE Synthesizers</span>
               <span class="project-card-year">BSc final</span>
             </div>
-            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span> - data handling, larger-codebase structure, and thinking carefully about architecture.</p>
+            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span>. Some data handling, larger-codebase structure, and thinking carefully about architecture.</p>
             <span class="project-card-link">View on Skemman &#8599;</span>
           </a>
-          <div class="project-card-wide">
-            <div class="project-card-wide-body">
-              <div class="project-card-head">
-                <span class="project-card-title">Monkey Business</span>
-                <span class="project-card-year">Web app</span>
-              </div>
-              <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course - Python, SQL, HTML/CSS and JavaScript.</p>
-            </div>
-            <div class="project-screenshots-grid">
-              <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
-              <img src="{{ asset('assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page" loading="lazy">
-            </div>
-          </div>
         </div>
 
         <!-- Games -->
         <div class="eyebrow eyebrow-tight">Games &amp; experiments</div>
-        <p class="games-lede">Earlier work from courses and side projects - where I first learned to ship under deadline.</p>
+        <p class="games-lede">Earlier work from courses and side projects.</p>
         <div class="games-grid">
           <div class="game-card game-card-linked">
             <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-lazy-video
+              <video muted loop playsinline preload="none" data-autoplay
                      aria-label="Shadow Lightning gameplay footage">
                 <source data-src="{{ asset('assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
               </video>
-              <button class="video-play" type="button" data-video-play>
-                <span class="video-play-icon" aria-hidden="true">&#9654;</span>
-                <span class="video-play-label">Play gameplay</span>
-                <span class="video-play-size">45&nbsp;MB</span>
-              </button>
             </div>
             <div class="game-card-body">
               <div class="game-card-head">
                 <span class="game-card-title">Shadow Lightning</span>
                 <span class="game-card-year">2024</span>
               </div>
-              <p>A Unity metroidvania built in a 3-week intensive - possess enemies and fight as them. I tied the systems together in C#.</p>
+              <p>A Unity metroidvania built in a three-week intensive. I was surrounded by future game designers at <span lang="is">Reykjav&iacute;k University</span>, so when it came time for a three-week game design course, it turned into a three-week sleepover with my friend group building and testing each other&rsquo;s games. It was great, and most importantly, I think we made a fun game.</p>
               <a class="game-card-link" target="_blank" rel="noopener noreferrer" href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io &#8599;</a>
             </div>
           </div>
           <div class="game-card">
             <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-lazy-video
+              <video muted loop playsinline preload="none" data-autoplay
                      aria-label="Grimoire gameplay footage">
                 <source data-src="{{ asset('assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
               </video>
-              <button class="video-play" type="button" data-video-play>
-                <span class="video-play-icon" aria-hidden="true">&#9654;</span>
-                <span class="video-play-label">Play gameplay</span>
-                <span class="video-play-size">29&nbsp;MB</span>
-              </button>
             </div>
             <div class="game-card-body">
               <div class="game-card-head">
                 <span class="game-card-title">Grimoire</span>
                 <span class="game-card-year">2023</span>
               </div>
-              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends - scoping, user testing, iteration.</p>
+              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends. I worked on the sleeping boulder enemy whilst I was in an exam camp for my Data Structures final. My friend took this pretty damn seriously, even creating and assigning tickets for us to complete before set deadlines.</p>
             </div>
+          </div>
+        </div>
+
+        <div class="project-card-wide project-card-bottom">
+          <div class="project-card-wide-body">
+            <div class="project-card-head">
+              <span class="project-card-title">Monkey Business</span>
+              <span class="project-card-year">Web app</span>
+            </div>
+            <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">SQL</span>
+              <span class="tech-tag">HTML/CSS</span>
+              <span class="tech-tag">JavaScript</span>
+            </div>
+          </div>
+          <div class="project-screenshots-grid">
+            <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
+            <img src="{{ asset('assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page" loading="lazy">
           </div>
         </div>
 

@@ -1,34 +1,50 @@
-// Projects page: live translation preview + click-to-play gameplay videos.
+// Projects page: live translation preview + autoplaying gameplay videos.
 
-// ── Click-to-play videos ──────────────────────────────────────────────────────
+// ── Gameplay videos ───────────────────────────────────────────────────────────
 //
-// The two gameplay clips are 45MB and 29MB. Auto-loading them on scroll meant
-// anyone who wandered past the games section paid for both, so nothing is
-// fetched until a visitor deliberately presses play.
+// The clips (~6MB and ~4MB) are only fetched once a card comes near the
+// viewport, then play muted on loop while visible and pause when scrolled away.
+// With reduced motion they get controls instead and wait for a press.
 (function () {
-  var buttons = document.querySelectorAll('[data-video-play]');
+  var videos = document.querySelectorAll('video[data-autoplay]');
+  if (!videos.length) return;
 
-  buttons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var media = button.closest('.game-card-media');
-      var video = media && media.querySelector('video[data-lazy-video]');
-      if (!video) return;
+  function setSource(video) {
+    video.querySelectorAll('source[data-src]').forEach(function (source) {
+      source.src = source.dataset.src;
+      source.removeAttribute('data-src');
+    });
+  }
 
-      button.remove();
-      media.classList.add('is-playing');
-
-      video.querySelectorAll('source[data-src]').forEach(function (source) {
-        source.src = source.dataset.src;
-        source.removeAttribute('data-src');
-      });
-
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    videos.forEach(function (video) {
+      setSource(video);
       video.controls = true;
       video.load();
+    });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var video = entry.target;
+      if (!entry.isIntersecting) {
+        video.pause();
+        return;
+      }
+      if (video.querySelector('source[data-src]')) {
+        setSource(video);
+        video.load();
+      }
       video.play().catch(function () {
-        // Autoplay can still be refused; the controls let the user start it.
+        // Autoplay refused (e.g. Low Power Mode); let the visitor start it.
+        video.controls = true;
       });
     });
-  });
+  }, { rootMargin: '150px 0px' });
+
+  videos.forEach(function (video) { observer.observe(video); });
 })();
 
 // ── Live stats from the translations dashboard ────────────────────────────────
@@ -67,8 +83,7 @@
 
     setLoading(false);
 
-    var total = progress.completed + progress.inProgress + progress.remaining;
-    document.getElementById('pfp-songs').textContent = progress.completed + '/' + total;
+    document.getElementById('pfp-songs').textContent = progress.completed;
     document.getElementById('pfp-time').textContent = study.hours + 'h ' + study.minutes + 'm';
 
     var effValues = uccpc

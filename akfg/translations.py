@@ -8,8 +8,6 @@ CSV_PATH = data_path("translations.csv")
 # Values of the "Translated" column. Anything else counts as not started.
 DONE = "Fully Translated"
 WORKING = "Working On It"
-# Queued for when the project picks back up; shown as "Next up" on the page.
-UP_NEXT = "Up Next"
 
 SONG_OBJECT_TRANSLATOR = {
     "ID": 0,
@@ -90,11 +88,10 @@ class TranslationDataGetter():
         return {'remaining': not_comp, 'inProgress': working, 'completed': comp}
 
     def find_current_song(self):
-        """The row being worked on, else the one queued up next, else None."""
-        for status in (WORKING, UP_NEXT):
-            for song in self.songs_data[1:]:
-                if song[SONG_OBJECT_TRANSLATOR['Translated']] == status:
-                    return song
+        """Return the row currently being worked on, or None if there isn't one."""
+        for song in self.songs_data[1:]:
+            if song[SONG_OBJECT_TRANSLATOR['Translated']] == WORKING:
+                return song
         return None
 
     def get_songs_and_attribute(self, attribute):

@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAboutToggle();
     initTechPopover();
     updateKPIs();
-    updateSpotifyEmbed();
     initCharts();
     initKanjiExplorer();
 });
@@ -66,7 +65,7 @@ async function initCharts() {
     }
 }
 
-// ── KPIs + Progress Bar ────────────────────────────────────────────────────────
+// ── KPIs ───────────────────────────────────────────────────────────────────────
 const KPI_IDS = ['kpi-songs', 'kpi-time', 'kpi-avg-eff', 'kpi-best-eff'];
 
 async function updateKPIs() {
@@ -79,28 +78,10 @@ async function updateKPIs() {
 
         clearLoading(...KPI_IDS);
 
-        // Progress bar
+        // KPI: songs translated, against the original plan
         const total = progress.completed + progress.inProgress + progress.remaining;
-        const completedPct = (progress.completed / total) * 100;
-        const inProgressPct = (progress.inProgress / total) * 100;
-        const remainingPct = (progress.remaining / total) * 100;
-
-        setBar('progress-completed', completedPct);
-        setBar('progress-inprogress', inProgressPct);
-        setBar('progress-remaining', remainingPct);
-
-        setPct('legend-pct-completed', completedPct);
-        setPct('legend-pct-inprogress', inProgressPct);
-        setPct('legend-pct-remaining', remainingPct);
-
-        // Nothing in progress while the project is on hiatus; drop the 0% entry.
-        if (!progress.inProgress) {
-            const legend = document.getElementById('legend-pct-inprogress');
-            if (legend) legend.parentElement.hidden = true;
-        }
-
-        // KPI: songs done
-        document.getElementById('kpi-songs').textContent = `${progress.completed}/${total}`;
+        document.getElementById('kpi-songs').textContent = progress.completed;
+        document.getElementById('kpi-songs-sub').textContent = `out of the ${total} I planned`;
 
         // KPI: study time
         document.getElementById('kpi-time').textContent = `${study.hours}h ${study.minutes}m`;
@@ -128,40 +109,6 @@ async function updateKPIs() {
                 el.title = "Couldn't load this figure";
             }
         });
-        const legend = document.querySelector('.progress-legend');
-        if (legend) {
-            legend.insertAdjacentHTML(
-                'beforeend',
-                '<span class="chart-error">Live data unavailable right now.</span>'
-            );
-        }
-    }
-}
-
-function setBar(id, pct) {
-    document.getElementById(id).style.width = pct + '%';
-}
-
-function setPct(id, pct) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = Math.round(pct) + '%';
-}
-
-// ── Spotify Embed ──────────────────────────────────────────────────────────────
-async function updateSpotifyEmbed() {
-    try {
-        const data = await getJSON('/get_current_song_id');
-        // song_id is null when nothing is in progress or queued — in that case
-        // the markup's default embed stays put.
-        if (data.song_id) {
-            document.getElementById('spotify-embed').src =
-                `https://open.spotify.com/embed/track/${data.song_id}?utm_source=generator&theme=0`;
-        }
-        if (data.status === 'Working On It') {
-            document.getElementById('spotify-label').textContent = 'Currently translating';
-        }
-    } catch (err) {
-        console.error('Error fetching current song:', err);
     }
 }
 
@@ -176,7 +123,7 @@ function initAboutToggle() {
         const open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
         panel.hidden = open;
-        label.textContent = open ? 'Read more about this project' : 'Hide the details';
+        label.textContent = open ? 'How it worked' : 'Got it!';
     });
 }
 
@@ -593,8 +540,8 @@ async function initKanjiExplorer() {
         document.getElementById('kx-coverage').textContent =
             `${Math.round((allCovered / allTotal) * 100)}%`;
         document.getElementById('kx-summary-text').innerHTML = knownLevels.size
-            ? `of the kanji across all ${rows.length} translated songs. Easiest for you: ${songLabel(rows[0].song.name)} at ${Math.round(rows[0].pct * 100)}%.`
-            : 'Pick a level above to start.';
+            ? `of the kanji across all ${rows.length} songs. Easiest for you: ${songLabel(rows[0].song.name)}, at ${Math.round(rows[0].pct * 100)}%.`
+            : 'Pick a level. Any level.';
 
         container.innerHTML = rows.map(({ song, total, pct }) => {
             const segments = KX_LEVELS
