@@ -770,7 +770,7 @@ a:hover {
 
 .games-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 22px;
 }
 
@@ -999,7 +999,6 @@ a:hover {
 @media (max-width: 900px) {
     .hero,
     .project-grid,
-    .games-grid,
     .project-feature,
     .project-screenshots-grid {
         grid-template-columns: 1fr;
