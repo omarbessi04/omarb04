@@ -148,3 +148,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Static site output (freeze.py)
+build/

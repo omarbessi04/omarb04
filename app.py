@@ -12,7 +12,6 @@ from flask import (
 )
 
 from akfg import kanji
-from akfg.playlist import Playlist_Scraper
 from akfg.translations import TranslationDataGetter
 
 # Load .env at import time so it applies under gunicorn too, not just when this
@@ -33,7 +32,6 @@ except ImportError:
     pass
 
 sheets = TranslationDataGetter()
-ps = Playlist_Scraper()
 
 # GoatCounter site code. Not a secret — it ships in the page source on every
 # request — so it lives here rather than in the environment, where a missing
@@ -198,63 +196,45 @@ def internal_error(error):
 
 
 ###### Data returns ######
-@app.route("/songs", methods=["GET"])
-def get_songs():
-    parameter = request.args.get("parameter")
-    data = sheets.get_songs(parameter)
-
-    return wrap_up(data)
-
-
-@app.route("/get_total_study", methods=["GET"])
+# .json paths so freeze.py can write each one out as a plain file for the
+# static site, and the frontend fetches the same URL either way.
+@app.route("/data/total_study.json")
 def get_hours_studied():
     data = sheets.get_hours_studied()
     return wrap_up(data)
 
 
-@app.route("/get_current_song_id", methods=["GET"])
-def get_current_song():
-    sheet_song = sheets.find_current_song()
-
-    # Nothing is marked "Working On It".
-    if not sheet_song:
-        return wrap_up({"song_id": None, "status": None})
-
-    # 1 is the Song Name column, 3 is Translated in the google sheet
-    return wrap_up({"song_id": ps.get_track_id(sheet_song[1]), "status": sheet_song[3]})
-
-
-@app.route("/translation_progress", methods=["GET"])
+@app.route("/data/translation_progress.json")
 def get_completion_count():
     data = sheets.get_completion_count()
     return wrap_up(data)
 
 
-@app.route("/songs_and_times", methods=["GET"])
+@app.route("/data/songs_and_times.json")
 def get_songs_and_times():
     data = sheets.get_songs_and_attribute("Time taken")
     return wrap_up(data)
 
 
-@app.route("/get_tttl", methods=["GET"])
+@app.route("/data/tttl.json")
 def get_tttl():
     data = sheets.get_songs_and_attribute("Translation Total / Track length")
     return wrap_up(data)
 
 
-@app.route("/get_UCCPC", methods=["GET"])
+@app.route("/data/uccpc.json")
 def get_pagecount_times():
     data = sheets.get_songs_and_attribute("Translation Total / UCC")
     return wrap_up(data)
 
 
-@app.route("/get_ucc", methods=["GET"])
+@app.route("/data/ucc.json")
 def get_ucc():
     data = sheets.get_songs_and_attribute("Unique Character Count")
     return wrap_up(data)
 
 
-@app.route("/kanji_levels", methods=["GET"])
+@app.route("/data/kanji_levels.json")
 def get_kanji_levels():
     return wrap_up(kanji.load_levels())
 

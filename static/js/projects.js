@@ -71,10 +71,10 @@
   setLoading(true);
 
   Promise.all([
-    fetch('/translation_progress').then(function (r) { return r.json(); }),
-    fetch('/get_total_study').then(function (r) { return r.json(); }),
-    fetch('/get_UCCPC').then(function (r) { return r.json(); }),
-    fetch('/songs_and_times').then(function (r) { return r.json(); }),
+    fetch('/data/translation_progress.json').then(function (r) { return r.json(); }),
+    fetch('/data/total_study.json').then(function (r) { return r.json(); }),
+    fetch('/data/uccpc.json').then(function (r) { return r.json(); }),
+    fetch('/data/songs_and_times.json').then(function (r) { return r.json(); }),
   ]).then(function (results) {
     var progress = results[0];
     var study = results[1];

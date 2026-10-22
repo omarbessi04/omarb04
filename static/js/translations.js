@@ -50,9 +50,9 @@ async function initCharts() {
 
     try {
         const [timesData, uccData, uccpcData] = await Promise.all([
-            getJSON('/songs_and_times'),
-            getJSON('/get_ucc'),
-            getJSON('/get_UCCPC'),
+            getJSON('/data/songs_and_times.json'),
+            getJSON('/data/ucc.json'),
+            getJSON('/data/uccpc.json'),
         ]);
 
         drawScatter(timesData, uccData);
@@ -71,9 +71,9 @@ const KPI_IDS = ['kpi-songs', 'kpi-time', 'kpi-avg-eff', 'kpi-best-eff'];
 async function updateKPIs() {
     try {
         const [progress, study, uccpc] = await Promise.all([
-            getJSON('/translation_progress'),
-            getJSON('/get_total_study'),
-            getJSON('/get_UCCPC'),
+            getJSON('/data/translation_progress.json'),
+            getJSON('/data/total_study.json'),
+            getJSON('/data/uccpc.json'),
         ]);
 
         clearLoading(...KPI_IDS);
@@ -502,7 +502,7 @@ async function initKanjiExplorer() {
 
     let songs;
     try {
-        songs = await getJSON('/kanji_levels');
+        songs = await getJSON('/data/kanji_levels.json');
     } catch (err) {
         console.error('Error loading kanji levels:', err);
         clearLoading('kx-coverage');
