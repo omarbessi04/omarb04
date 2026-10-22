@@ -14,8 +14,7 @@ from flask import (
 from akfg import kanji
 from akfg.translations import TranslationDataGetter
 
-# Load .env at import time so it applies under gunicorn too, not just when this
-# module is run directly.
+# Load .env at import time, not just when this module is run directly.
 load_dotenv()
 
 app = Flask(__name__)
