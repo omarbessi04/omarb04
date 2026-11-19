@@ -31,25 +31,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
-    <!-- Both schemes are designed, so the browser chrome follows whichever is in use. -->
-    <meta name="theme-color" content="#f1f2f6" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#15171c" media="(prefers-color-scheme: dark)">
-
-    <!-- Applies a saved theme choice before first paint, so an explicit
-         light/dark pick never flashes the other one on the way in. -->
-    <script>
-      (function () {
-        document.documentElement.classList.add('js');
-        try {
-          var saved = localStorage.getItem('theme');
-          if (saved === 'light' || saved === 'dark') {
-            document.documentElement.dataset.theme = saved;
-          }
-        } catch (err) {
-          /* Private mode or blocked storage: the system scheme still applies. */
-        }
-      })();
-    </script>
+    <!-- Matches the page's ground, so the browser chrome doesn't cut against it. -->
+    <meta name="theme-color" content="#f3f4f7">
 
     <!-- One family, three axes. Preconnect + a direct link beats an @import
          inside the stylesheet, which would delay discovery until the CSS has
@@ -79,7 +62,6 @@
       {% include 'footer.html' %}
     </footer>
 
-    <script src="{{ asset('js/theme.js') }}"></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

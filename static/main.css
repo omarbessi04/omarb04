@@ -11,10 +11,12 @@
 
 /* === TOKENS: LIGHT ======================================================= */
 :root {
+    /* The site is light only; `color-scheme` keeps form controls and
+       scrollbars in step with that rather than following the system. */
     color-scheme: light;
 
-    /* Surfaces. Not white: a cold paper, tinted toward the ink hue so nothing
-       on the page is a dead neutral. */
+    /* Surfaces are not white: a cold paper, tinted toward the ink hue so
+       nothing on the page is a dead neutral. */
     --ground:        oklch(96.8% 0.004 262);
     --ground-raised: oklch(99.2% 0.003 262);
     --ground-sunken: oklch(93.4% 0.007 262);
@@ -55,75 +57,6 @@
     /* A hairline over photographs: pure black at low alpha, never a tinted
        neutral, so it reads as an edge rather than as a coloured border. */
     --image-edge: oklch(0% 0 0 / .11);
-}
-
-/* === TOKENS: DARK =======================================================
-   Written once and applied twice: to the system preference (unless an explicit
-   light choice overrides it) and to an explicit dark choice. */
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        color-scheme: dark;
-
-        --ground:        oklch(17.5% 0.013 262);
-        --ground-raised: oklch(21.5% 0.014 262);
-        --ground-sunken: oklch(14% 0.012 262);
-        --ground-invert: oklch(94% 0.006 262);
-
-        --ink:   oklch(95% 0.006 262);
-        --ink-2: oklch(84% 0.009 262);
-        --ink-3: oklch(74% 0.011 262);
-        --ink-4: oklch(65% 0.012 262);
-        --ink-on-invert: oklch(17.5% 0.013 262);
-
-        --rule:        oklch(95% 0.006 262 / .14);
-        --rule-strong: oklch(95% 0.006 262 / .26);
-        --rule-heavy:  oklch(95% 0.006 262 / .48);
-        --edge-control: oklch(53% 0.012 262);
-
-        --signal:        oklch(72% 0.165 36);
-        --signal-bright: oklch(68% 0.185 34);
-        --signal-quiet:  oklch(72% 0.165 36 / .14);
-        --ink-on-signal: oklch(16% 0.03 32);
-
-        /* On a dark ground a drop shadow barely reads, so elevation is carried
-           by the lightness step and the shadow only grounds the element. */
-        --shadow-1: 0 1px 2px oklch(0% 0 0 / .32);
-        --shadow-2: 0 2px 10px oklch(0% 0 0 / .40);
-        --shadow-3: 0 6px 28px oklch(0% 0 0 / .50);
-
-        --image-edge: oklch(100% 0 0 / .13);
-    }
-}
-
-:root[data-theme="dark"] {
-    color-scheme: dark;
-
-    --ground:        oklch(17.5% 0.013 262);
-    --ground-raised: oklch(21.5% 0.014 262);
-    --ground-sunken: oklch(14% 0.012 262);
-    --ground-invert: oklch(94% 0.006 262);
-
-    --ink:   oklch(95% 0.006 262);
-    --ink-2: oklch(84% 0.009 262);
-    --ink-3: oklch(74% 0.011 262);
-    --ink-4: oklch(65% 0.012 262);
-    --ink-on-invert: oklch(17.5% 0.013 262);
-
-    --rule:        oklch(95% 0.006 262 / .14);
-    --rule-strong: oklch(95% 0.006 262 / .26);
-    --rule-heavy:  oklch(95% 0.006 262 / .48);
-    --edge-control: oklch(53% 0.012 262);
-
-    --signal:        oklch(72% 0.165 36);
-    --signal-bright: oklch(68% 0.185 34);
-    --signal-quiet:  oklch(72% 0.165 36 / .14);
-    --ink-on-signal: oklch(16% 0.03 32);
-
-    --shadow-1: 0 1px 2px oklch(0% 0 0 / .32);
-    --shadow-2: 0 2px 10px oklch(0% 0 0 / .40);
-    --shadow-3: 0 6px 28px oklch(0% 0 0 / .50);
-
-    --image-edge: oklch(100% 0 0 / .13);
 }
 
 /* === TOKENS: TYPE, SPACE, MOTION ========================================= */
@@ -562,95 +495,6 @@ a {
     .nav-link:not(.active):hover::after {
         transform: scaleX(1);
         background: var(--rule-heavy);
-    }
-}
-
-/* === THEME TOGGLE ======================================================== */
-/* Both icons stay in the DOM and cross-fade with a scale and a short blur, so
-   the swap reads as one object changing rather than two swapping places. */
-/* The control does nothing without scripting, so it is not drawn without it.
-   That is a control, not content: nothing readable is hidden this way. */
-.theme-toggle {
-    display: none;
-    position: relative;
-    flex: none;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    padding: 0;
-    background: transparent;
-    border: 1px solid var(--edge-control);
-    border-radius: var(--r2);
-    color: var(--ink-3);
-    cursor: pointer;
-    transition: color var(--d-fast) var(--ease-out),
-                border-color var(--d-fast) var(--ease-out),
-                background-color var(--d-fast) var(--ease-out),
-                transform var(--d-press) var(--ease-out);
-}
-
-.js .theme-toggle {
-    display: grid;
-}
-
-.theme-toggle:active {
-    transform: scale(.94);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .theme-toggle:hover {
-        color: var(--ink);
-        border-color: var(--ink-3);
-        background-color: var(--ground-raised);
-    }
-}
-
-.theme-icon {
-    grid-area: 1 / 1;
-    display: grid;
-    place-items: center;
-    width: 19px;
-    height: 19px;
-    transition: opacity var(--d-base) var(--ease-std),
-                transform var(--d-base) var(--ease-std),
-                filter var(--d-base) var(--ease-std);
-}
-
-.theme-icon svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.theme-icon-moon {
-    opacity: 0;
-    transform: scale(.25);
-    filter: blur(4px);
-}
-
-:root[data-theme="dark"] .theme-icon-sun {
-    opacity: 0;
-    transform: scale(.25);
-    filter: blur(4px);
-}
-
-:root[data-theme="dark"] .theme-icon-moon {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-icon-sun {
-        opacity: 0;
-        transform: scale(.25);
-        filter: blur(4px);
-    }
-
-    :root:not([data-theme="light"]) .theme-icon-moon {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
     }
 }
 
@@ -1553,26 +1397,15 @@ a {
         animation: none;
         opacity: .4;
     }
-
-    .theme-icon {
-        filter: none !important;
-        transform: none !important;
-    }
-
-    .theme-icon-moon,
-    :root[data-theme="dark"] .theme-icon-sun {
-        transform: none;
-        filter: none;
-    }
 }
 
 /* === RESPONSIVE ==========================================================
    The rail folds up above the body rather than squeezing beside it. */
 
-/* Below this width the brand, the three links and the toggle cannot share a
-   line without pushing the toggle off the edge. The links take a line of their
-   own, and the header stops sticking so two rows are not a permanent band on a
-   phone. */
+/* Below this width the brand and the three links cannot share a line: at
+   375px they want 344px of a 335px row, and less again on a 320px phone. The
+   links take a line of their own, and the header stops sticking so two rows
+   are not a permanent band on a small screen. */
 @media (max-width: 620px) {
     :root {
         --anchor-offset: 16px;
@@ -1587,6 +1420,7 @@ a {
         min-height: 0;
         padding-block: var(--s1) 0;
         column-gap: var(--s4);
+        row-gap: 0;
     }
 
     .nav-links {
@@ -1715,7 +1549,6 @@ a {
 
     .site-nav,
     .skip-link,
-    .theme-toggle,
     .tl-mark,
     .clip,
     .project-media {
