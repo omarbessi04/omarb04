@@ -1,42 +1,62 @@
 {% extends "base.html" %}
+{% from "icons.html" import chev %}
 
 {% block title %}Omar Bessi{% endblock %}
 {% block description %}Omar Bessi is a software &amp; automation engineer in K&oacute;pavogur, Iceland, building automation and applied-AI systems inside Icelandic banks.{% endblock %}
 
 {% block content %}
-      <div class="page-wrap">
+      <div class="shell">
+
         <section class="hero">
-          <div class="hero-photo">
-            <img src="{{ asset('assets/transcripts/headshot.jpg') }}" alt="Omar Bessi">
-            <div class="hero-photo-caption">
-              <span lang="is">K&oacute;pavogur, Iceland</span>
-            </div>
+          <div class="identity">
+            <span class="identity-role">Software &amp; Automation Engineer</span>
+            <span lang="is">K&oacute;pavogur, Iceland</span>
           </div>
-          <div>
-            <div class="kicker">Software &amp; Automation Engineer</div>
-            <h1><span id="typewriter-text" data-chunks='[{"text":"Hello! I’m Omar. Thanks for coming."}]'></span><span class="blink-cursor"></span></h1>
-            <p class="hero-lede">Back in my day, you had to at least know a little bit of JavaScript to get a cool animation like that. Now I just ask Claude. If you can&rsquo;t beat them, join them, so now I&rsquo;m working in the AI & Automation team at <span lang="is">&Iacute;slandsbanki</span>. Have a look around.</p>
-            <div class="hero-ctas">
-              <a class="btn-solid" href="{{ url_for('projects') }}">Project Library</a>
-              <a class="btn-text" href="{{ url_for('contact') }}">Contact</a>
+
+          <div class="hero-grid">
+            <div>
+              <h1 class="hero-title"><span id="typewriter-text" data-chunks='[{"text":"Hello! I&rsquo;m Omar. Thanks for coming."}]'>Hello! I&rsquo;m Omar. Thanks for coming.</span><span class="caret" aria-hidden="true"></span></h1>
+
+              <p class="hero-lede">Back in my day, you had to at least know a little bit of JavaScript to get a cool animation like that. Now I just ask Claude. If you can&rsquo;t beat them, join them, so now I&rsquo;m working in the AI &amp; Automation team at <span lang="is">&Iacute;slandsbanki</span>. Have a look around.</p>
+
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ url_for('projects') }}">Project Library</a>
+                <a class="btn btn-secondary" href="{{ url_for('contact') }}">Contact</a>
+              </div>
             </div>
-            <div class="eyebrow eyebrow-tight">Recently</div>
+
+            <figure class="figure hero-figure">
+              <img src="{{ asset('assets/transcripts/headshot.jpg') }}" alt="Omar Bessi" width="900" height="934">
+            </figure>
+          </div>
+        </section>
+
+        <section class="recent rec section" aria-labelledby="recent-title">
+          <div class="rec-rail">
+            <h2 class="rail-label" id="recent-title">Recently</h2>
+          </div>
+
+          <div class="rec-body">
             <div class="recent-list">
-              <a href="{{ url_for('job_history') }}#job-islandsbanki">
-                <span class="recent-date">Now</span>
-                <span class="recent-role">Automation Engineer <span>&middot; <span lang="is">&Iacute;slandsbanki</span></span></span>
+              <a class="rec-link" href="{{ url_for('job_history') }}#job-islandsbanki">
+                <span class="rec-when">Now</span>
+                <span class="rec-what">Automation Engineer</span>
+                <span class="rec-where"><span lang="is">&Iacute;slandsbanki</span>{{ chev() }}</span>
               </a>
-              <a href="{{ url_for('job_history') }}#job-arion-banki">
-                <span class="recent-date">2026</span>
-                <span class="recent-role">AI &amp; Automation Intern <span>&middot; Arion Banki</span></span>
+              <a class="rec-link" href="{{ url_for('job_history') }}#job-arion-banki">
+                <span class="rec-when">2026</span>
+                <span class="rec-what">AI &amp; Automation Intern</span>
+                <span class="rec-where">Arion Banki{{ chev() }}</span>
               </a>
-              <a href="{{ url_for('job_history') }}#job-rannis">
-                <span class="recent-date">2025</span>
-                <span class="recent-role">NAS Researcher <span>&middot; <span lang="is">Rann&iacute;s</span></span></span>
+              <a class="rec-link" href="{{ url_for('job_history') }}#job-rannis">
+                <span class="rec-when">2025</span>
+                <span class="rec-what">NAS Researcher</span>
+                <span class="rec-where"><span lang="is">Rann&iacute;s</span>{{ chev() }}</span>
               </a>
             </div>
           </div>
         </section>
+
       </div>
 {% endblock %}
 

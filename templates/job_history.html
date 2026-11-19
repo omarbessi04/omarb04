@@ -27,7 +27,7 @@
         "role": "Automation Engineer",
         "dates": "Full time until October 2027",
         "summary": "Automation engineer improving and modernising general bank processes.",
-        "blurb": "At Íslandsbanki I get a Teams message every week about some new project that they think me capable of building. I scope the process, contact the necessary people, and get to work. It's a loop I haven't got tired of yet and don't imagine getting bored of any time soon. I've built some plugins, skills, and Power Apps that people seem to like. If they're happy, I'm happy. It's a great team that I can talk about films with. What more could a man ask for?",
+        "blurb": "At Íslandsbanki I get a Teams message every week about some new project that they think me capable of building. I scope the process, contact the necessary people, and get to work. It’s a loop I haven’t got tired of yet and don’t imagine getting bored of any time soon. I’ve built some plugins, skills, and Power Apps that people seem to like. If they’re happy, I’m happy. It’s a great team that I can talk about films with. What more could a man ask for?",
         "bullets": [
           "Building and maintaining automation workflows to streamline internal banking operations.",
           "Building Copilot plugins and skills for internal use across the bank.",
@@ -61,7 +61,7 @@
         "role": "Teaching Assistant",
         "dates": "2024 – 2026",
         "summary": "TA for Algorithms, Calculus, and Discrete Maths. Held weekly sessions for ~60 students.",
-        "blurb": "I applied to be a Teaching assistant at Reykjavik University as soon as I could be one and TA'd at least one course every semester I could. I was quite popular as a TA as I always had many immigrants in my classroom (that was what we called students who left other TA sessions to come to my sessions). I always heard that I was the most enthusiastic and passionate TA around, which I appreciated.",
+        "blurb": "I applied to be a Teaching assistant at Reykjavik University as soon as I could be one and TA’d at least one course every semester I could. I was quite popular as a TA as I always had many immigrants in my classroom (that was what we called students who left other TA sessions to come to my sessions). I always heard that I was the most enthusiastic and passionate TA around, which I appreciated.",
         "bullets": [
           "TA for Algorithms, Calculus, and Discrete Mathematics I & II in the Computer Science programme.",
           "Led weekly sessions for ~60 students, explaining algorithms, data structures, and mathematical concepts.",
@@ -93,7 +93,7 @@
         "role": "Instructor",
         "dates": "2020 – 2023",
         "summary": "Taught free programming workshops for kids in local libraries.",
-        "blurb": "In 2020, I was talking with my co-worker at Kópavogur Library and he asked me if I had done any programming, since I “looked technical”. I said no to him but he somehow convinced me I was qualified enough to teach others. He told me that as long as I knew a little bit more than my students I could teach them. This, to be fair, still remains my teaching philosophy, as long as you're an interesting enough speaker. We brought iPads to libraries so kids could code hands-on, with the goal of making tech and programming accessible to anyone no matter their background or whether they had a device of their own.",
+        "blurb": "In 2020, I was talking with my co-worker at Kópavogur Library and he asked me if I had done any programming, since I “looked technical”. I said no to him but he somehow convinced me I was qualified enough to teach others. He told me that as long as I knew a little bit more than my students I could teach them. This, to be fair, still remains my teaching philosophy, as long as you’re an interesting enough speaker. We brought iPads to libraries so kids could code hands-on, with the goal of making tech and programming accessible to anyone no matter their background or whether they had a device of their own.",
         "bullets": [
           "Introduced absolute beginners to programming fundamentals using Python.",
           "Taught programming to children in free, drop-in workshops hosted at local libraries.",
@@ -104,49 +104,51 @@
       }
     ] %}
 
-      <div class="page-wrap">
+      <div class="shell">
 
         <div class="page-head">
           <h1>Experience</h1>
-          <p>I&rsquo;ve worked here and there with a general theme of teaching and banking, two things I never exactly dreamed about, but I seem to really enjoy.</p>
+          <p class="page-head-lede">I&rsquo;ve worked here and there with a general theme of teaching and banking, two things I never exactly dreamed about, but I seem to really enjoy.</p>
         </div>
 
         <div class="timeline">
           {% for job in jobs %}
-          <div class="timeline-entry{% if loop.first %} open{% endif %}" id="job-{{ job.slug }}">
-            <button class="timeline-header" type="button"
-                    aria-expanded="{{ 'true' if loop.first else 'false' }}"
-                    aria-controls="job-{{ job.slug }}-body">
-              <span class="timeline-header-left">
-                <img class="timeline-logo" src="{{ asset(job.logo) }}" alt="{{ job.company }} logo" loading="lazy">
-                <span class="timeline-header-dates">{{ job.dates }}</span>
-              </span>
-              <span class="timeline-header-mid">
-                <span class="timeline-company"{% if job.lang %} lang="{{ job.lang }}"{% endif %}>{{ job.company }}</span>
-                <span class="timeline-role">&middot; {{ job.role }}</span>
-                {% if job.summary %}<span class="timeline-summary">{{ job.summary }}</span>{% endif %}
-              </span>
-              <span class="timeline-sign" aria-hidden="true">{{ '–' if loop.first else '+' }}</span>
-            </button>
-            <div class="timeline-body" id="job-{{ job.slug }}-body">
-              <div class="timeline-body-inner">
-                <span></span>
-                <div>
-                  {% if job.blurb %}<p class="timeline-blurb">{{ job.blurb }}</p>{% endif %}
-                  <ul class="timeline-bullets">
+          <section class="tl-entry{% if loop.first %} open{% endif %}" id="job-{{ job.slug }}">
+            <h2 class="tl-heading">
+              <button class="tl-header" type="button"
+                      aria-expanded="{{ 'true' if loop.first else 'false' }}"
+                      aria-controls="job-{{ job.slug }}-body">
+                <span class="tl-rail">
+                  <img class="tl-logo" src="{{ asset(job.logo) }}" alt="{{ job.company }} logo" loading="lazy">
+                  <span class="tl-dates">{{ job.dates }}</span>
+                </span>
+                <span class="tl-head-body">
+                  <span class="tl-company"{% if job.lang %} lang="{{ job.lang }}"{% endif %}>{{ job.company }}</span>
+                  <span class="tl-role">{{ job.role }}</span>
+                  {% if job.summary %}<span class="tl-summary">{{ job.summary }}</span>{% endif %}
+                </span>
+                <span class="tl-mark" aria-hidden="true"></span>
+              </button>
+            </h2>
+
+            <div class="tl-body" id="job-{{ job.slug }}-body">
+              <div class="tl-body-inner">
+                <div class="rec-body rich">
+                  {% if job.blurb %}<p class="tl-blurb">{{ job.blurb }}</p>{% endif %}
+                  <ul class="tl-bullets">
                     {% for bullet in job.bullets %}
                     <li>{{ bullet }}</li>
                     {% endfor %}
                   </ul>
                   {% if job.tech %}
-                  <div class="tech-tags">
-                    {% for t in job.tech %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+                  <div class="tags">
+                    {% for t in job.tech %}<span class="tag">{{ t }}</span>{% endfor %}
                   </div>
                   {% endif %}
                 </div>
               </div>
             </div>
-          </div>
+          </section>
           {% endfor %}
         </div>
 

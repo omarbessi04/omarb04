@@ -1,168 +1,229 @@
 {% extends "base.html" %}
+{% from "icons.html" import ext %}
 
 {% block title %}Omar Bessi - Projects{% endblock %}
 {% block description %}Projects by Omar Bessi - Amoki, a shared-journal iOS app on the App Store, a translation-data dashboard, neural architecture search research, web apps, and games.{% endblock %}
 
 {% block content %}
-      <div class="page-wrap">
+      <div class="shell">
 
         <div class="page-head">
           <h1>Projects</h1>
-          <p>A list of things that I thought couldn&rsquo;t possibly be that hard.</p>
+          <p class="page-head-lede">A list of things that I thought couldn&rsquo;t possibly be that hard.</p>
         </div>
 
-        <!-- Feature -->
-        <article class="project-feature project-feature-amoki">
-          <div class="project-feature-copy">
-            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Live on the App Store</div>
-            <div class="project-feature-title">Amoki</div>
-            <p>My girlfriend and I kept logging and rating our dates, but with my lack of Excel expertise and my unwillingness to fix that, I figured launching an app couldn&rsquo;t be that hard. So I built one. You can log activities, rate them, and keep a record of them.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">SwiftUI</span>
-              <span class="tech-tag">iOS</span>
-              <span class="tech-tag">Supabase</span>
-            </div>
-            <div class="project-feature-links">
-              {% if amoki_app_store_url %}
-              <a class="project-feature-link" href="{{ amoki_app_store_url }}" target="_blank" rel="noopener noreferrer">Download on the App Store &#8599;</a>
-              {% endif %}
-              <a class="project-feature-link" href="{{ url_for('amoki') }}">About Amoki &rarr;</a>
-            </div>
-          </div>
-          <div class="project-feature-media amoki-feature-media">
-            <div class="amoki-preview">
-              <div class="amoki-preview-brand">
-                <img src="{{ asset('assets/projects/amoki-app-icon.png') }}" alt="Amoki app icon">
-                <span>Amoki - Shared Memory Journal</span>
-              </div>
-              <div class="amoki-preview-screens">
-                <img src="{{ asset('assets/projects/amoki-reveal.png') }}" alt="Amoki&rsquo;s shared score reveal screen" loading="lazy">
-                <img src="{{ asset('assets/projects/amoki-stats.png') }}" alt="Amoki&rsquo;s shared activity statistics screen" loading="lazy">
-              </div>
-            </div>
-          </div>
-        </article>
+        <div class="project-list">
 
-        <a class="project-feature" href="{{ url_for('translations') }}">
-          <div class="project-feature-copy">
-            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Finished &middot; 10 songs</div>
-            <div class="project-feature-title">Translation Project</div>
-            <p>I was tired of not having a specific project to work on when it came to my Japanese study, and when I was biking to school I wished I understood the songs in the playlist I was listening to. I thought, &ldquo;I could just translate them. How hard can it be?&rdquo; I hand-translated the lyrics, wrote down how long that took me along with some other things, and charted the effort.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">Data viz</span>
-              <span class="tech-tag">Flask</span>
+          <article class="project">
+            <div class="project-rail">
+              <span class="rec-index">01</span>
+              <span class="status">Live on the App Store</span>
             </div>
-            <span class="project-feature-link">Open the dashboard &#8599;</span>
-          </div>
-          <div class="project-feature-media">
-            <div class="tr-preview">
-              <div class="tr-preview-row">
-                <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-songs">-</div>
-                  <div class="tr-preview-label">Songs translated</div>
-                </div>
-                <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-time">-</div>
-                  <div class="tr-preview-label">Study time</div>
-                </div>
-                <div class="tr-preview-stat">
-                  <div class="tr-preview-value" id="pfp-eff">-</div>
-                  <div class="tr-preview-label">Best min/char</div>
+            <div class="project-body">
+              <h2 class="project-title">Amoki</h2>
+              <p class="project-copy">My girlfriend and I kept logging and rating our dates, but with my lack of Excel expertise and my unwillingness to fix that, I figured launching an app couldn&rsquo;t be that hard. So I built one. You can log activities, rate them, and keep a record of them.</p>
+
+              <div class="project-meta">
+                <div class="tags">
+                  <span class="tag">SwiftUI</span>
+                  <span class="tag">iOS</span>
+                  <span class="tag">Supabase</span>
                 </div>
               </div>
-              <div class="tr-preview-bars" id="pfp-bars" aria-hidden="true"></div>
-              <div class="tr-preview-caption">From the translations dashboard</div>
-            </div>
-          </div>
-        </a>
 
-        <a class="project-feature" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">
-          <div class="project-feature-copy">
-            <div class="status-pill">2025</div>
-            <div class="project-feature-title">MELD Research</div>
-            <p>A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for <span lang="is">Rann&iacute;s</span>.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">PyTorch</span>
-              <span class="tech-tag">NumPy</span>
-            </div>
-            <span class="project-feature-link">Read the report &#8599;</span>
-          </div>
-          <div class="project-feature-media meld-feature-media">
-            <img src="{{ asset('assets/projects/meld-report-cover.jpg') }}" alt="First page of the MELD technical report" loading="lazy">
-          </div>
-        </a>
-
-        <!-- Work -->
-        <div class="eyebrow eyebrow-section">Selected work</div>
-        <div class="project-grid">
-          <a class="project-card project-card-span" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">
-            <div class="project-card-head">
-              <span class="project-card-title">LOVE Synthesizers</span>
-              <span class="project-card-year">BSc final</span>
-            </div>
-            <p>A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span>. Some data handling, larger-codebase structure, and thinking carefully about architecture.</p>
-            <span class="project-card-link">View on Skemman &#8599;</span>
-          </a>
-        </div>
-
-        <!-- Games -->
-        <div class="eyebrow eyebrow-tight">Games &amp; experiments</div>
-        <p class="games-lede">Earlier work from courses and side projects.</p>
-        <div class="games-grid">
-          <div class="game-card game-card-linked">
-            <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-autoplay
-                     aria-label="Shadow Lightning gameplay footage">
-                <source data-src="{{ asset('assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
-              </video>
-            </div>
-            <div class="game-card-body">
-              <div class="game-card-head">
-                <span class="game-card-title">Shadow Lightning</span>
-                <span class="game-card-year">2024</span>
+              <div class="project-links">
+                {% if amoki_app_store_url %}
+                <a class="link-action" href="{{ amoki_app_store_url }}" target="_blank" rel="noopener noreferrer">Download on the App Store{{ ext() }}</a>
+                {% endif %}
+                <a class="link-action" href="{{ url_for('amoki') }}">About Amoki</a>
               </div>
-              <p>A Unity metroidvania built in a three-week intensive. I was surrounded by future game designers at <span lang="is">Reykjav&iacute;k University</span>, so when it came time for a three-week game design course, it turned into a three-week sleepover with my friend group building and testing each other&rsquo;s games. It was great, and most importantly, I think we made a fun game.</p>
-              <a class="game-card-link" target="_blank" rel="noopener noreferrer" href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io &#8599;</a>
-            </div>
-          </div>
-          <div class="game-card">
-            <div class="game-card-media">
-              <video muted loop playsinline preload="none" data-autoplay
-                     aria-label="Grimoire gameplay footage">
-                <source data-src="{{ asset('assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
-              </video>
-            </div>
-            <div class="game-card-body">
-              <div class="game-card-head">
-                <span class="game-card-title">Grimoire</span>
-                <span class="game-card-year">2023</span>
+
+              <div class="project-media project-media-brand">
+                <div class="brand-strip">
+                  <img src="{{ asset('assets/projects/amoki-app-icon.png') }}" alt="" width="36" height="36">
+                  <span>Amoki - Shared Memory Journal</span>
+                </div>
+                <div class="amoki-shots">
+                  <img src="{{ asset('assets/projects/amoki-reveal.png') }}" alt="Amoki&rsquo;s shared score reveal screen" loading="lazy">
+                  <img src="{{ asset('assets/projects/amoki-stats.png') }}" alt="Amoki&rsquo;s shared activity statistics screen" loading="lazy">
+                </div>
               </div>
-              <p class="game-card-p-last">A roguelike deck-builder prototyped from scratch in Godot with friends. I worked on the sleeping boulder enemy whilst I was in an exam camp for my Data Structures final. My friend took this pretty damn seriously, even creating and assigning tickets for us to complete before set deadlines.</p>
             </div>
-          </div>
+          </article>
+
+          <article class="project">
+            <div class="project-rail">
+              <span class="rec-index">02</span>
+              <span class="status">Finished</span>
+              <span class="rail-note">10 songs</span>
+            </div>
+            <div class="project-body">
+              <h2 class="project-title"><a class="project-title-link" href="{{ url_for('translations') }}">Translation Project</a></h2>
+              <p class="project-copy">I was tired of not having a specific project to work on when it came to my Japanese study, and when I was biking to school I wished I understood the songs in the playlist I was listening to. I thought, &ldquo;I could just translate them. How hard can it be?&rdquo; I hand-translated the lyrics, wrote down how long that took me along with some other things, and charted the effort.</p>
+
+              <div class="project-meta">
+                <div class="tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">Data viz</span>
+                  <span class="tag">Flask</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a class="link-action" href="{{ url_for('translations') }}">Open the dashboard</a>
+              </div>
+
+              <div class="project-media project-media-pad">
+                <div class="stat-row">
+                  <div class="stat">
+                    <div class="stat-value is-loading" id="pfp-songs">-</div>
+                    <div class="stat-label">Songs translated</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat-value is-loading" id="pfp-time">-</div>
+                    <div class="stat-label">Study time</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat-value is-loading" id="pfp-eff">-</div>
+                    <div class="stat-label">Best min/char</div>
+                  </div>
+                </div>
+                <div class="spark" id="pfp-bars" aria-hidden="true"></div>
+                <p class="tr-preview-caption">From the translations dashboard</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="project-rail">
+              <span class="rec-index">03</span>
+              <span class="status status-quiet">2025</span>
+            </div>
+            <div class="project-body">
+              <h2 class="project-title"><a class="project-title-link" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">MELD Research</a></h2>
+              <p class="project-copy">A multimodal ensemble of lightweight 1D-CNNs for sleep-stage classification. I designed a genetic algorithm to search kernel sizes, and co-authored the full technical report for <span lang="is">Rann&iacute;s</span>.</p>
+
+              <div class="project-meta">
+                <div class="tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">PyTorch</span>
+                  <span class="tag">NumPy</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a class="link-action" target="_blank" rel="noopener noreferrer" href="{{ asset('assets/projects/RANNIS___Technical_Final_Paper.pdf') }}">Read the report{{ ext() }}</a>
+              </div>
+
+              <div class="project-media project-media-pad">
+                <img class="doc-cover" src="{{ asset('assets/projects/meld-report-cover.jpg') }}" alt="First page of the MELD technical report" loading="lazy">
+              </div>
+            </div>
+          </article>
+
         </div>
 
-        <div class="project-card-wide project-card-bottom">
-          <div class="project-card-wide-body">
-            <div class="project-card-head">
-              <span class="project-card-title">Monkey Business</span>
-              <span class="project-card-year">Web app</span>
-            </div>
-            <p class="project-card-wide-lede">A job-application platform built in a 3-week Django course.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">SQL</span>
-              <span class="tech-tag">HTML/CSS</span>
-              <span class="tech-tag">JavaScript</span>
-            </div>
+        <section class="section" aria-labelledby="selected-work">
+          <div class="section-head">
+            <h2 id="selected-work">Selected work</h2>
           </div>
-          <div class="project-screenshots-grid">
-            <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
-            <img src="{{ asset('assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page" loading="lazy">
+
+          <div class="project-list">
+            <article class="project">
+              <div class="project-rail">
+                <span class="rec-index">04</span>
+                <span class="status status-quiet">BSc final</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title"><a class="project-title-link" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">LOVE Synthesizers</a></h3>
+                <p class="project-copy">A website built with Flask &amp; AWS as my BSc final project at <span lang="is">Reykjav&iacute;k University</span>. Some data handling, larger-codebase structure, and thinking carefully about architecture.</p>
+                <div class="project-links">
+                  <a class="link-action" target="_blank" rel="noopener noreferrer" href="https://skemman.is/handle/1946/52015">View on Skemman{{ ext() }}</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project-rail">
+                <span class="rec-index">05</span>
+                <span class="status status-quiet">Web app</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Monkey Business</h3>
+                <p class="project-copy">A job-application platform built in a 3-week Django course.</p>
+
+                <div class="project-meta">
+                  <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">SQL</span>
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">JavaScript</span>
+                  </div>
+                </div>
+
+                <div class="project-media">
+                  <div class="shot-pair">
+                    <img src="{{ asset('assets/projects/monkeymain.png') }}" alt="Monkey Business main page" loading="lazy">
+                    <img src="{{ asset('assets/projects/monkeyapplications.png') }}" alt="Monkey Business applications page" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
-        </div>
+        </section>
+
+        <section class="section" aria-labelledby="games">
+          <div class="section-head">
+            <h2 id="games">Games &amp; experiments</h2>
+            <p class="section-lede">Earlier work from courses and side projects.</p>
+          </div>
+
+          <div class="project-list">
+            <article class="project">
+              <div class="project-rail">
+                <span class="rec-index">06</span>
+                <span class="status status-quiet">2024</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Shadow Lightning</h3>
+                <p class="project-copy">A Unity metroidvania built in a three-week intensive. I was surrounded by future game designers at <span lang="is">Reykjav&iacute;k University</span>, so when it came time for a three-week game design course, it turned into a three-week sleepover with my friend group building and testing each other&rsquo;s games. It was great, and most importantly, I think we made a fun game.</p>
+
+                <div class="project-links">
+                  <a class="link-action" target="_blank" rel="noopener noreferrer" href="https://tryggvi04.itch.io/shadow-lightning">Play on itch.io{{ ext() }}</a>
+                </div>
+
+                <div class="project-media">
+                  <div class="clip">
+                    <video muted loop playsinline preload="none" data-autoplay
+                           aria-label="Shadow Lightning gameplay footage">
+                      <source data-src="{{ asset('assets/projects/SL_gameplay.mp4') }}" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project-rail">
+                <span class="rec-index">07</span>
+                <span class="status status-quiet">2023</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Grimoire</h3>
+                <p class="project-copy">A roguelike deck-builder prototyped from scratch in Godot with friends. I worked on the sleeping boulder enemy whilst I was in an exam camp for my Data Structures final. My friend took this pretty damn seriously, even creating and assigning tickets for us to complete before set deadlines.</p>
+
+                <div class="project-media">
+                  <div class="clip">
+                    <video muted loop playsinline preload="none" data-autoplay
+                           aria-label="Grimoire gameplay footage">
+                      <source data-src="{{ asset('assets/projects/grimoire_gameplay.mp4') }}" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
 
       </div>
 {% endblock %}

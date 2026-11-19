@@ -153,7 +153,10 @@ function initTechPopover() {
         if (!popover.hidden && !popover.contains(e.target) && e.target !== btn) close();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
+        if (e.key !== 'Escape' || popover.hidden) return;
+        close();
+        // Send focus back where it came from, rather than dropping it on <body>.
+        btn.focus();
     });
 }
 
@@ -380,7 +383,7 @@ function renderScatterSvg(container, points, xLabel, yLabel) {
     }
 
     const pointsSvg = points.map((p) => {
-        const tip = `${songLabel(p.name)}<span class="chart-tooltip-meta">${p.x} unique chars · ${p.y.toFixed(1)} min</span>`;
+        const tip = `${songLabel(p.name)}<span class="chart-tooltip-meta"><span>${p.x} unique chars</span><span>${p.y.toFixed(1)} min</span></span>`;
         return `<circle cx="${xScale(p.x).toFixed(1)}" cy="${yScale(p.y).toFixed(1)}" r="6" class="chart-point" data-tip="${escapeHtml(tip)}"/>`;
     }).join('');
 
@@ -439,7 +442,7 @@ function renderLearningCurveSvg(container, points) {
 
     const coords = points.map((p, i) => `${xScale(i).toFixed(1)},${yScale(p.value).toFixed(1)}`).join(' ');
     const circles = points.map((p, i) => {
-        const tip = `${songLabel(p.name)}<span class="chart-tooltip-meta">#${i + 1} · ${p.value.toFixed(2)} min/char</span>`;
+        const tip = `${songLabel(p.name)}<span class="chart-tooltip-meta"><span>#${i + 1}</span><span>${p.value.toFixed(2)} min/char</span></span>`;
         return `<circle cx="${xScale(i).toFixed(1)}" cy="${yScale(p.value).toFixed(1)}" r="5.5" class="chart-point-solid" data-tip="${escapeHtml(tip)}"/>`;
     }).join('');
 
@@ -559,7 +562,7 @@ async function initKanjiExplorer() {
                     const state = knownLevels.has(l) ? 'is-known' : '';
                     return `<div class="kx-detail-level ${state}">
                         <span class="kx-detail-name">${name}</span>
-                        <span class="kx-detail-meta">${lvl.kanji.length} kanji · ${lvl.count}×</span>
+                        <span class="kx-detail-meta"><span>${lvl.kanji.length} kanji</span><span>${lvl.count}×</span></span>
                         <span class="kx-detail-kanji" lang="ja">${escapeHtml(lvl.kanji)}</span>
                     </div>`;
                 }).join('');

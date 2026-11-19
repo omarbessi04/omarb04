@@ -1,4 +1,5 @@
 {% extends "amoki/layout.html" %}
+{% from "icons.html" import ext %}
 
 {% block title %}Amoki - Shared Memory Journal{% endblock %}
 {% block description %}Amoki is a private iOS journal for the time you spend with the people who matter. Log what you did, both score it, and watch the years add up.{% endblock %}
@@ -6,17 +7,18 @@
 {% block amoki_content %}
         <section class="amoki-hero">
           <div class="amoki-hero-copy">
-            <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Live on the App Store</div>
+            <span class="status">Live on the App Store</span>
             <h1>Amoki</h1>
             <p class="amoki-hero-lede">A private journal for the time you spend with the people who matter. Log what you did, you both score it, and the years quietly add up.</p>
             <div class="amoki-actions">
               {% if amoki_app_store_url %}
-              <a class="amoki-button" href="{{ amoki_app_store_url }}" target="_blank" rel="noopener noreferrer">Download on the App Store &#8599;</a>
+              <a class="btn btn-primary" href="{{ amoki_app_store_url }}" target="_blank" rel="noopener noreferrer">Download on the App Store{{ ext() }}</a>
               {% endif %}
-              <a class="amoki-button amoki-button-quiet" href="{{ url_for('amoki_support') }}">Get help</a>
+              <a class="btn btn-secondary" href="{{ url_for('amoki_support') }}">Get help</a>
             </div>
           </div>
-          <div class="amoki-hero-screens">
+
+          <div class="amoki-screens">
             <img src="{{ asset('assets/projects/amoki-log-list.jpg') }}" alt="Amoki&rsquo;s log of outings">
             <img src="{{ asset('assets/projects/amoki-reveal.png') }}" alt="Amoki&rsquo;s shared score reveal screen">
             <img src="{{ asset('assets/projects/amoki-stats.png') }}" alt="Amoki&rsquo;s shared activity statistics screen">
@@ -24,15 +26,15 @@
         </section>
 
         <section class="amoki-points">
-          <div>
+          <div class="amoki-point">
             <h2>Scores stay hidden</h2>
             <p>Neither of you sees a score until you&rsquo;ve both entered one. Then you flip the cards together.</p>
           </div>
-          <div>
+          <div class="amoki-point">
             <h2>Yours by default</h2>
             <p>No sign-up. Everything stays on your iPhone unless you choose to share a space with someone.</p>
           </div>
-          <div>
+          <div class="amoki-point">
             <h2>The years add up</h2>
             <p>Stats, a calendar and an album of everything you&rsquo;ve done, for one, two or a whole group.</p>
           </div>

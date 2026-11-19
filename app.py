@@ -240,4 +240,11 @@ def get_kanji_levels():
 
 if __name__ == "__main__":
     port_num = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port_num)
+    # FLASK_DEBUG=1 gives the reloader and template auto-reload while working on
+    # the site locally. Unset in production, where gunicorn runs the app object
+    # directly and never reaches this block.
+    app.run(
+        host="0.0.0.0",
+        port=port_num,
+        debug=os.environ.get("FLASK_DEBUG") == "1",
+    )
