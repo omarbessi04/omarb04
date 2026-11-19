@@ -1,219 +1,265 @@
-/* === AMOKI PAGES (/amoki/*) === */
+/* ============================================================================
+   /amoki/* - the app's own pages, inside the site's shell.
+
+   The one colour that isn't the site's lives here: the warm ground behind the
+   screenshots belongs to the app, so it stays fixed in both themes and carries
+   its own ink. Everything else is site tokens.
+   ========================================================================= */
+
 .amoki-wrap {
-    padding-bottom: 72px;
+    padding-bottom: var(--gap-major);
 }
 
+/* === SUB-NAVIGATION ====================================================== */
 .amoki-subnav {
     display: flex;
     align-items: center;
-    gap: 22px;
-    padding: 28px 0 18px;
-    border-bottom: 1px solid var(--border-soft);
-    margin-bottom: 44px;
+    gap: var(--s5);
+    padding-block: var(--s3);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--gap-sub);
 }
 
 .amoki-subnav-brand {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--s3);
+    min-height: 44px;
     margin-right: auto;
-    font: 600 15px/1 var(--font-sans);
-    color: var(--text);
-    text-decoration: none;
+    font-size: var(--t-body);
+    font-weight: 700;
+    font-variation-settings: 'wdth' var(--wdth-mid);
+    letter-spacing: -.012em;
+    color: var(--ink);
 }
 
+/* Concentric: the icon's radius plus its own inset matches the surfaces it
+   sits on elsewhere on the page. */
 .amoki-subnav-brand img {
     border-radius: 7px;
+    box-shadow: inset 0 0 0 1px var(--image-edge);
 }
 
 .amoki-subnav-link {
-    font: 500 13.5px/1 var(--font-sans);
-    color: var(--text-muted);
-    text-decoration: none;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--t-sm);
+    font-weight: 500;
+    color: var(--ink-3);
+    transition: color var(--d-fast) var(--ease-out);
 }
 
-.amoki-subnav-link:hover,
+.amoki-subnav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 11px;
+    height: 1.5px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--d-base) var(--ease-out);
+}
+
 .amoki-subnav-link.active {
-    color: var(--accent);
+    color: var(--ink);
+    font-weight: 600;
 }
 
-/* Landing */
+.amoki-subnav-link.active::after {
+    transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .amoki-subnav-link:hover {
+        color: var(--ink);
+    }
+}
+
+/* === LANDING ============================================================= */
 .amoki-hero {
     display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: 48px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s7);
     align-items: center;
 }
 
+@media (min-width: 900px) {
+    .amoki-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        column-gap: var(--s8);
+    }
+}
+
 .amoki-hero h1 {
-    font-size: 4.25rem;
-    line-height: .98;
-    margin: 0 0 18px;
+    margin: var(--s4) 0 var(--s4);
+    font-size: var(--t-h1);
+    line-height: var(--lh-display);
+    letter-spacing: -.03em;
+    font-weight: 750;
+    font-variation-settings: 'wdth' var(--wdth-wide);
 }
 
 .amoki-hero-lede {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: var(--text-soft);
-    max-width: 42ch;
-    margin: 0;
+    font-size: var(--t-lede);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 40ch;
 }
 
 .amoki-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 28px;
+    gap: var(--s3);
+    margin-top: var(--s6);
 }
 
-.amoki-button {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 999px;
-    background: var(--text);
-    color: var(--bg);
-    font: 600 14px/1 var(--font-sans);
-    text-decoration: none;
-}
-
-.amoki-button:hover {
-    background: var(--accent);
-}
-
-.amoki-button-quiet {
-    background: transparent;
-    color: var(--text);
-    box-shadow: inset 0 0 0 1px var(--border-strong);
-}
-
-.amoki-button-quiet:hover {
-    background: transparent;
-    color: var(--accent);
-    box-shadow: inset 0 0 0 1px var(--accent);
-}
-
-.amoki-hero-screens {
+.amoki-screens {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    padding: 28px 24px;
-    background: #f8eed8;
-    border-radius: 6px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(var(--s2), 1.4vw, var(--s4));
+    align-items: end;
+    padding: clamp(var(--s5), 3vw, var(--s7));
+    background: var(--amoki-ground);
+    border-radius: var(--r4);
+    box-shadow: inset 0 0 0 1px var(--amoki-edge);
 }
 
-.amoki-hero-screens img {
+.amoki-screens img {
     width: 100%;
     aspect-ratio: 1320 / 2868;
     object-fit: cover;
-    border: 4px solid #fff8e8;
-    border-radius: 18px;
-    box-shadow: 0 6px 18px rgba(71, 56, 31, .14);
+    border-radius: clamp(10px, 1.4vw, 16px);
+    box-shadow: inset 0 0 0 1px var(--amoki-edge), 0 4px 16px var(--amoki-lift);
 }
 
-.amoki-hero-screens img:nth-child(2) {
-    transform: translateY(-14px);
+/* The middle screen stands a little proud of the other two. */
+.amoki-screens img:nth-child(2) {
+    transform: translateY(-5%);
 }
 
+/* === POINTS ==============================================================
+   Three facts as rows on a rail, not three identical columns. */
 .amoki-points {
+    margin-top: var(--gap-major);
+    border-top: 1px solid var(--rule-strong);
+}
+
+.amoki-point {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    margin-top: 64px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border-soft);
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    column-gap: var(--rail-gap);
+    align-items: baseline;
+    padding-block: var(--s5);
+    border-bottom: 1px solid var(--rule);
 }
 
-.amoki-points h2 {
-    font: 400 1.6rem/1.15 var(--font-serif);
-    margin: 0 0 8px;
+.amoki-point h2 {
+    font-size: var(--t-h3);
+    font-weight: 650;
+    font-variation-settings: 'wdth' var(--wdth-mid);
+    letter-spacing: -.012em;
+    line-height: 1.25;
 }
 
-.amoki-points p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: .95rem;
-    line-height: 1.6;
+.amoki-point p {
+    font-size: var(--t-sm);
+    line-height: 1.65;
+    color: var(--ink-2);
+}
+
+@media (max-width: 760px) {
+    .amoki-point {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: var(--s2);
+    }
 }
 
 .amoki-footnote {
-    margin-top: 48px;
-    font-size: .9rem;
-    color: var(--text-muted);
+    margin-top: var(--s7);
+    font-size: var(--t-sm);
+    color: var(--ink-3);
 }
 
-.amoki-footnote a,
-.amoki-doc a {
-    color: var(--accent);
-}
-
-/* Support / privacy */
+/* === DOCUMENTS (support / privacy) ======================================= */
 .amoki-doc {
     max-width: 68ch;
 }
 
 .amoki-doc h1 {
-    font-size: 3.25rem;
-    line-height: 1;
-    margin: 0 0 12px;
+    margin-bottom: var(--s4);
+    font-size: var(--t-h1);
+    line-height: var(--lh-head);
+    letter-spacing: -.028em;
+    font-weight: 750;
+    font-variation-settings: 'wdth' var(--wdth-wide);
 }
 
+/* The space above a heading is larger than the space below it, so each heading
+   belongs to the text that follows it. */
 .amoki-doc h2 {
-    font: 400 1.75rem/1.2 var(--font-serif);
-    margin: 40px 0 10px;
+    margin: var(--s8) 0 var(--s3);
+    font-size: var(--t-h2);
 }
 
 .amoki-doc h3 {
-    font: 600 1rem/1.4 var(--font-sans);
-    margin: 26px 0 6px;
+    margin: var(--s6) 0 var(--s2);
+    font-size: var(--t-h3);
+    font-weight: 600;
 }
 
 .amoki-doc p,
 .amoki-doc li {
-    color: var(--text-soft);
+    color: var(--ink-2);
     line-height: 1.7;
+    text-wrap: pretty;
 }
 
-.amoki-doc ul {
+.amoki-doc p {
+    margin: 0 0 var(--s4);
+}
+
+.amoki-doc ul,
+.amoki-doc ol {
+    margin: 0 0 var(--s4);
     padding-left: 1.2em;
 }
 
+.amoki-doc li {
+    margin-bottom: var(--s2);
+}
+
+.amoki-doc li::marker {
+    color: var(--ink-4);
+}
+
+.amoki-doc a,
+.amoki-footnote a {
+    color: var(--signal);
+    text-decoration: underline;
+    text-underline-offset: .18em;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in oklab, var(--signal) 42%, transparent);
+    transition: text-decoration-color var(--d-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .amoki-doc a:hover,
+    .amoki-footnote a:hover {
+        text-decoration-color: var(--signal);
+    }
+}
+
 .amoki-doc-meta {
-    font: 400 12.5px/1.5 var(--font-mono);
-    color: var(--text-faint) !important;
+    font-size: var(--t-xs);
+    color: var(--ink-4) !important;
 }
 
 .amoki-contact {
-    font-size: 1.15rem;
-    margin: 24px 0 4px;
-}
-
-@media (max-width: 900px) {
-    .amoki-hero,
-    .amoki-points {
-        grid-template-columns: 1fr;
-    }
-
-    .amoki-points {
-        gap: 24px;
-    }
-}
-
-@media (max-width: 640px) {
-    .amoki-hero h1 {
-        font-size: 3rem;
-    }
-
-    .amoki-hero-screens {
-        gap: 8px;
-        padding: 20px 14px;
-    }
-
-    .amoki-hero-screens img {
-        border-width: 3px;
-        border-radius: 12px;
-    }
-
-    .amoki-doc h1 {
-        font-size: 2.5rem;
-    }
+    margin: var(--s6) 0 var(--s2) !important;
+    font-size: var(--t-lede);
+    font-weight: 600;
 }

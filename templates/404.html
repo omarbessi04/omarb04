@@ -5,9 +5,9 @@
 {% block extra_head %}<meta name="robots" content="noindex">{% endblock %}
 
 {% block content %}
-      <div class="page-wrap error-page">
-        <h1 class="error-headline"><span id="typewriter-text" data-chunks='[{"text":"Uh Oh... This page doesn&#39;t exist...\n","speed":50},{"text":"Let&#39;s get you back on track.","speed":25}]' data-start-delay="700"></span><span class="blink-cursor"></span></h1>
-        <p class="error-lede">Head back to the <a href="{{ url_for('home') }}">home page</a>, or try <a href="{{ url_for('projects') }}">projects</a> and <a href="{{ url_for('job_history') }}">experience</a>.</p>
+      <div class="shell error-page">
+        <h1 class="error-headline"><span id="typewriter-text" data-chunks='[{"text":"Uh Oh... This page doesn&rsquo;t exist...\n","speed":50},{"text":"Let&rsquo;s get you back on track.","speed":25}]' data-start-delay="700">Uh Oh... This page doesn&rsquo;t exist...<br>Let&rsquo;s get you back on track.</span><span class="caret" aria-hidden="true"></span></h1>
+        <p class="error-lede rich">Head back to the <a class="prose-link" href="{{ url_for('home') }}">home page</a>, or try <a class="prose-link" href="{{ url_for('projects') }}">projects</a> and <a class="prose-link" href="{{ url_for('job_history') }}">experience</a>.</p>
       </div>
 {% endblock %}
 

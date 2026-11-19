@@ -30,13 +30,16 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-    <meta name="theme-color" content="#efe7d6">
 
-    <!-- Fonts: preconnect + direct link beats an @import inside the stylesheet,
-         which would delay discovery until the CSS has been parsed. -->
+    <!-- Matches the page's ground, so the browser chrome doesn't cut against it. -->
+    <meta name="theme-color" content="#f3f4f7">
+
+    <!-- One family, three axes. Preconnect + a direct link beats an @import
+         inside the stylesheet, which would delay discovery until the CSS has
+         been parsed. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,88..125,400..800;1,88..125,400..600&display=swap">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('main.css') }}">
     {% block extra_head %}{% endblock %}

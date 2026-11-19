@@ -8,79 +8,85 @@
 {% endblock %}
 
 {% block content %}
-      <div class="page-wrap">
+      <div class="shell">
 
-        <div class="page-head page-head-tight">
+        <div class="page-head">
           <h1>Translations</h1>
-          <p class="page-head-p-narrow">I translated 10 of my favourite songs by <span class="italic-accent band-name">Asian Kung-Fu Generation</span> and tried to live out my dashboard dreams</p>
+          <p class="page-head-lede">I translated 10 of my favourite songs by <span class="band-name">Asian Kung-Fu Generation</span> and tried to live out my dashboard dreams</p>
         </div>
 
-        <div class="tr-status" role="note">
-          <div class="status-pill status-pill-sentence"><span class="status-dot"></span>Finished &middot; 10 songs</div>
-          <p>I had planned on translating the entire playlist, but it wasn't exactly a fixed goal, since I kept adding and removing songs from it. At around song eight I noticed that the rules I&rsquo;d set myself were the least fun part of the whole thing. In the end, I felt limited by only allowing myself to translate songs from one specific band in this one specific playlist. I&rsquo;ve since translated other songs from other artists, so I think that the dashboard dreams are dead.</p>
-        </div>
-
-        <div class="tr-intro">
-          <div class="tr-intro-actions">
-            <button class="about-toggle" id="about-toggle" aria-expanded="false" aria-controls="about-panel">
-              <span id="about-toggle-label">How it worked</span> &rarr;
-            </button>
-            <span class="tech-popover-wrap">
-              <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">? Tech stack</button>
-              <div class="tech-popover" id="tech-popover" hidden>
-                <p>- <strong>Google Sheets</strong>: where I logged every minute and left myself notes.</p>
-                <p>- <strong>Spotify API</strong>: song names and track lengths, straight from the playlist.</p>
-                <p>- <strong>kanji-data</strong>: JLPT level, frequency and stroke count for every kanji.</p>
-                <p>- <strong>Flask</strong> and plain JavaScript. No charting library; the charts are hand-drawn SVG (by Claude, not by hand, I&rsquo;m afraid).</p>
-              </div>
-            </span>
+        <div class="tr-note" role="note">
+          <div class="tr-note-rail">
+            <span class="status">Finished</span>
+            <span class="rail-note">10 songs</span>
           </div>
-          <div class="about-panel" id="about-panel" hidden>
-            <div class="about-panel-grid">
-              <div>
-                <p><span class="italic-accent band-name band-name-lg">Asian Kung-Fu Generation</span> is a Japanese alt-rock band from Yokohama and my favourite band. I spent around 4 months translating their songs when I had time. I got to practise language and get some measurements. The workflow consisted of:</p>
-                <ol>
-                  <li>Writing down the lyrics out by hand, highlighting the words I don&rsquo;t know, and breaking them apart. <a href="{{ asset('assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Example.</a></li>
-                  <li>Run a script to pull out features: track length, unique character count, the JLPT level of every kanji, minutes spent, etc.</li>
-                  <li>Pray to God I wasn&rsquo;t wasting my precious time on this earth</li>
-                </ol>
-              </div>
-              <figure>
-                <img src="{{ asset('assets/translations/translation-onenote-example.png') }}" alt="A handwritten page breaking down song lyrics" loading="lazy">
-                <figcaption>A page from my notebook - highlighting and breaking down unfamiliar words.</figcaption>
-              </figure>
+          <div>
+            <p>I had planned on translating the entire playlist, but it wasn&rsquo;t exactly a fixed goal, since I kept adding and removing songs from it. At around song eight I noticed that the rules I&rsquo;d set myself were the least fun part of the whole thing. In the end, I felt limited by only allowing myself to translate songs from one specific band in this one specific playlist. I&rsquo;ve since translated other songs from other artists, so I think that the dashboard dreams are dead.</p>
+          </div>
+        </div>
+
+        <div class="tr-controls">
+          <button class="disclosure" id="about-toggle" type="button" aria-expanded="false" aria-controls="about-panel">
+            <span id="about-toggle-label">How it worked</span>
+            <span class="disclosure-mark" aria-hidden="true"></span>
+          </button>
+
+          <span class="tech-popover-wrap">
+            <button class="info-btn" id="btn-techstack" type="button" aria-expanded="false" aria-controls="tech-popover">Tech stack</button>
+            <div class="tech-popover" id="tech-popover" hidden>
+              <ul class="rich">
+                <li><strong>Google Sheets</strong>: where I logged every minute and left myself notes.</li>
+                <li><strong>Spotify API</strong>: song names and track lengths, straight from the playlist.</li>
+                <li><strong>kanji-data</strong>: JLPT level, frequency and stroke count for every kanji.</li>
+                <li><strong>Flask</strong> and plain JavaScript. No charting library; the charts are hand-drawn SVG (by Claude, not by hand, I&rsquo;m afraid).</li>
+              </ul>
             </div>
+          </span>
+        </div>
+
+        <div class="about-panel" id="about-panel" hidden>
+          <div class="about-grid rich">
+            <div>
+              <p><span class="band-name">Asian Kung-Fu Generation</span> is a Japanese alt-rock band from Yokohama and my favourite band. I spent around 4 months translating their songs when I had time. I got to practise language and get some measurements. The workflow consisted of:</p>
+              <ol>
+                <li>Writing down the lyrics out by hand, highlighting the words I don&rsquo;t know, and breaking them apart. <a class="prose-link" href="{{ asset('assets/translations/translation-onenote-example.png') }}" target="_blank" rel="noopener noreferrer">Example.</a></li>
+                <li>Run a script to pull out features: track length, unique character count, the JLPT level of every kanji, minutes spent, etc.</li>
+                <li>Pray to God I wasn&rsquo;t wasting my precious time on this earth</li>
+              </ol>
+            </div>
+            <figure class="about-figure">
+              <img src="{{ asset('assets/translations/translation-onenote-example.png') }}" alt="A handwritten page breaking down song lyrics" loading="lazy">
+              <figcaption>A page from my notebook - highlighting and breaking down unfamiliar words.</figcaption>
+            </figure>
           </div>
         </div>
 
-        <!-- KPI row -->
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-label">Songs translated</div>
+        <div class="kpi-band">
+          <div class="kpi">
             <div class="kpi-value is-loading" id="kpi-songs">-</div>
+            <div class="kpi-label">Songs translated</div>
             <div class="kpi-sub" id="kpi-songs-sub">out of the ones I planned</div>
           </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Time spent</div>
+          <div class="kpi">
             <div class="kpi-value is-loading" id="kpi-time">-</div>
+            <div class="kpi-label">Time spent</div>
             <div class="kpi-sub">a little over a day, all told</div>
           </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Average pace</div>
+          <div class="kpi">
             <div class="kpi-value is-loading" id="kpi-avg-eff">-</div>
+            <div class="kpi-label">Average pace</div>
             <div class="kpi-sub">minutes per unique character</div>
           </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Best pace</div>
+          <div class="kpi">
             <div class="kpi-value kpi-value-accent is-loading" id="kpi-best-eff">-</div>
+            <div class="kpi-label">Best pace</div>
             <div class="kpi-sub">minutes per unique character</div>
           </div>
         </div>
 
-        <!-- Playlist + learning curve -->
         <div class="tr-row tr-row-1-2">
-          <div class="tr-card tr-card-flush">
-            <div class="tr-card-label">The playlist</div>
+          <div class="tr-panel">
+            <h2 class="panel-label">The playlist</h2>
             <div class="spotify-slot">
               <iframe class="spotify-iframe"
                 title="The Asian Kung-Fu Generation playlist on Spotify"
@@ -91,47 +97,47 @@
               </iframe>
             </div>
           </div>
-          <div class="tr-card">
-            <div class="tr-card-label">Did I get faster?</div>
+          <div class="tr-panel">
+            <h2 class="panel-label">Did I get faster?</h2>
             <div id="learning-curve-chart" class="chart-container"></div>
             <p class="chart-caption">Minutes per unique character, in the order I translated them. Lower is faster. It mostly goes down, which is a relief. Hover/Tap a point for the song.</p>
           </div>
         </div>
 
-        <!-- Time per song + scatter -->
         <div class="tr-row tr-row-1-1">
-          <div class="tr-card">
-            <div class="tr-card-label">Time per song</div>
+          <div class="tr-panel">
+            <h2 class="panel-label">Time per song</h2>
             <div id="time-song-chart" class="chart-bars"></div>
             <p class="chart-caption">Minutes spent on each song.</p>
           </div>
-          <div class="tr-card">
-            <div class="tr-card-label">Minutes vs. unique characters</div>
+          <div class="tr-panel">
+            <h2 class="panel-label">Minutes vs. unique characters</h2>
             <div id="scatter-chart" class="chart-container"></div>
             <p class="chart-caption">Unique characters against minutes spent.</p>
           </div>
         </div>
 
-        <!-- Efficiency full width -->
-        <div class="tr-card">
-          <div class="tr-card-label">Pace per song</div>
+        <div class="tr-panel">
+          <h2 class="panel-label">Pace per song</h2>
           <div id="bar-chart" class="chart-bars"></div>
           <p class="chart-caption">Minutes per unique character for each song. Shorter is faster.</p>
         </div>
 
-        <!-- Kanji explorer -->
-        <section class="tr-card" aria-labelledby="kanji-explorer-title">
-          <div class="tr-card-label" id="kanji-explorer-title">Kanji explorer</div>
+        <section class="tr-panel" aria-labelledby="kanji-explorer-title">
+          <h2 class="panel-label" id="kanji-explorer-title">Kanji explorer</h2>
           <p class="kx-lede">Japanese has 3 different alphabets because, somehow, they never had a literacy crisis and had to simplify like the rest of the world. One of them is Kanji, which are split into difficulty levels N5 &rarr; N1. I wanted to know how much of my time went into each level.</p>
+
           <div class="kx-levels" role="group" aria-label="JLPT levels you know">
             {% for level in ['N5', 'N4', 'N3', 'N2', 'N1'] %}
             <button type="button" class="kx-level" data-level="{{ level }}" aria-pressed="{{ 'true' if level in ['N5', 'N4'] else 'false' }}">{{ level }}</button>
             {% endfor %}
           </div>
+
           <div class="kx-summary" aria-live="polite">
             <div class="kx-summary-value is-loading" id="kx-coverage">-</div>
             <div class="kx-summary-text" id="kx-summary-text">of the kanji across all ten songs.</div>
           </div>
+
           <div id="kanji-explorer" class="kx-songs"></div>
           <p class="chart-caption">A kanji that turns up five times in the chorus counts five times. JLPT hasn&rsquo;t published official kanji lists since 2010, so the levels come from the community lists everyone uses anyway. And recognising a kanji is not the same as reading the word it&rsquo;s in, as I was reminded roughly once a line.</p>
         </section>

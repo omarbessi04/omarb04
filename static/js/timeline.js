@@ -2,28 +2,25 @@
 //
 // Entries toggle independently (so two roles can be compared side by side) and
 // each one is deep-linkable: /job-history#job-rannis opens and scrolls to it.
+//
+// The open/closed mark is drawn in CSS from the entry's state, so this file
+// only has to move the state around.
 (function () {
   var entries = Array.prototype.slice.call(
-    document.querySelectorAll('.timeline-entry')
+    document.querySelectorAll('.tl-entry')
   );
   if (!entries.length) return;
 
-  function parts(entry) {
-    return {
-      header: entry.querySelector('.timeline-header'),
-      sign: entry.querySelector('.timeline-sign'),
-    };
-  }
-
   function setOpen(entry, open) {
-    var p = parts(entry);
+    var header = entry.querySelector('.tl-header');
     entry.classList.toggle('open', open);
-    p.header.setAttribute('aria-expanded', String(open));
-    p.sign.textContent = open ? '–' : '+';
+    if (header) header.setAttribute('aria-expanded', String(open));
   }
 
   entries.forEach(function (entry) {
-    parts(entry).header.addEventListener('click', function () {
+    var header = entry.querySelector('.tl-header');
+    if (!header) return;
+    header.addEventListener('click', function () {
       setOpen(entry, !entry.classList.contains('open'));
     });
   });
@@ -34,7 +31,7 @@
     if (!hash || hash.length < 2) return;
 
     var target = document.getElementById(hash.slice(1));
-    if (!target || !target.classList.contains('timeline-entry')) return;
+    if (!target || !target.classList.contains('tl-entry')) return;
 
     entries.forEach(function (entry) {
       setOpen(entry, entry === target);
